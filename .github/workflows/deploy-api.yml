@@ -18,16 +18,32 @@
 #     appName: 'dev-api-corporate-brewshack'
 #     package: '$(System.DefaultWorkingDirectory)/**/*.zip'
 
-trigger:
-- main
+name: .NET
 
-pool:
-  vmImage: ubuntu-latest
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
-variables:
-  buildConfiguration: 'Release'
+jobs:
+  build:
 
-steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  workingDirectory: api
-  displayName: 'dotnet build $(buildConfiguration)'
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      working-directory: ./api
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      working-directory: ./api
+      run: dotnet restore
+    - name: Build
+      working-directory: ./api
+      run: dotnet build --no-restore
+    - name: Test
+      working-directory: ./api
+      run: dotnet test --no-build --verbosity normal

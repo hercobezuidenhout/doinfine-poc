@@ -1,4 +1,4 @@
-name: Azure Static Web Apps CI/CD
+name: Deploy Web App to Azure
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
-          
+
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
@@ -22,4 +22,4 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "/web"
-          output_location: "build"
+          output_location: "public"

@@ -1,19 +1,33 @@
-variables: 
+# variables: 
+#   buildConfiguration: 'Release'
+
+# steps: 
+# - script: dotnet build --configuration $(buildConfiguration)
+#   workingDirectory: api
+#   displayName: 'dotnet build $(buildConfiguration)'
+
+# - task: DotNetCoreCLI@2
+#   inputs: 
+#     command: 'publish'
+#     publishWebProjects: true
+
+# - task: AzureWebApp@1
+#   inputs: 
+#     azureSubscription: AzureSubscription1
+#     appType: 'webAppLinux',
+#     appName: 'dev-api-corporate-brewshack'
+#     package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
   buildConfiguration: 'Release'
 
-steps: 
+steps:
 - script: dotnet build --configuration $(buildConfiguration)
   workingDirectory: api
   displayName: 'dotnet build $(buildConfiguration)'
-
-- task: DotNetCoreCLI@2
-  inputs: 
-    command: 'publish'
-    publishWebProjects: true
-
-- task: AzureWebApp@1
-  inputs: 
-    azureSubscription: AzureSubscription1
-    appType: 'webAppLinux',
-    appName: 'dev-api-corporate-brewshack'
-    package: '$(System.DefaultWorkingDirectory)/**/*.zip'

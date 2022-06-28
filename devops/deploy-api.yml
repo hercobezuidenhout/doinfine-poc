@@ -13,7 +13,7 @@ steps:
 
 - task: AzureWebApp@1
   inputs: 
-    azureSubscription: 'Azure subscription 1'
+    azureSubscription: AzureSubscription1
     appType: 'webAppLinux',
     appName: 'dev-api-corporate-brewshack'
     package: '$(System.DefaultWorkingDirectory)/**/*.zip'

@@ -1,10 +1,10 @@
-name: .NET
+name: Build and deploy .NET API
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  paths:
+      - api/**
 
 env:
   AZURE_WEBAPP_NAME: dev-api-corporate-brewshack    # set this to your application's name

@@ -1,20 +1,16 @@
 name: Deploy Web App to Azure
 
 env:
-  APP_LOCATION: "/" 
+  APP_LOCATION: "/web" 
   APP_ARTIFACT_LOCATION: "public" 
-
-defaults:
-  run:
-    working-directory: web
 
 on:
   push:
     branches:
       - main
 
-    paths:
-      - web/**
+    # paths:
+    #   - web/**
 
 jobs:
   build_and_deploy:

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import './App.css';
-import { Typography, Avatar, AvatarGroup, Card, CardContent, Divider, Paper, BottomNavigation, BottomNavigationAction, createTheme, ThemeProvider } from "@mui/material";
+
+import { Typography, Avatar, AvatarGroup, Card, CardContent, Paper, BottomNavigation, BottomNavigationAction, ThemeProvider } from "@mui/material";
 import { faker } from '@faker-js/faker';
-import { AccountCircle, AddCard, ArrowRightAlt, Business, Group, Mode, Money } from "@mui/icons-material";
+import { AccountCircle, AddCard, ArrowRightAlt, Business, Group, Money } from "@mui/icons-material";
 import { corporateTheme } from "./theme";
-import { blue } from "@mui/material/colors";
 
 const App = () => {
     const [mode, setMode] = useState('light');

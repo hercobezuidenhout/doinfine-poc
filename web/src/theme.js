@@ -5,7 +5,8 @@ export const lightPalette = ({
         main: '#E9E5E3'
     },
     secondary: {
-        main: '#EAE4F2'
+        main: '#FBE4E4',
+        dark: '#E03E3E'
     },
     error: {
         main: '#FBE4E4'
@@ -26,7 +27,8 @@ export const darkPallete = ({
         main: '#434040'
     },
     secondary: {
-        main: '#443F57'
+        main: '#594141',
+        dark: '#FF7369'
     },
     error: {
         main: '#594141'

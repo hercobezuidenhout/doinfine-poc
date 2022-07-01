@@ -4,13 +4,20 @@ import { Typography, Avatar, AvatarGroup, Card, CardContent, Divider, Paper, Bot
 import { faker } from '@faker-js/faker';
 import { AccountCircle, AddCard, ArrowRightAlt, Business, Group, Mode, Money } from "@mui/icons-material";
 import { corporateTheme } from "./theme";
+import { blue } from "@mui/material/colors";
 
 const App = () => {
     const [mode, setMode] = useState('light');
+    const [theme, setTheme] = useState(corporateTheme(mode));
 
-    return <ThemeProvider theme={corporateTheme(mode)}>
+    useEffect(() => {
+        setTheme(corporateTheme(mode));
+    }, [mode])
+
+    return <ThemeProvider theme={theme}>
         <div>
             <Paper elevation={0} sx={{
+                height: '100vh',
                 padding: '1rem',
                 width: {
                     xs: '100%',
@@ -32,6 +39,7 @@ const App = () => {
                 </div>
                 <div>
                     <Card sx={{
+                        backgroundColor: theme.palette.primary.main,
                         marginTop: '1rem'
                     }}>
                         <CardContent sx={{
@@ -50,10 +58,12 @@ const App = () => {
                         marginTop: '1rem'
                     }} variant="h4">Recent Fines</Typography>
                     <Card sx={{
+                        backgroundColor: theme.palette.primary.main,
                         padding: '1rem',
                         display: 'flex'
                     }}>
                         <Paper sx={{
+                            backgroundColor: 'inherit',
                             display: 'flex',
                             alignItems: 'center'
                         }} elevation={0}>
@@ -67,6 +77,7 @@ const App = () => {
                         </Paper>
 
                         <Paper elevation={0} sx={{
+                            backgroundColor: 'inherit',
                             marginLeft: '1rem'
                         }}>
                             <div>
@@ -86,12 +97,15 @@ const App = () => {
 
             <div>
                 <BottomNavigation sx={{
+                    backgroundColor: theme.palette.secondary.main,
                     position: 'fixed',
                     bottom: 0,
                     left: 0,
                     right: 0
                 }} showLabels>
-                    <BottomNavigationAction onClick={() => setMode(mode === 'light' ? 'dark' : 'light')} label='Team' icon={<Group />} />
+                    <BottomNavigationAction sx={{
+                        color: theme.palette.secondary.dark,
+                    }} onClick={() => setMode(mode === 'light' ? 'dark' : 'light')} label='Team' icon={<Group />} />
                     <BottomNavigationAction label='Company' icon={<Business />} />
                     <BottomNavigationAction label='Fine' icon={<Money />} />
                     <BottomNavigationAction label='Pay Fine' icon={<AddCard />} />

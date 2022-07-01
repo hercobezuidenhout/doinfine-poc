@@ -48,5 +48,13 @@ export const corporateTheme = (mode) => createTheme({
     palette: {
         mode,
         ...(mode === 'light' ? lightPalette : darkPallete)
+    },
+    typography: {
+        h1: {
+            fontSize: '4rem'
+        },
+        h2: {
+            fontSize: '3rem'
+        }
     }
 })

@@ -8,6 +8,12 @@ module.exports = {
         path: pathToPublic, // absolute path on machine to where to output the bundle
         filename: 'bundle.js' // can rename this to anything
     },
+    resolve: {
+        alias: {
+            '@pages': path.resolve(__dirname, 'src/pages'),
+            '@components': path.resolve(__dirname, 'src/components')
+        }
+    },
     module: {
         rules: [
             {
@@ -27,6 +33,7 @@ module.exports = {
             directory: path.join(__dirname, 'public'),
         },
         port: 3000,
-        liveReload: true
+        liveReload: true,
+        historyApiFallback: true
     }
 }

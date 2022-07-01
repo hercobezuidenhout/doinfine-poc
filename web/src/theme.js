@@ -2,11 +2,11 @@ import { createTheme } from "@mui/material"
 
 export const lightPalette = ({
     primary: {
-        main: '#E9E5E3'
-    },
-    secondary: {
         main: '#FBE4E4',
         dark: '#E03E3E'
+    },
+    secondary: {
+        main: '#E9E5E3'
     },
     error: {
         main: '#FBE4E4'
@@ -24,11 +24,11 @@ export const lightPalette = ({
 
 export const darkPallete = ({
     primary: {
-        main: '#434040'
-    },
-    secondary: {
         main: '#594141',
         dark: '#FF7369'
+    },
+    secondary: {
+        main: '#434040'
     },
     error: {
         main: '#594141'
@@ -48,5 +48,13 @@ export const corporateTheme = (mode) => createTheme({
     palette: {
         mode,
         ...(mode === 'light' ? lightPalette : darkPallete)
+    },
+    typography: {
+        h1: {
+            fontSize: '4rem'
+        },
+        h2: {
+            fontSize: '3rem'
+        }
     }
 })

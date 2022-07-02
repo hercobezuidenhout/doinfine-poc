@@ -51,10 +51,10 @@ export const corporateTheme = (mode) => createTheme({
     },
     typography: {
         h1: {
-            fontSize: '4rem'
+            fontSize: '3rem'
         },
         h2: {
-            fontSize: '3rem'
+            fontSize: '2rem'
         }
     }
 })

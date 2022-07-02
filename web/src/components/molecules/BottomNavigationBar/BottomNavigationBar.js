@@ -15,7 +15,7 @@ export const BottomNavigationBar = () => {
             left: 0,
             right: 0
         }} showLabels>
-            <BottomNavigationAction sx={{
+            <BottomNavigationAction data-testid="team-item" sx={{
                 color: theme.palette.secondary.dark,
             }} onClick={() => navigate('/team')} label='Team' icon={<Group />} />
             <BottomNavigationAction sx={{

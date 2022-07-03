@@ -6,7 +6,3 @@ module.exports = {
         "@components/organisms": "<rootDir>/src/components/organisms"
     }
 }
-
-// "@pages/(.*)$": "<rootDir>/src/pages/(.*)$",
-// "@components/(.*)$": "src/components/(.*)$",
-// "@providers/(.*)$/": "src/providers/(.*)$",

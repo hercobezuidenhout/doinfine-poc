@@ -8,7 +8,7 @@ export const BottomNavigationBar = () => {
     const theme = useTheme();
 
     return (
-        <BottomNavigation sx={{
+        <BottomNavigation className="bottomNavigationBar" sx={{
             backgroundColor: theme.palette.primary.main,
             position: 'fixed',
             bottom: 0,

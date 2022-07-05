@@ -9,8 +9,8 @@ on:
     branches:
       - main
 
-    # paths:
-    #   - web/**
+    paths:
+      - web/**
 
 jobs:
   build_and_deploy:

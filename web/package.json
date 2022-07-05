@@ -7,7 +7,8 @@
   "scripts": {
     "build": "webpack",
     "start": "webpack-dev-server",
-    "test": "jest --env=jsdom"
+    "test": "jest --env=jsdom",
+    "test:e2e": "npx playwright test"
   },
   "dependencies": {
     "@emotion/react": "^11.9.3",

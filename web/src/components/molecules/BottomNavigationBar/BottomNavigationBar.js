@@ -8,14 +8,14 @@ export const BottomNavigationBar = () => {
     const theme = useTheme();
 
     return (
-        <BottomNavigation sx={{
+        <BottomNavigation className="bottomNavigationBar" sx={{
             backgroundColor: theme.palette.primary.main,
             position: 'fixed',
             bottom: 0,
             left: 0,
             right: 0
         }} showLabels>
-            <BottomNavigationAction sx={{
+            <BottomNavigationAction data-testid="team-item" sx={{
                 color: theme.palette.secondary.dark,
             }} onClick={() => navigate('/team')} label='Team' icon={<Group />} />
             <BottomNavigationAction sx={{

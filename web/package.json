@@ -22,7 +22,7 @@
     "react-modal": "^3.14.4",
     "react-router-dom": "^6.3.0",
     "sass-loader": "^12.4.0",
-    "validator": "^8.0.0",
+    "validator": "^13.7.0",
     "webpack": "^5.65.0",
     "webpack-dev-server": "^4.6.0"
   },

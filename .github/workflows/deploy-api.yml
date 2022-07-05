@@ -39,8 +39,10 @@ jobs:
 
     - name: Publish
       run: dotnet publish -c Release -o build
+      working-directory: api/Corporate
 
     - name: 'Run Azure webapp deploy action using publish profile credentials'
+      working-directory: api/Corporate
       uses: azure/webapps-deploy@v2
       with: 
         app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name

@@ -1,41 +1,43 @@
-import { Box, Card, Typography, CardContent, Avatar } from "@mui/material";
+import styled from "@emotion/styled";
+import { Box, Paper, Typography, Divider } from "@mui/material";
 import React from "react";
-import { faker } from '@faker-js/faker';
-import { ArrowRightAlt } from "@mui/icons-material";
 const { useTheme } = require("@emotion/react")
 
-const FineCard = (props) => {
-    const theme = useTheme();
+const Span = styled(Typography)({
+    fontSize: '10px',
+    color: 'gray',
+    textTransform: 'uppercase',
+    fontWeight: 'bold'
+})
 
+export const FineCard = ({ fine }) => {
+    const theme = useTheme();
+    const { value, reason, by, date } = fine;
+    
     return (
-        <Card>
-            <CardContent sx={{
+        <Box>
+            <Paper elevation={0} sx={{
+                padding: '1rem',
                 display: 'flex',
                 alignItems: 'center'
             }}>
+                <Typography variant="h4">{value}</Typography>
                 <Box sx={{
-                    display: 'flex',
-                    alignItems: 'center'
+                    width: '100%',
+                    marginLeft: '1rem'
                 }}>
-                    <Avatar alt="Remy Sharp" src={faker.image.avatar()} />
-                    <ArrowRightAlt sx={{
-                        margin: `0px ${theme.spacing(1)}`
-                    }} />
-                    <Avatar alt="Remy Sharp" src={faker.image.avatar()} />
-                </Box>
-                <Box sx={{
-                    marginLeft: theme.spacing(2)
-                }}>
-                    <Box>
-                        <Typography variant="p">For showing up late to meeting</Typography>
-                    </Box>
-                    <Box>
-                        <Typography variant="span" sx={{
-                            fontSize: '10px'
-                        }}>From Herco Bezuidenhout to Renier Pretorius</Typography>
+                    <Typography variant="p">"{reason}"</Typography>
+                    <Box sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        marginTop: '10px'
+                    }}>
+                        <Span variant="span">By {by}</Span>
+                        <Span variant="span">{date || '07/07/22'}</Span>
                     </Box>
                 </Box>
-            </CardContent>
-        </Card>
+            </Paper>
+            <Divider />
+        </Box>
     )
 }

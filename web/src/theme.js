@@ -1,8 +1,9 @@
 import { createTheme } from "@mui/material"
+import { red } from "@mui/material/colors"
 
 export const lightPalette = ({
     primary: {
-        main: '#FBE4E4',
+        main: red[500],
         dark: '#E03E3E'
     },
     secondary: {
@@ -55,6 +56,19 @@ export const corporateTheme = (mode) => createTheme({
         },
         h2: {
             fontSize: '2rem'
+        },
+        h3: {
+            fontSize: '1.5rem'
+        },
+        h4: {
+            fontSize: '1.3rem'
+        },
+        h5: {
+            font: '1rem'
+        },
+        h6: {
+            fontSize: '0.8rem',
+            fontWeight: 'bold'
         }
     }
 })

@@ -1,6 +1,6 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Dashboard, Team, Company, Account, Fine, Payment } from '@pages';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Team, Company, Account, Fine, Payment } from '@pages';
 
 export const RouterProvider = ({ children, setToolbar, setTitle }) => {
     const handleSetToolbar = (innerToolbar) => setToolbar(innerToolbar)
@@ -8,7 +8,7 @@ export const RouterProvider = ({ children, setToolbar, setTitle }) => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Dashboard />} />
+                <Route path="/" element={<Team setToolbar={handleSetToolbar} setTitle={handleSetTitle} />} />
                 <Route path="/team" element={<Team setToolbar={handleSetToolbar} setTitle={handleSetTitle} />} />
                 <Route path="/company" element={<Company />} />
                 <Route path="/account" element={<Account />} />

@@ -1,41 +1,42 @@
-import { Box, Card, Typography, CardContent, Avatar } from "@mui/material";
+import styled from "@emotion/styled";
+import { Box, Paper, Typography, Divider } from "@mui/material";
 import React from "react";
-import { faker } from '@faker-js/faker';
-import { ArrowRightAlt } from "@mui/icons-material";
 const { useTheme } = require("@emotion/react")
 
-const FineCard = (props) => {
+const Span = styled(Typography)({
+    fontSize: '10px',
+    color: 'gray',
+    textTransform: 'uppercase',
+    fontWeight: 'bold'
+})
+
+export const FineCard = (props) => {
     const theme = useTheme();
 
     return (
-        <Card>
-            <CardContent sx={{
+        <Box>
+            <Paper elevation={0} sx={{
+                padding: '1rem',
                 display: 'flex',
                 alignItems: 'center'
             }}>
+                <Typography variant="h4">2</Typography>
                 <Box sx={{
-                    display: 'flex',
-                    alignItems: 'center'
+                    width: '100%',
+                    marginLeft: '1rem'
                 }}>
-                    <Avatar alt="Remy Sharp" src={faker.image.avatar()} />
-                    <ArrowRightAlt sx={{
-                        margin: `0px ${theme.spacing(1)}`
-                    }} />
-                    <Avatar alt="Remy Sharp" src={faker.image.avatar()} />
-                </Box>
-                <Box sx={{
-                    marginLeft: theme.spacing(2)
-                }}>
-                    <Box>
-                        <Typography variant="p">For showing up late to meeting</Typography>
-                    </Box>
-                    <Box>
-                        <Typography variant="span" sx={{
-                            fontSize: '10px'
-                        }}>From Herco Bezuidenhout to Renier Pretorius</Typography>
+                    <Typography variant="p">"For showing up late to a meeting"</Typography>
+                    <Box sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        marginTop: '10px'
+                    }}>
+                        <Span variant="span">By Andrew Stevenson</Span>
+                        <Span variant="span">05/06/22</Span>
                     </Box>
                 </Box>
-            </CardContent>
-        </Card>
+            </Paper>
+            <Divider />
+        </Box>
     )
 }

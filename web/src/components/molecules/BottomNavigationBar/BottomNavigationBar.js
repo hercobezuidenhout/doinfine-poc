@@ -1,35 +1,46 @@
 import React from 'react';
-import { useNavigate } from "react-router-dom";
-import { BottomNavigation, BottomNavigationAction, useTheme } from "@mui/material";
-import { AccountCircle, AddCard, Business, Group, Money } from "@mui/icons-material";
+import { Link, useNavigate } from "react-router-dom";
+import { AppBar, Button, Toolbar, useTheme } from "@mui/material";
+import { Add } from '@mui/icons-material';
 
-export const BottomNavigationBar = () => {
+
+export const BottomNavigationBar = ({ innerToolbar }) => {
     const navigate = useNavigate();
     const theme = useTheme();
 
     return (
-        <BottomNavigation className="bottomNavigationBar" sx={{
-            backgroundColor: theme.palette.primary.main,
+        <AppBar sx={{
             position: 'fixed',
-            bottom: 0,
-            left: 0,
-            right: 0
-        }} showLabels>
-            <BottomNavigationAction data-testid="team-item" sx={{
-                color: theme.palette.secondary.dark,
-            }} onClick={() => navigate('/team')} label='Team' icon={<Group />} />
-            <BottomNavigationAction sx={{
-                color: theme.palette.secondary.dark,
-            }} onClick={() => navigate('/company')} label='Company' icon={<Business />} />
-            <BottomNavigationAction sx={{
-                color: theme.palette.secondary.dark,
-            }} onClick={() => navigate('/fine')} label='Fine' icon={<Money />} />
-            <BottomNavigationAction sx={{
-                color: theme.palette.secondary.dark,
-            }} onClick={() => navigate('/payment')} label='Payment' icon={<AddCard />} />
-            <BottomNavigationAction sx={{
-                color: theme.palette.secondary.dark,
-            }} onClick={() => navigate('/account')} label='Account' icon={<AccountCircle />} />
-        </BottomNavigation>
+            top: 'auto',
+            bottom: 0
+        }}>
+            {innerToolbar}
+            <Toolbar sx={{
+                display: 'flex',
+                justifyContent: 'space-between'
+            }}>
+                <Link to="/team">
+                    <Button sx={{
+                        marginLeft: '2rem',
+                        fontWeight: 'bold',
+                        color: 'white'
+                    }} centerRipple>TEAM</Button>
+                </Link>
+                <Add sx={{
+                    position: 'absolute',
+                    left: 0,
+                    right: 0,
+                    zIndex: 1,
+                    margin: '0 auto'
+                }} />
+                <Link to="/company">
+                    <Button sx={{
+                        marginRight: '2rem',
+                        fontWeight: 'bold',
+                        color: 'white'
+                    }} centerRipple>COMPANY</Button>
+                </Link>
+            </Toolbar>
+        </AppBar>
     )
 }

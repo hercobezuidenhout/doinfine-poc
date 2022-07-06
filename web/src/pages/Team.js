@@ -91,9 +91,7 @@ export const Team = ({ setToolbar, setTitle }) => {
             padding: '1rem',
         }}>
             <Typography variant="h3">{selectedMember}</Typography>
-            <Box sx={{
-
-            }}>
+            <Box>
                 {showCurrentMembersFines()}
             </Box>
         </Box>

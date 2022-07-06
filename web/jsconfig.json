@@ -6,7 +6,8 @@
         "@pages/*": ["./src/pages/*"],
         "@components/*": ["./src/components/*"],
         "@providers/*": ["./src/providers/*"],
-        "@tests/*": ["./src/__tests__/*"]
+        "@tests/*": ["./src/__tests__/*"],
+        "@services/*": ["./src/services/*"]
       }
     }
   }

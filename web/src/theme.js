@@ -63,6 +63,9 @@ export const corporateTheme = (mode) => createTheme({
         h4: {
             fontSize: '1.3rem'
         },
+        h5: {
+            font: '1rem'
+        },
         h6: {
             fontSize: '0.8rem',
             fontWeight: 'bold'

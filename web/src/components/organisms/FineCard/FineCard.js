@@ -10,9 +10,10 @@ const Span = styled(Typography)({
     fontWeight: 'bold'
 })
 
-export const FineCard = (props) => {
+export const FineCard = ({ fine }) => {
     const theme = useTheme();
-
+    const { value, reason, by, date } = fine;
+    
     return (
         <Box>
             <Paper elevation={0} sx={{
@@ -20,19 +21,19 @@ export const FineCard = (props) => {
                 display: 'flex',
                 alignItems: 'center'
             }}>
-                <Typography variant="h4">2</Typography>
+                <Typography variant="h4">{value}</Typography>
                 <Box sx={{
                     width: '100%',
                     marginLeft: '1rem'
                 }}>
-                    <Typography variant="p">"For showing up late to a meeting"</Typography>
+                    <Typography variant="p">"{reason}"</Typography>
                     <Box sx={{
                         display: 'flex',
                         justifyContent: 'space-between',
                         marginTop: '10px'
                     }}>
-                        <Span variant="span">By Andrew Stevenson</Span>
-                        <Span variant="span">05/06/22</Span>
+                        <Span variant="span">By {by}</Span>
+                        <Span variant="span">{date || '07/07/22'}</Span>
                     </Box>
                 </Box>
             </Paper>

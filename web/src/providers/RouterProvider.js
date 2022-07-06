@@ -9,8 +9,10 @@ export const RouterProvider = ({ children, setToolbar, setTitle }) => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Team setToolbar={handleSetToolbar} setTitle={handleSetTitle} />} />
+                <Route path="/app"></Route>
+                
                 <Route path="/team" element={<Team setToolbar={handleSetToolbar} setTitle={handleSetTitle} />} />
-                <Route path="/company" element={<Company />} />
+                <Route path="/company" element={<Company setToolbar={handleSetToolbar} setTitle={handleSetTitle} />} />
                 <Route path="/account" element={<Account />} />
                 <Route path="/fine" element={<Fine />} />
                 <Route path="/payment" element={<Payment />} />

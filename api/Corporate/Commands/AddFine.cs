@@ -9,17 +9,18 @@ namespace Corporate.Commands
 
         public class Handler : IRequestHandler<Command, int>
         {
-            private readonly Repository repository;
+            private readonly DataContext db;
 
-            public Handler(Repository repository) {
-                this.repository = repository;
+            public Handler(DataContext db) {
+                this.db = db;
             }
 
             public async Task<int> Handle(Command request, CancellationToken cancellationToken)
             {
-                int Id = repository.Fines.Count;
-                repository.Fines.Add(new Fine { Id = Id, Reason = request.Reason });
-                return Id;
+                var fine = new Fine { Reason = request.Reason };
+                db.Fines.Add(fine);
+                db.SaveChanges();
+                return fine.Id;
             }
         }
     }

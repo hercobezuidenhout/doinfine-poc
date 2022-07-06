@@ -8,15 +8,15 @@ namespace Corporate.Queries
 
         public class Handler : IRequestHandler<Query, Response>
         {
-            private readonly Repository repository;
+            private readonly DataContext db;
 
-            public Handler(Repository repository) {
-                this.repository = repository;
+            public Handler(DataContext db) {
+                this.db = db;
             }
 
             public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
             {
-                var fine = repository.Fines.FirstOrDefault(x => x.Id == request.Id);
+                var fine = db.Fines.FirstOrDefault(x => x.Id == request.Id);
                 return fine == null ? null : new Response(fine.Id, fine.Reason);
             }
         }

@@ -5,6 +5,7 @@ import { faker } from '@faker-js/faker';
 
 export const LeaderboardCard = (props) => {
     const theme = useTheme();
+    const { position, name, count, filter } = props;
 
     return (
         <Box>
@@ -14,7 +15,7 @@ export const LeaderboardCard = (props) => {
                 alignItems: 'center'
             }}>
                 <Box>
-                    <Typography variant="h5">1</Typography>
+                    <Typography data-testid="leaderboard-position" variant="h5">{position}</Typography>
                 </Box>
                 <Box sx={{
                     marginLeft: theme.spacing(2),
@@ -28,12 +29,12 @@ export const LeaderboardCard = (props) => {
                         alignItems: 'center'
                     }}>
                         <Avatar alt="Remy Sharp" src={faker.image.avatar()} />
-                        <Typography sx={{
+                        <Typography data-testid="leaderboard-name" sx={{
                             marginLeft: theme.spacing(2)
-                        }} variant="p">{faker.name.firstName()} {faker.name.lastName()}</Typography>
+                        }} variant="p">{name}</Typography>
                     </Box>
                     <Box>
-                        <Typography variant="p">{faker.random.numeric(2)} Fines</Typography>
+                        <Typography data-testid="leaderboard-count" variant="p">{count} {filter}</Typography>
                     </Box>
                 </Box>
             </Paper>

@@ -1,7 +1,6 @@
 import styled from "@emotion/styled";
 import { Box, Paper, Typography, Divider } from "@mui/material";
 import React from "react";
-const { useTheme } = require("@emotion/react")
 
 const Span = styled(Typography)({
     fontSize: '10px',
@@ -11,7 +10,6 @@ const Span = styled(Typography)({
 })
 
 export const FineCard = ({ fine }) => {
-    const theme = useTheme();
     const { value, reason, by, date } = fine;
     
     return (
@@ -21,7 +19,7 @@ export const FineCard = ({ fine }) => {
                 display: 'flex',
                 alignItems: 'center'
             }}>
-                <Typography variant="h4">{value}</Typography>
+                <Typography data-testid="fine-value" role="heading" name="fine-value" variant="h4">{value}</Typography>
                 <Box sx={{
                     width: '100%',
                     marginLeft: '1rem'

@@ -4,5 +4,6 @@ module.exports = {
         "@providers/RouterProvider": "<rootDir>/src/providers/RouterProvider.js",
         "@pages": "<rootDir>/src/pages",
         "@components/organisms": "<rootDir>/src/components/organisms"
-    }
+    },
+    modulePathIgnorePatterns: ["e2e"]
 }

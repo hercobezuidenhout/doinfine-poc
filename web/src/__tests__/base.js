@@ -12,15 +12,13 @@ const CorporateProvider = ({ children }) => (
     </ThemeProvider>
 )
 
-const customRender = (ui, options) => render(ui, { wrapper: CorporateProvider, ...options })
+export const renderWithProviders = (ui, options) => render(ui, { wrapper: CorporateProvider, ...options })
 
 export * from '@testing-library/react'
 
-export { customRender as render }
-
 describe('@tests/base)', () => {
     it('runs smoothly', () => {
-        customRender(<h1 data-testid="hello-world">Hello world</h1>);
+        renderWithProviders(<h1 data-testid="hello-world">Hello world</h1>);
         expect(screen.getByTestId('hello-world')).not.toBeNull();
     })
 })

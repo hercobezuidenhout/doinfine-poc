@@ -72,7 +72,7 @@ export const Team = ({ setToolbar, setTitle }) => {
 
         const fines = currentMember.fines
         
-        return fines.map(fine => <FineCard fine={fine} />)
+        return fines.map(fine => <FineCard key={fine.id} fine={fine} />)
     }
 
     useEffect(() => {

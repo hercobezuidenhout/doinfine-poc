@@ -26,13 +26,15 @@ export const BottomNavigationBar = ({ innerToolbar }) => {
                         color: 'white'
                     }} centerRipple>TEAM</Button>
                 </Link>
-                <Add sx={{
-                    position: 'absolute',
-                    left: 0,
-                    right: 0,
-                    zIndex: 1,
-                    margin: '0 auto'
-                }} />
+                <Link to="/add/fine">
+                    <Add sx={{
+                        position: 'absolute',
+                        left: 0,
+                        right: 0,
+                        zIndex: 1,
+                        margin: '0 auto'
+                    }} />
+                </Link>
                 <Link to="/company">
                     <Button data-testid="company-item" sx={{
                         marginRight: '2rem',

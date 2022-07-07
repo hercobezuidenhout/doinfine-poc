@@ -5,6 +5,9 @@ import { Menu } from "@mui/icons-material";
 import { Link, Outlet, Route, Routes } from "react-router-dom";
 import { Team } from "@pages/Team";
 import { Company } from "@pages/Company";
+import { Add } from "@pages/Add";
+import { Fine } from "@pages/Fine";
+import { Payment } from "@pages/Payment";
 
 export const App = () => {
 
@@ -36,6 +39,10 @@ export const App = () => {
             <Routes>
                 <Route path="team" element={<Team setToolbar={handleSetToolbar} setTitle={handleSetTitle} />} />
                 <Route path="company" element={<Company setToolbar={handleSetToolbar} setTitle={handleSetTitle} />} />
+                <Route path="add" element={<Add setToolbar={handleSetToolbar} setTitle={handleSetTitle} />}>
+                    <Route path="fine" element={<Fine />} />
+                    <Route path="payment" element={<Payment />} />
+                </Route>
                 <Route path="*" element={<Team setToolbar={handleSetToolbar} setTitle={handleSetTitle} />} />
             </Routes>
             

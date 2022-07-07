@@ -21,8 +21,6 @@ export const RouterProvider = () => {
                     <Route path="account" element={<Account />} />
                 </Route>
                 <Route path="/auth" element={<Auth />} />
-                <Route path="/fine" element={<Fine />} />
-                <Route path="/payment" element={<Payment />} />
             </Routes>
         </BrowserRouter>
     )

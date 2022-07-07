@@ -1,6 +1,7 @@
 import { useTheme } from "@emotion/react";
 import { faker } from "@faker-js/faker";
-import { Avatar, Box, Button, List, ListItemAvatar, ListItemButton, ListItemText, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, List, ListItemAvatar, ListItemButton, ListItemText, Modal, TextField, Typography } from "@mui/material";
+import { TRUE } from "node-sass";
 import React, { useState } from "react";
 
 const users = [
@@ -17,13 +18,34 @@ export const Fine = (props) => {
     const theme = useTheme();
     const [reason, setReason] = useState('')
     const [who, setWho] = useState('')
+    const [what, setWhat] = useState('')
+
+    const updateUsername = (user) => {
+        const breakdown = reason.split('@')
+        const usernameSection = breakdown[1]
+        let usernameSectionSplit = []
+        if (usernameSection.length > 1) {
+            usernameSectionSplit = usernameSection.split(' ')
+            usernameSectionSplit[0] = user
+            console.log(usernameSectionSplit)
+        }
+        const groupedAgain = [
+            breakdown[0],
+            ...usernameSectionSplit
+        ]
+
+        let newReason = '';
+
+        groupedAgain.forEach(value => newReason += value.trim() + ' ')
+        setReason(newReason)
+    }
 
     const handleReasonChange = (event) => {
-        const reason = event.target.value
+        const target = event.target.value
         setReason(event.target.value)
 
-        if (reason.includes('@')) {
-            let username = reason.split('@')[1];
+        if (target.includes('@')) {
+            let username = target.split('@')[1];
             if (username.split(' ').length > 1) {
                 username = username.split(' ')[0]
             }
@@ -31,14 +53,13 @@ export const Fine = (props) => {
         }
 
         // Fine @someone for [reason]
-        const breakdown = reason.split('for');
+        const breakdown = target.split('for');
         if (breakdown.length !== 2) return;
         const who = breakdown[0].split(' ')[1].substring(1, breakdown[0].split(' ')[1].length);
         const what = breakdown[1].substring(1, breakdown[1].length);
 
         setWho(who);
-
-        console.log(users.filter(user => user.includes(who)))
+        setWhat(what);
     }
 
     return (
@@ -79,7 +100,7 @@ export const Fine = (props) => {
 
                     <List dense>
                         {users.filter(user => user.includes(who)).map(user => (
-                            <ListItemButton key={user}>
+                            <ListItemButton key={user} onClick={() => updateUsername(user)}>
                                 <ListItemAvatar>
                                     <Avatar src={faker.image.avatar()} />
                                 </ListItemAvatar>

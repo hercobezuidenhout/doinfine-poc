@@ -1,5 +1,6 @@
 import { LeaderboardCard } from "@components/organisms";
 import styled from "@emotion/styled";
+import { faker } from "@faker-js/faker";
 import { Box, Chip, Toolbar, Typography } from "@mui/material";
 
 import React, { useEffect } from "react";
@@ -45,10 +46,11 @@ export const Company = ({ setToolbar, setTitle }) => {
         }}>
             <Typography variant="h3">{searchParams.get('tab')}</Typography>
             <Box>
-                <LeaderboardCard />
-                <LeaderboardCard />
-                <LeaderboardCard />
-                <LeaderboardCard />
+                <LeaderboardCard name={`${faker.name.firstName()} ${faker.name.lastName()}`} by={faker.name.firstName()} position="1" filter={searchParams.get('tab')} count={faker.random.numeric(1)} />
+                <LeaderboardCard name={`${faker.name.firstName()} ${faker.name.lastName()}`} by={faker.name.firstName()} position="1" filter={searchParams.get('tab')} count={faker.random.numeric(1)} />
+                <LeaderboardCard name={`${faker.name.firstName()} ${faker.name.lastName()}`} by={faker.name.firstName()} position="1" filter={searchParams.get('tab')} count={faker.random.numeric(1)} />
+                <LeaderboardCard name={`${faker.name.firstName()} ${faker.name.lastName()}`} by={faker.name.firstName()} position="1" filter={searchParams.get('tab')} count={faker.random.numeric(1)} />
+                <LeaderboardCard name={`${faker.name.firstName()} ${faker.name.lastName()}`} by={faker.name.firstName()} position="1" filter={searchParams.get('tab')} count={faker.random.numeric(1)} />
             </Box>
         </Box>
     )

@@ -1,5 +1,6 @@
 import { createTheme } from "@mui/material"
 import { red } from "@mui/material/colors"
+import { createContext } from "react"
 
 export const lightPalette = ({
     primary: {
@@ -71,4 +72,9 @@ export const corporateTheme = (mode) => createTheme({
             fontWeight: 'bold'
         }
     }
+})
+
+export const CorporateContext = createContext({
+    mode: 'light',
+    setMode: () => {}
 })

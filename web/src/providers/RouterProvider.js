@@ -1,23 +1,29 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Team, Company, Account, Fine, Payment } from '@pages';
+import { Account, Fine, Payment } from '@pages';
+import { App } from '@containers/App';
+import { Settings } from '@containers/Settings';
+import { Auth } from '@containers/Auth';
+import { Team } from '@pages/Team';
+import { Company } from '@pages/Company';
 
-export const RouterProvider = ({ children, setToolbar = () => {}, setTitle = () => {} }) => {
-    const handleSetToolbar = (innerToolbar) => setToolbar(innerToolbar)
-    const handleSetTitle = (title) => setTitle(title)
+export const RouterProvider = () => {
+
+    const handleSetToolbar = (toolbar) => { }
+
+    const handleSetTitle = (title) => { }
+
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Team setToolbar={handleSetToolbar} setTitle={handleSetTitle} />} />
-                <Route path="/app"></Route>
-                
-                <Route path="/team" element={<Team setToolbar={handleSetToolbar} setTitle={handleSetTitle} />} />
-                <Route path="/company" element={<Company setToolbar={handleSetToolbar} setTitle={handleSetTitle} />} />
-                <Route path="/account" element={<Account />} />
+                <Route path="/*" element={<App />} />
+                <Route path="/settings" element={<Settings />}>
+                    <Route path="account" element={<Account />} />
+                </Route>
+                <Route path="/auth" element={<Auth />} />
                 <Route path="/fine" element={<Fine />} />
                 <Route path="/payment" element={<Payment />} />
             </Routes>
-            {children}
         </BrowserRouter>
     )
 }

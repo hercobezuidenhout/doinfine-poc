@@ -1,9 +1,27 @@
-import React from 'react';
+import { ThemeProvider } from '@mui/material';
+import { RouterProvider } from '@providers/RouterProvider';
+import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
+import { CorporateContext, corporateTheme } from './theme';
 
-import App from './App';
+const Corporate = () => {
+    const [mode, setMode] = useState('light');
+    const [theme, setTheme] = useState(corporateTheme(mode));
+
+    useEffect(() => {
+        setTheme(corporateTheme(mode));
+    }, [mode])
+
+    return (
+        <CorporateContext.Provider value={{ mode, setMode }}>
+            <ThemeProvider theme={theme}>
+                <RouterProvider />
+            </ThemeProvider>
+        </CorporateContext.Provider>
+    )
+}
 
 const container = document.getElementById('root');
 const root = createRoot(container)
-root.render(<App />);
+root.render(<Corporate />);

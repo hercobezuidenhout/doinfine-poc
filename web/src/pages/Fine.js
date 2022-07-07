@@ -1,7 +1,6 @@
 import { useTheme } from "@emotion/react";
 import { faker } from "@faker-js/faker";
 import { Avatar, Box, Button, List, ListItemAvatar, ListItemButton, ListItemText, Modal, TextField, Typography } from "@mui/material";
-import { TRUE } from "node-sass";
 import React, { useState } from "react";
 
 const users = [

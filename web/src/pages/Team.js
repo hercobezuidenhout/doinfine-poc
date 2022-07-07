@@ -72,7 +72,7 @@ export const Team = ({ setToolbar, setTitle }) => {
 
         const fines = currentMember.fines
         
-        return fines.map(fine => <FineCard fine={fine} />)
+        return fines.map(fine => <FineCard key={fine.id} fine={fine} />)
     }
 
     useEffect(() => {
@@ -91,9 +91,7 @@ export const Team = ({ setToolbar, setTitle }) => {
             padding: '1rem',
         }}>
             <Typography variant="h3">{selectedMember}</Typography>
-            <Box sx={{
-
-            }}>
+            <Box>
                 {showCurrentMembersFines()}
             </Box>
         </Box>

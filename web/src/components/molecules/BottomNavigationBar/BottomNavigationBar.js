@@ -20,7 +20,7 @@ export const BottomNavigationBar = ({ innerToolbar }) => {
                 justifyContent: 'space-between'
             }}>
                 <Link to="/team">
-                    <Button sx={{
+                    <Button data-testid="team-item" sx={{
                         marginLeft: '2rem',
                         fontWeight: 'bold',
                         color: 'white'
@@ -34,7 +34,7 @@ export const BottomNavigationBar = ({ innerToolbar }) => {
                     margin: '0 auto'
                 }} />
                 <Link to="/company">
-                    <Button sx={{
+                    <Button data-testid="company-item" sx={{
                         marginRight: '2rem',
                         fontWeight: 'bold',
                         color: 'white'

@@ -18,7 +18,7 @@ export * from '@testing-library/react'
 
 describe('@tests/base)', () => {
     it('runs smoothly', () => {
-        renderWithProviders(<h1 data-testid="hello-world">Hello world</h1>);
+        render(<h1 data-testid="hello-world">Hello world</h1>);
         expect(screen.getByTestId('hello-world')).not.toBeNull();
     })
 })

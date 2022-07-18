@@ -1,4 +1,4 @@
-import { ThemeProvider } from '@mui/material';
+import { Box, ThemeProvider } from '@mui/material';
 import { RouterProvider } from '@providers/RouterProvider';
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';

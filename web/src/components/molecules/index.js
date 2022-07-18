@@ -1,2 +1,2 @@
 export * from './MenuBar/MenuBar'
-export * from './BottomNavigationBar/BottomNavigationBar'
+export * from './TeamFilterBar/TeamFilterBar'

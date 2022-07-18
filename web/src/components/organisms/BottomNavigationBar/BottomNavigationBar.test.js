@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, renderWithRouter, screen } from '@tests/base'
-import { BottomNavigationBar } from '@components/molecules'
+import { BottomNavigationBar } from '@components/organisms'
 
 describe('BottomNavigationBar', () => {
     it('has three elements in total in primary bar', () => {
@@ -16,7 +16,6 @@ describe('BottomNavigationBar', () => {
 
     it('renders TeamFilterBar if url is /team', () => {
         renderWithRouter(<BottomNavigationBar />)
-        
         expect(screen.getByTestId('team-filter-bar')).toBeInTheDocument()
     })
 })

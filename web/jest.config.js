@@ -6,6 +6,7 @@ module.exports = {
         "@pages": "<rootDir>/src/pages",
         "@components/molecules": "<rootDir>/src/components/molecules/index.js",
         "@components/atoms": "<rootDir>/src/components/atoms/index.js",
+        "@components/organisms": "<rootDir>/src/components/organisms/index.js",
     },
     modulePathIgnorePatterns: ["e2e"]
 }

@@ -4,7 +4,7 @@ import { RouterProvider } from "@providers/RouterProvider";
 import { render, screen } from "@testing-library/react";
 import { corporateTheme } from "../theme";
 
-const CorporateProvider = ({ children }) => (
+const AllProviders = ({ children }) => (
     <ThemeProvider theme={corporateTheme('light')}>
         <RouterProvider>
             {children}
@@ -12,7 +12,21 @@ const CorporateProvider = ({ children }) => (
     </ThemeProvider>
 )
 
-export const renderWithProviders = (ui, options) => render(ui, { wrapper: CorporateProvider, ...options })
+const ThemeProviders = ({ children }) => (
+    <ThemeProvider theme={corporateTheme('light')}>
+        {children}
+    </ThemeProvider>
+)
+
+const RouterProviders = ({ children }) => (
+    <RouterProvider>
+        {children}
+    </RouterProvider>
+)
+
+export const renderWithProviders = (ui, options) => render(ui, { wrapper: AllProviders, ...options })
+export const renderWithTheme = (ui, options) => render(ui, { wrapper: ThemeProviders, ...options })
+export const renderWithRouter = (ui, options) => render(ui, { wrapper: RouterProviders, ...options })
 
 export * from '@testing-library/react'
 

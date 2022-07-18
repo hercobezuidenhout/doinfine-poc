@@ -8,6 +8,8 @@ export const RouterProvider = () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<App />} />
+                <Route path="/team" element={<div>Team Page</div>} />
+                <Route path="/company" element={<div>Company Page</div>} />
             </Routes>
         </BrowserRouter>
     )

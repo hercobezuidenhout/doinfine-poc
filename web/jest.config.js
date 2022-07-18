@@ -5,6 +5,7 @@ module.exports = {
         "@providers/RouterProvider": "<rootDir>/src/providers/RouterProvider.js",
         "@pages": "<rootDir>/src/pages",
         "@components/molecules": "<rootDir>/src/components/molecules/index.js",
+        "@components/atoms": "<rootDir>/src/components/atoms/index.js",
     },
     modulePathIgnorePatterns: ["e2e"]
 }

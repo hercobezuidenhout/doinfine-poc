@@ -1,10 +1,12 @@
-import { BottomNavigationBar } from '@components/molecules';
 import React from 'react';
+import { BottomNavigationBar } from '@components/organisms';
 import { Outlet } from 'react-router-dom';
 
-export const App = () => (
-    <div>
-        <Outlet />
-        <BottomNavigationBar />
-    </div>
-);
+export const App = () => {
+    return (
+        <div data-testid="app">
+            <Outlet />
+            <BottomNavigationBar />
+        </div>
+    )
+}

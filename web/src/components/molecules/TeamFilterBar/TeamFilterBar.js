@@ -1,5 +1,7 @@
 import React from "react"
 
-export const TeamFilterBar = () => (
-    <div data-testid="team-filter-bar"></div>
+export const TeamFilterBar = ({ team }) => (
+    <div data-testid="team-filter-bar">
+        {team && team.map(member => <div key={member}>{member}</div>)}
+    </div>
 )

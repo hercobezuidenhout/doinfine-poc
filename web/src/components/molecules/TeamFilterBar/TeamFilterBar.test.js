@@ -8,4 +8,10 @@ describe('TeamFilterBar', () => {
         const totalChildren = screen.getByTestId('team-filter-bar').children.length
         expect(totalChildren).toBe(0)
     })
+
+    it('renders with avatars when a team is given', () => {
+        render(<TeamFilterBar team={['A', 'B', 'C']} />)
+        const totalChildren = screen.getByTestId('team-filter-bar').children.length
+        expect(totalChildren).toBe(3)
+    })
 })

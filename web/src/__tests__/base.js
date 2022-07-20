@@ -4,6 +4,8 @@ import { RouterProvider } from "@providers/RouterProvider";
 import { render, screen } from "@testing-library/react";
 import { corporateTheme } from "../theme";
 
+import '@testing-library/jest-dom'
+
 const AllProviders = ({ children }) => (
     <ThemeProvider theme={corporateTheme('light')}>
         <RouterProvider>

@@ -1,21 +1,28 @@
 import React from 'react'
-import { render, renderWithRouter, screen } from '@tests/base'
+import { renderWithRouter, screen } from '@tests/base'
+import userEvent from '@testing-library/user-event';
 import { BottomNavigationBar } from '@components/organisms'
 
 describe('BottomNavigationBar', () => {
     it('has three elements in total in primary bar', () => {
-        render(<BottomNavigationBar />)
+        renderWithRouter(<BottomNavigationBar />)
         const totalChildren = screen.getByTestId('primary-bar').children.length
         expect(totalChildren).toBe(3)
     })
 
     it('renders TeamFilterBar by default', () => {
-        render(<BottomNavigationBar />)
+        renderWithRouter(<BottomNavigationBar />)
         expect(screen.getByTestId('team-filter-bar')).toBeInTheDocument()
     })
 
-    it('renders TeamFilterBar if url is /team', () => {
+    it('renders TeamFilterBar if url is /team or /', () => {
         renderWithRouter(<BottomNavigationBar />)
         expect(screen.getByTestId('team-filter-bar')).toBeInTheDocument()
+    })
+
+    it('renders CompanyFilterBar if url is /company', async () => {
+        renderWithRouter(<BottomNavigationBar />)
+        userEvent.click(screen.getByTestId('link-company'))
+        expect(screen.findByTestId('company-filter-bar')).resolves.toBeInTheDocument()
     })
 })

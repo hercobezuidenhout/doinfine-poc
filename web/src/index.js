@@ -6,7 +6,7 @@ import './index.css';
 import { CorporateContext, corporateTheme } from './theme';
 
 const Corporate = () => {
-    const [mode, setMode] = useState('light');
+    const [mode, setMode] = useState('dark');
     const [theme, setTheme] = useState(corporateTheme(mode));
 
     useEffect(() => {

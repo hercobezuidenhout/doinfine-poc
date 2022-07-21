@@ -4,6 +4,7 @@ import { createContext } from "react"
 
 export const lightPalette = ({
     primary: {
+        light: red[200],
         main: red[500],
         dark: '#E03E3E'
     },
@@ -26,6 +27,7 @@ export const lightPalette = ({
 
 export const darkPallete = ({
     primary: {
+        light: red[400],
         main: '#594141',
         dark: '#FF7369'
     },

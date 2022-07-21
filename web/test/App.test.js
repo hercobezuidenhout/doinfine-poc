@@ -1,5 +1,6 @@
 import React from 'react';
-import { renderWithRouter, screen} from "@tests/base"
+import { renderWithProviders, renderWithRouter, screen} from "@tests/base"
+import userEvent from '@testing-library/user-event';
 import { App } from "../src/App"
 
 describe('App', () => {
@@ -9,7 +10,7 @@ describe('App', () => {
     })
 
     it('renders AppBar with title Team when path is / or /team', () => {
-        renderWithRouter(<App />)
+        renderWithRouter()
         expect(screen.getByTestId('menubar-title').innerHTML).toBe('Team')
     })
 })

@@ -1,5 +1,5 @@
 import React from "react";
-import { ThemeProvider } from "@emotion/react";
+import { ThemeProvider } from "@mui/material";
 import { RouterProvider } from "@providers/RouterProvider";
 import { render, screen } from "@testing-library/react";
 import { corporateTheme } from "../src/theme";
@@ -14,8 +14,14 @@ const AllProviders = ({ children }) => (
     </ThemeProvider>
 )
 
-const ThemeProviders = ({ children }) => (
+const LightThemeProviders = ({ children }) => (
     <ThemeProvider theme={corporateTheme('light')}>
+        {children}
+    </ThemeProvider>
+)
+
+const DarkThemeProviders = ({ children }) => (
+    <ThemeProvider theme={corporateTheme('dark')}>
         {children}
     </ThemeProvider>
 )
@@ -27,7 +33,8 @@ const RouterProviders = ({ children }) => (
 )
 
 export const renderWithProviders = (ui, options) => render(ui, { wrapper: AllProviders, ...options })
-export const renderWithTheme = (ui, options) => render(ui, { wrapper: ThemeProviders, ...options })
+export const renderWithLightTheme = (ui, options) => render(ui, { wrapper: LightThemeProviders, ...options })
+export const renderWithDarkTheme = (ui, options) => render(ui, { wrapper: DarkThemeProviders, ...options })
 export const renderWithRouter = (ui, options) => render(ui, { wrapper: RouterProviders, ...options })
 
 export * from '@testing-library/react'

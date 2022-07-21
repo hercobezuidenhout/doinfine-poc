@@ -1,7 +1,8 @@
 import React from 'react'
-import { render, screen } from '@tests/base'
+import { render, renderWithProviders, screen } from '@tests/base'
 import { DEFAULT_TITLE, EXAMPLE_TITLE } from '@tests/constants'
 import { MenuBar } from '@components/molecules'
+import userEvent from '@testing-library/user-event'
 
 describe('MenuBar', () => {
     it('renders title correctly', () => {
@@ -17,5 +18,13 @@ describe('MenuBar', () => {
     it('renders with MenuIcon', () => {
         render(<MenuBar />)
         expect(screen.getAllByTestId('menubar-icon')).not.toBeNull()
+    })
+
+
+    it('switches theme mode on click', () => {
+        renderWithProviders(<MenuBar />)
+        userEvent.click(screen.getByTestId('theme-switcher-light'))
+
+        expect(screen.findByTestId('theme-switcher-dark')).resolves.toBeInTheDocument()
     })
 })

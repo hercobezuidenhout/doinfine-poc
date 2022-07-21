@@ -4,7 +4,10 @@ import { AppBar, Toolbar } from "@mui/material";
 import React, { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 
-const team = [{ id: 1, name: 'Billy Anderson', avatar: '/img' }]
+const team = [
+    { id: 1, name: 'Billy Anderson', avatar: '/img' },
+    { id: 2, name: 'Steve Wonderland', avatar: '/img' }
+]
 
 export const BottomNavigationBar = () => {
     const location = useLocation();
@@ -16,7 +19,7 @@ export const BottomNavigationBar = () => {
     }, [location])
 
     const renderToolbar = () => {
-        if (pathname === '/team' || pathname === '/') return <TeamFilterBar team={team} />
+        if (pathname === '/team' || pathname === '/') return <TeamFilterBar team={team} activeMember={team[1]} />
         if (pathname === '/company') return <CompanyFilterBar />
     }
 

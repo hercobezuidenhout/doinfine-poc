@@ -1,7 +1,8 @@
+import { Avatar, Toolbar } from "@mui/material"
 import React from "react"
 
 export const TeamFilterBar = ({ team }) => (
-    <div data-testid="team-filter-bar">
-        {team && team.map(member => <div key={member}>{member}</div>)}
-    </div>
+    <Toolbar data-testid="team-filter-bar">
+        {team && team.map(member => <Avatar key={member.id} alt={member.name} src={member.avatar} />)}
+    </Toolbar>
 )

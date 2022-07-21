@@ -1,8 +1,9 @@
+import { Toolbar } from "@mui/material"
 import React from "react"
 
 export const CompanyFilterBar = () => (
-    <div data-testid="company-filter-bar">
+    <Toolbar data-testid="company-filter-bar">
         <div>Fines</div>
         <div>Teams</div>
-    </div>
+    </Toolbar>
 )

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BottomNavigationBar } from '@components/organisms';
 import { Outlet, useLocation } from 'react-router-dom';
 import { MenuBar } from '@components/molecules';
+import { Container, CssBaseline } from '@mui/material';
 
 export const App = () => {
     const [title, setTitle] = useState()

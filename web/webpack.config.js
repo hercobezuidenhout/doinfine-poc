@@ -13,7 +13,8 @@ module.exports = {
             '@components': path.resolve(__dirname, 'src/components'),
             '@providers': path.resolve(__dirname, 'src/providers'),
             '@tests': path.resolve(__dirname, 'test'),
-            '@services': path.resolve(__dirname, 'src/services')
+            '@services': path.resolve(__dirname, 'src/services'),
+            '@pages': path.resolve(__dirname, 'src/pages')
         }
     },
     module: {

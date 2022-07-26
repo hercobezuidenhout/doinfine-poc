@@ -16,6 +16,7 @@ const Corporate = () => {
     return (
         <CorporateContext.Provider value={{ mode, setMode }}>
             <ThemeProvider theme={theme}>
+                <CssBaseline />
                 <RouterProvider />
             </ThemeProvider>
         </CorporateContext.Provider>

@@ -13,7 +13,7 @@ export const MenuBar = ({ title = 'Corporate' }) => {
     }
 
     return (
-        <AppBar data-testid="menu-bar">
+        <AppBar data-testid="menu-bar" position='sticky'>
             <Toolbar sx={{
                 justifyContent: 'space-between'
             }}>

@@ -1,0 +1,15 @@
+module.exports = {
+    get: jest.fn(url => {
+        if (url == '/team/1') return Promise.resolve({
+            data: {
+                id: 1,
+                name: 'Example Team',
+                members: [
+                    { id: 1, username: 'billy', firstName: 'Billy', lastName: 'Anderson', email: 'billy@example.com' },
+                    { id: 2, username: 'steve', firstName: 'Steve', lastName: 'Wack', email: 'steve@example.com' },
+                    { id: 3, username: 'andrew', firstName: 'Andrew', lastName: 'Pickle', email: 'andrew@example.com' }
+                ]
+            }
+        })
+    })
+}

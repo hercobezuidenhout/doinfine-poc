@@ -1,5 +1,5 @@
 export const EXAMPLE_TITLE = 'Example Title'
-export const DEFAULT_TITLE = 'Corporate'
+export const DEFAULT_TITLE = 'TeamLunch'
 export const EXAMPLE_FINE = 'For showing up late to a meeting'
 
 describe('CONSTANTS', () => {

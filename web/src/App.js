@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { BottomNavigationBar } from '@components/organisms';
+import { BottomNavigationBar } from '@components/templates';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { MenuBar } from '@components/molecules';
-import { Box, Container, CssBaseline } from '@mui/material';
+import { Container } from '@mui/material';
+import { TeamProvider } from '@providers/TeamProvider';
 
 export const App = () => {
     const [title, setTitle] = useState()
@@ -19,11 +20,13 @@ export const App = () => {
 
     return (
         <div data-testid="app">
-            <MenuBar title={title} />
-            <Container>
-                <Outlet />
-            </Container>
-            <BottomNavigationBar />
+            <TeamProvider>
+                <MenuBar title={title} />
+                <Container>
+                    <Outlet />
+                </Container>
+                <BottomNavigationBar />
+            </TeamProvider>
         </div>
     )
 }

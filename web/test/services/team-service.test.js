@@ -6,10 +6,9 @@ describe('useTeamService', () => {
 
         const { result } = renderHook(() => useTeamService())
 
-        const response = await result.current.fetchById(1)
-        const team = response.data
+        const team = await result.current.fetchById(1)
 
-        expect(team.name).toBe('Example Team')
+        expect(team.name).toBe('Core')
         expect(team.members.length).toBe(3)
     })
 })

@@ -1,1 +1,1 @@
-export * from './BottomNavigationBar/BottomNavigationBar'
+export * from './TeamFilterBar/TeamFilterBar'

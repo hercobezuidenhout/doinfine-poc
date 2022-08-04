@@ -1,8 +1,8 @@
-using Corporate.Data;
-using Corporate.Data.Entities;
+using TeamLunch.Data;
+using TeamLunch.Data.Entities;
 using MediatR;
 
-namespace Corporate.Commands
+namespace TeamLunch.Commands
 {
     public static class AddFine {
         public record Command(string Reason) : IRequest<int>;

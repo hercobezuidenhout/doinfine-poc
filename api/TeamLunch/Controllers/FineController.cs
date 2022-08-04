@@ -1,9 +1,9 @@
-using Corporate.Commands;
-using Corporate.Queries;
+using TeamLunch.Commands;
+using TeamLunch.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Corporate.Controllers;
+namespace TeamLunch.Controllers;
 
 [ApiController]
 [Route("[controller]")]

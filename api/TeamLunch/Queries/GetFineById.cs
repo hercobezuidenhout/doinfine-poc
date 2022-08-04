@@ -1,7 +1,7 @@
-using Corporate.Data;
+using TeamLunch.Data;
 using MediatR;
 
-namespace Corporate.Queries
+namespace TeamLunch.Queries
 {
     public static class GetFineById {
         public record Query(int Id) : IRequest<Response>;

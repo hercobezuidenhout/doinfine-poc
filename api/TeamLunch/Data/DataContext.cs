@@ -1,7 +1,7 @@
-using Corporate.Data.Entities;
+using TeamLunch.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Corporate.Data
+namespace TeamLunch.Data
 {
     public class DataContext : DbContext {
         public DbSet<Fine> Fines { get; set; }

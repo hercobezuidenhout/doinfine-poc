@@ -1,4 +1,4 @@
-namespace Corporate.Services {
+namespace TeamLunch.Services {
 
     public class InitialService {
 

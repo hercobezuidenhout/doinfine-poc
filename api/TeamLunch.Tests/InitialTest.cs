@@ -1,7 +1,7 @@
-using Corporate.Services;
+using TeamLunch.Services;
 using NUnit.Framework;
 
-namespace Corporate.Tests;
+namespace TeamLunch.Tests;
 
 [TestFixture]
 public class InitialTest

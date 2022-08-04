@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Corporate.Data.Entities
+namespace TeamLunch.Data.Entities
 {
     public class Fine {
         [Key]

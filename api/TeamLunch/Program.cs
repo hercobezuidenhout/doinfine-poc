@@ -1,5 +1,5 @@
 using System.Reflection;
-using Corporate.Data;
+using TeamLunch.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

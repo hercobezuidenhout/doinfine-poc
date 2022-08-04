@@ -1,4 +1,4 @@
-namespace Corporate;
+namespace TeamLunch;
 
 public class WeatherForecast
 {

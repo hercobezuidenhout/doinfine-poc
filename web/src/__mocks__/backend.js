@@ -10,3 +10,21 @@ export const teams = [
     { id: 1, name: 'Core', members: users.filter(user => user.teams.includes(1)) },
     { id: 2, name: 'Watercooler', members: users.filter(user => user.teams.includes(2)) },
 ]
+
+export const fines = [
+    { id: 1, user: 1, reason: 'For showing up late.' },
+    { id: 2, user: 1, reason: 'For wearing a Blue Bulls shirt.' },
+    { id: 3, user: 1, reason: 'For not using the correct teams background.' },
+    { id: 4, user: 1, reason: 'For making a bad dad joke.' },
+    { id: 5, user: 1, reason: 'For having a fine rejected.' },
+    { id: 6, user: 2, reason: 'For not attending coffee break.' },
+    { id: 7, user: 2, reason: 'For talking work during social.' },
+    { id: 8, user: 2, reason: 'For showing up late.' },
+    { id: 9, user: 2, reason: 'For pushing buggy code to develop.' },
+    { id: 10, user: 2, reason: 'For leaving pull request unattended.' },
+    { id: 11, user: 2, reason: 'For showing up late.' },
+    { id: 12, user: 2, reason: 'For having a fine rejected.' },
+    { id: 13, user: 3, reason: 'For showing up late.' },
+    { id: 14, user: 3, reason: 'For not managing expections.' },
+    { id: 15, user: 3, reason: 'For not bringing me coke when we were at the office.' },
+]

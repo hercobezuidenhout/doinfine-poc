@@ -19,6 +19,9 @@ export const TeamFilterBar = () => {
     useEffect(() => {
         if (!team) return
         setActive(team.members[0])
+        setSearchParams({
+            member: team.members[0].id
+        })
     }, [team]) 
 
     useEffect(() => {

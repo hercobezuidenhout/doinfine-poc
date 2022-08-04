@@ -46,6 +46,7 @@
     "babel-plugin-transform-class-properties": "6.24.1",
     "css-loader": "^6.5.1",
     "faker": "^6.6.6",
+    "html-webpack-plugin": "^5.5.0",
     "jest": "^28.1.2",
     "jest-environment-jsdom": "^28.1.2",
     "react-test-renderer": "^18.2.0",

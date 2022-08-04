@@ -2,11 +2,13 @@ import { CompanyFilterBar } from "@components/molecules";
 import { TeamFilterBar } from "@components/organisms";
 import { Add } from "@mui/icons-material";
 import { AppBar, Toolbar } from "@mui/material";
+import { useTeamContext } from "@providers/TeamProvider";
 import React, { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 
 export const BottomNavigationBar = () => {
-    const location = useLocation();
+    const location = useLocation()
+    const team = useTeamContext()
 
     const [pathname, setPathname] = useState(location.pathname)
 
@@ -23,7 +25,7 @@ export const BottomNavigationBar = () => {
         <AppBar position="fixed" sx={{ top: 'auto', bottom: '0px' }}>
             {renderToolbar()}
             <Toolbar data-testid="primary-bar" sx={{ justifyContent: 'space-between' }}>
-                <Link to='/team'>TEAM</Link>
+                {team && <Link to={`/team/${team.id}`}>TEAM</Link>}
                 <Link to='/add'>
                     <Add sx={{
                         position: 'absolute',

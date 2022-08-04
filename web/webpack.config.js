@@ -1,3 +1,4 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 const pathToPublic = path.join(__dirname, 'public')
 
@@ -6,7 +7,8 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: pathToPublic, // absolute path on machine to where to output the bundle
-        filename: 'bundle.js' // can rename this to anything
+        filename: 'bundle.js', // can rename this to anything,
+        publicPath: '/'
     },
     resolve: {
         alias: {
@@ -30,6 +32,12 @@ module.exports = {
             }
         ]
     },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './public/index.html',
+            favicon: './src/assets/logo.png'
+        })
+    ],
     devtool: 'eval-cheap-module-source-map',
     devServer: {
         static: {

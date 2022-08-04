@@ -1,9 +1,9 @@
 import { DarkMode, LightMode, Menu } from "@mui/icons-material";
-import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
-import React, { useContext, useState } from "react";
+import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import React, { useContext } from "react";
 import { CorporateContext } from "../../../theme";
 
-export const MenuBar = ({ title = 'Corporate' }) => {
+export const MenuBar = ({ title = 'TeamLunch' }) => {
     const { mode, setMode } = useContext(CorporateContext)
     // const [mode, setMode] = useState(corporateContext.mode)
 

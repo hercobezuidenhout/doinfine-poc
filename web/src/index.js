@@ -1,4 +1,5 @@
 import { Box, CssBaseline, ThemeProvider } from '@mui/material'
+import { AuthProvider } from '@providers/AuthProvider'
 import { RouterProvider } from '@providers/RouterProvider'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
@@ -19,8 +20,10 @@ const Corporate = () => {
     return (
         <CorporateContext.Provider value={{ mode, setMode }}>
             <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <RouterProvider />
+                <AuthProvider>
+                    <CssBaseline />
+                    <RouterProvider />
+                </AuthProvider>
             </ThemeProvider>
         </CorporateContext.Provider>
     )

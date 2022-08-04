@@ -9,7 +9,7 @@ export const RouterProvider = () => {
             <Routes>
                 <Route path="/" element={<App />}>
                     <Route path="team/:id" element={<TeamPage />} />
-                    <Route path="company" element={<div>Company Page</div>} />
+                    <Route path="leaderboard" element={<div>Leaderboard Page</div>} />
                 </Route>
             </Routes>
         </BrowserRouter>

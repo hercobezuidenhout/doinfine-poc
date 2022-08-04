@@ -1,30 +1,41 @@
 import React from 'react'
-import { renderWithRouter, screen } from '@tests/base'
+import { renderWithProviders, screen } from '@tests/base'
 import userEvent from '@testing-library/user-event';
 import { BottomNavigationBar } from '@components/templates'
-import { act } from 'react-test-renderer';
+import { act } from 'react-dom/test-utils';
+
 
 describe('BottomNavigationBar', () => {
-    it('has three elements in total in primary bar', () => {
-        renderWithRouter(<BottomNavigationBar />)
-        
-        const totalChildren = screen.getByTestId('primary-bar').children.length
+    it('has three elements in total in primary bar', async () => {
+        let totalChildren = 0
+
+        await act(() => {
+            renderWithProviders()   
+        })
+
+        const primaryBar = await screen.findByTestId('primary-bar')
+        totalChildren  = primaryBar.children.length
+
         expect(totalChildren).toBe(3)
     })
 
-    it('renders TeamFilterBar by default', () => {
-        renderWithRouter(<BottomNavigationBar />)
-        expect(screen.getByTestId('team-filter-bar')).toBeInTheDocument()
+    it('renders TeamFilterBar by default', async () => {
+        let teamFilterBar;
+
+        renderWithProviders()
+
+        await act(() => {
+            teamFilterBar = screen.findByTestId('team-filter-bar')
+        })
+        
+        expect(teamFilterBar).resolves.toBeInTheDocument()
     })
 
-    it('renders TeamFilterBar if url is /team or /', () => {
-        renderWithRouter(<BottomNavigationBar />)
-        expect(screen.getByTestId('team-filter-bar')).toBeInTheDocument()
-    })
+    it('renders CompanyFilterBar if url is /leaderboard', async () => {
+        renderWithProviders()
 
-    it('renders CompanyFilterBar if url is /company', async () => {
-        renderWithRouter(<BottomNavigationBar />)
         userEvent.click(screen.getByTestId('link-company'))
+        
         expect(screen.findByTestId('company-filter-bar')).resolves.toBeInTheDocument()
     })
 })

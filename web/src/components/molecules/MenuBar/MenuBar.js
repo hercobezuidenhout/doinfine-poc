@@ -5,10 +5,8 @@ import { CorporateContext } from "../../../theme";
 
 export const MenuBar = ({ title = 'TeamLunch' }) => {
     const { mode, setMode } = useContext(CorporateContext)
-    // const [mode, setMode] = useState(corporateContext.mode)
 
     const handleSwitcherClick = (newMode) => {
-        console.log('click', mode, newMode)
         setMode(newMode)
     }
 

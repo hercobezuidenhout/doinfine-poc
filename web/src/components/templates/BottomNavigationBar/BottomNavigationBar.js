@@ -18,7 +18,7 @@ export const BottomNavigationBar = () => {
 
     const renderToolbar = () => {
         if (pathname.includes('/team')) return <TeamFilterBar />
-        if (pathname === '/company') return <CompanyFilterBar />
+        if (pathname === '/leaderboard') return <CompanyFilterBar />
     }
 
     return (
@@ -36,7 +36,7 @@ export const BottomNavigationBar = () => {
                         margin: '0 auto'
                     }} />
                 </Link>
-                <Link data-testid="link-company" to='/company'>COMPANY</Link>
+                <Link data-testid="link-company" to='/leaderboard'>COMPANY</Link>
             </Toolbar>
         </AppBar>
     )

@@ -1,11 +1,11 @@
 import React from 'react'
-import { renderWithRouter, screen } from '@tests/base'
+import { renderWithProviders, renderWithRouter, screen } from '@tests/base'
 import { TeamFilterBar } from '@components/organisms'
 
 describe('TeamFilterBar', () => {
-    it('renders with no children', () => {
-        renderWithRouter(<TeamFilterBar />)
-        const totalChildren = screen.getByTestId('team-filter-bar').children.length
-        expect(totalChildren).toBe(3)
+    it('renders with no children', async () => {
+        renderWithProviders(<TeamFilterBar />)
+        const teamFilterBar = await screen.findByTestId('team-filter-bar')
+        expect(teamFilterBar.children.length).toBe(3)
     })
 })

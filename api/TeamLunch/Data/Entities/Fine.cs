@@ -8,5 +8,6 @@ namespace TeamLunch.Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Reason { get; set; }
+        public int UserId { get; set; }
     }
 }

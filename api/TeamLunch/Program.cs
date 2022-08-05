@@ -16,6 +16,13 @@ builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 builder.Services.AddDbContext<DataContext>(options => options.UseInMemoryDatabase("Corporate"));
 
+var AllowLocalhost = "_allowLocalhost";
+builder.Services.AddCors(options => {
+    options.AddPolicy(name: AllowLocalhost, policy => {
+        policy.WithOrigins("http://localhost:3000");
+    });
+});
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -28,6 +35,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+
+app.UseCors(AllowLocalhost);
 
 app.UseAuthorization();
 

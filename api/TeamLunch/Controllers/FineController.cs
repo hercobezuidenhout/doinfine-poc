@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace TeamLunch.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("/fines")]
 public class FineController : ControllerBase
 {
 
@@ -19,7 +19,7 @@ public class FineController : ControllerBase
         this.mediator = mediator;
     }
 
-    [HttpGet(Name = "fine")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int Id)
     {
         var response = await mediator.Send(new GetFineById.Query(Id));

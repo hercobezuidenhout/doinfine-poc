@@ -8,30 +8,25 @@ using NUnit.Framework;
 using TeamLunch.Data;
 using TeamLunch.Data.Entities;
 using TeamLunch.Queries;
+using TeamLunch.Tests.Fakes;
 
 namespace TeamLunch.Tests.Queries
 {
     [TestFixture]
     public class GetFineByIdTests
     {
+        Mock<DataContext> stubContext;
+
+        [SetUp]
+        public void SetUp()
+        {
+            stubContext = new FakeDataContext().Create();
+        }
 
         [Test]
         public async Task Handle_GivenValidRequest_ReturnsValidResponse()
         {
             // Arrange
-            var data = new List<Fine> {
-                new Fine { Id = 1, UserId = 1, Reason = "For showing up late to a meeting" }
-            }.AsQueryable();
-
-            var stubSet = new Mock<DbSet<Fine>>();
-            stubSet.As<IQueryable<Fine>>().Setup(m => m.Provider).Returns(data.Provider);
-            stubSet.As<IQueryable<Fine>>().Setup(m => m.Expression).Returns(data.Expression);
-            stubSet.As<IQueryable<Fine>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            stubSet.As<IQueryable<Fine>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-
-            var stubContext = new Mock<DataContext>();
-            stubContext.Setup(c => c.Fines).Returns(stubSet.Object);
-
             var tcs = new CancellationTokenSource(1000);
 
             // Act

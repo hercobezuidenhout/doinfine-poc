@@ -19,8 +19,8 @@ public class FineController : ControllerBase
         this.mediator = mediator;
     }
 
-    [HttpGet(Name = "GetFine")]
-    public async Task<IActionResult> Get(int Id)
+    [HttpGet(Name = "fine")]
+    public async Task<IActionResult> GetById(int Id)
     {
         var response = await mediator.Send(new GetFineById.Query(Id));
         return response == null ? NotFound() : Ok(response);

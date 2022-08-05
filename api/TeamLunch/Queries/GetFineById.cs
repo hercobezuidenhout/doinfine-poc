@@ -1,5 +1,6 @@
 using TeamLunch.Data;
 using MediatR;
+using TeamLunch.Data.Entities;
 
 namespace TeamLunch.Queries
 {
@@ -14,13 +15,13 @@ namespace TeamLunch.Queries
                 this.db = db;
             }
 
-            public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Response?> Handle(Query request, CancellationToken cancellationToken)
             {
-                var fine = db.Fines.FirstOrDefault(x => x.Id == request.Id);
-                return fine == null ? null : new Response(fine.Id, fine.Reason);
+                var fines = db.Fines.Where(x => x.UserId == request.Id).ToList();
+                return new Response(fines);
             }
         }
 
-        public record Response(int Id, string Reason);
+        public record Response(List<Fine> fines);
     }
 }

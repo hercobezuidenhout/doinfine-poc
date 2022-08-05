@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore;
 namespace TeamLunch.Data
 {
     public class DataContext : DbContext {
-        public DbSet<Fine> Fines { get; set; }
+        public virtual DbSet<Fine> Fines { get; set; }
+
+        public DataContext () { }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 

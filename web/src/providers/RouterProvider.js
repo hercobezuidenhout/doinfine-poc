@@ -1,28 +1,16 @@
+import { TeamPage } from '@pages';
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Account, Fine, Payment } from '@pages';
-import { App } from '@containers/App';
-import { Settings } from '@containers/Settings';
-import { Auth } from '@containers/Auth';
-import { Team } from '@pages/Team';
-import { Company } from '@pages/Company';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { App } from '../App';
 
 export const RouterProvider = () => {
-
-    const handleSetToolbar = (toolbar) => { }
-
-    const handleSetTitle = (title) => { }
-
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/*" element={<App />} />
-                <Route path="/settings" element={<Settings />}>
-                    <Route path="account" element={<Account />} />
+                <Route path="/" element={<App />}>
+                    <Route path="team/:id" element={<TeamPage />} />
+                    <Route path="leaderboard" element={<div>Leaderboard Page</div>} />
                 </Route>
-                <Route path="/auth" element={<Auth />} />
-                <Route path="/fine" element={<Fine />} />
-                <Route path="/payment" element={<Payment />} />
             </Routes>
         </BrowserRouter>
     )

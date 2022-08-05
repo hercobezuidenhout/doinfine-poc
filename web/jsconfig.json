@@ -6,7 +6,7 @@
         "@pages/*": ["./src/pages/*"],
         "@components/*": ["./src/components/*"],
         "@providers/*": ["./src/providers/*"],
-        "@tests/*": ["./src/__tests__/*"],
+        "@tests/*": ["./test/*"],
         "@services/*": ["./src/services/*"],
         "@containers/*": ["./src/containers/*"]
       }

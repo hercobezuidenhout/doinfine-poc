@@ -24,7 +24,7 @@ namespace TeamLunch.Tests.Queries
         }
 
         [Test]
-        public async Task Handle_GivenValidRequest_ReturnsValidResponse()
+        public async Task GetFineById_GivenValidRequest_ReturnsValidResponse()
         {
             // Arrange
             var tcs = new CancellationTokenSource(1000);
@@ -35,6 +35,19 @@ namespace TeamLunch.Tests.Queries
 
             // Assert
             Assert.True(response.fines.Count > 0);
+        }
+
+        [Test]
+        public async Task GetFineById_GivenInvalidRequest_ReturnsInvalidResponse() {
+            // Arrange
+            var tcs = new CancellationTokenSource(1000);
+
+            // Act
+            var mockQuery = new GetFineById.Handler(stubContext.Object);
+            var response = await mockQuery.Handle(new GetFineById.Query(0), tcs.Token);
+
+            // Assert
+            Assert.True(response.fines.Count == 0);
         }
     }
 }

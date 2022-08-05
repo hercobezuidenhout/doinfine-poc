@@ -7,6 +7,6 @@ describe('useFineService', () => {
 
         const fines = await result.current.fetchById(1)
 
-        expect(fines.length).toBe(5)
+        expect(fines.length).toBe(1)
     })
 })

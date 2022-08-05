@@ -1,3 +1,5 @@
+const { fines } = require("../../src/__mocks__/backend")
+
 module.exports = {
     get: jest.fn(url => {
         if (url == '/team/1') return Promise.resolve({
@@ -9,6 +11,12 @@ module.exports = {
                     { id: 2, username: 'steve', firstName: 'Steve', lastName: 'Wack', email: 'steve@example.com' },
                     { id: 3, username: 'andrew', firstName: 'Andrew', lastName: 'Pickle', email: 'andrew@example.com' }
                 ]
+            }
+        })
+
+        if (url == '/fines/1') return Promise.resolve({
+            data: {
+                fines: fines.filter(fine => fine.id == 1)
             }
         })
     })

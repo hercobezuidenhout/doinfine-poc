@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const Dotenv = require('dotenv-webpack')
 const path = require('path')
 const pathToPublic = path.join(__dirname, 'public')
 
@@ -36,7 +37,8 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './public/index.html',
             favicon: './src/assets/logo.png'
-        })
+        }),
+        new Dotenv()
     ],
     devtool: 'eval-cheap-module-source-map',
     devServer: {

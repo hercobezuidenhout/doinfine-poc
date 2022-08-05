@@ -7,7 +7,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import { CorporateContext, corporateTheme } from './theme'
 
-axios.defaults.baseURL = 'https://localhost:5001'
+axios.defaults.baseURL = process.env.DEVELOPMENT ? 'https://localhost:5001' : 'https://dev-api-team-lunch.azurewebsites.net'
 
 const Corporate = () => {
     const [mode, setMode] = useState('dark')

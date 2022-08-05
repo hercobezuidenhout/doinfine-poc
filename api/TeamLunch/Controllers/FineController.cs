@@ -19,7 +19,7 @@ public class FineController : ControllerBase
         this.mediator = mediator;
     }
 
-    [HttpGet("{id}")]
+    [HttpGet]
     public async Task<IActionResult> GetById(int Id)
     {
         var response = await mediator.Send(new GetFineById.Query(Id));

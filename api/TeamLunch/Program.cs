@@ -16,10 +16,10 @@ builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
 builder.Services.AddDbContext<DataContext>(options => options.UseInMemoryDatabase("Corporate"));
 
-var AllowLocalhost = "_allowLocalhost";
+var AllowedOrigins = "_allowedOrigins";
 builder.Services.AddCors(options => {
-    options.AddPolicy(name: AllowLocalhost, policy => {
-        policy.WithOrigins("http://localhost:3000");
+    options.AddPolicy(name: AllowedOrigins, policy => {
+        policy.WithOrigins("http://localhost:3000", "https://thankful-sand-0a1eb4203.1.azurestaticapps.net");
     });
 });
 
@@ -36,7 +36,7 @@ app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
-app.UseCors(AllowLocalhost);
+app.UseCors(AllowedOrigins);
 
 app.UseAuthorization();
 

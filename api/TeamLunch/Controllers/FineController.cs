@@ -21,10 +21,10 @@ public class FineController : ControllerBase
         this.mediator = mediator;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetById(int Id)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
     {
-        var response = await mediator.Send(new GetFineById.Query(Id));
+        var response = await mediator.Send(new GetFineById.Query(id));
         return response == null ? NotFound() : Ok(response);
     }
 

@@ -7,9 +7,6 @@ import { TeamProvider } from '@providers/TeamProvider';
 import { useAuthContext } from '@providers/AuthProvider';
 import { useTeamService } from './services';
 
-// retrigger pipeline
-
-
 export const App = () => {
     const [title, setTitle] = useState()
     const [team, setTeam] = useState()

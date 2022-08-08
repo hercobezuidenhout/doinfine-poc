@@ -2,9 +2,11 @@ using TeamLunch.Commands;
 using TeamLunch.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TeamLunch.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("/fines")]
 public class FineController : ControllerBase
@@ -20,9 +22,9 @@ public class FineController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int Id)
+    public async Task<IActionResult> GetById(int id)
     {
-        var response = await mediator.Send(new GetFineById.Query(Id));
+        var response = await mediator.Send(new GetFineById.Query(id));
         return response == null ? NotFound() : Ok(response);
     }
 

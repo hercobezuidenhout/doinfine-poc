@@ -4,6 +4,7 @@ namespace TeamLunch
 {
     public class Program {
         public static void Main(string[] args) {
+            IdentityModelEventSource.ShowPII = true;
             CreateHostBuilder(args).Build().Run();
         }
 

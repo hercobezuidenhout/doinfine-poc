@@ -23,8 +23,6 @@ namespace TeamLunch
 
         public void ConfigureServices(IServiceCollection services)
         {
-            IdentityModelEventSource.ShowPII = true;
-            
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApi(options =>
                 {
@@ -39,9 +37,11 @@ namespace TeamLunch
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
+
             services.AddSwaggerGen(config =>
             {
                 config.SwaggerDoc("v1", new OpenApiInfo { Title = "TeamLunch API", Version = "v1" });
+   
                 config.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
                     Description = "OAuth2.0 Auth Code with PKCE",

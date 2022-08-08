@@ -8,7 +8,6 @@ import './index.css'
 import { CorporateContext, corporateTheme } from './theme'
 
 axios.defaults.baseURL = process.env.DEVELOPMENT ? 'https://localhost:5001' : 'https://dev-api-team-lunch.azurewebsites.net'
-
 const Corporate = () => {
     const [mode, setMode] = useState('dark')
     const [theme, setTheme] = useState(corporateTheme(mode))

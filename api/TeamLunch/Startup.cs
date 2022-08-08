@@ -81,7 +81,9 @@ namespace TeamLunch
             {
                 options.AddPolicy(name: AllowLocalhost, policy =>
                 {
-                    policy.WithOrigins("http://localhost:3000");
+                    policy
+                        .WithOrigins("http://localhost:3000")
+                        .AllowAnyHeader();
                 });
             });
         }

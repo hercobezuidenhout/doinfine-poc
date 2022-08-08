@@ -2,9 +2,11 @@ using TeamLunch.Commands;
 using TeamLunch.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TeamLunch.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("/fines")]
 public class FineController : ControllerBase

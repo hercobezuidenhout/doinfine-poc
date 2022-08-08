@@ -1,3 +1,5 @@
+using Microsoft.IdentityModel.Logging;
+
 namespace TeamLunch
 {
     public class Program {

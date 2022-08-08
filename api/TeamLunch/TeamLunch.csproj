@@ -9,5 +9,6 @@
     <PackageReference Include="MediatR" Version="10.0.1"/>
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.6"/>
+    <PackageReference Include="Microsoft.Identity.Web" Version="1.25.1"/>
   </ItemGroup>
 </Project>

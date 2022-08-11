@@ -116,6 +116,8 @@ dist
 
 # ide files
 .idea
+.vscode
+.vs
 
 .vs
 bin

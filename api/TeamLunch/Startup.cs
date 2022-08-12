@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using TeamLunch.Data;
 using Microsoft.OpenApi.Models;
-using Microsoft.IdentityModel.Logging;
 
 namespace TeamLunch
 {

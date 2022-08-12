@@ -82,7 +82,7 @@ namespace TeamLunch
                 options.AddPolicy(name: AllowLocalhost, policy =>
                 {
                     policy
-                        .WithOrigins("http://localhost:3000")
+                        .WithOrigins("http://localhost:3000", "https://thankful-sand-0a1eb4203.1.azurestaticapps.net")
                         .AllowAnyHeader();
                 });
             });

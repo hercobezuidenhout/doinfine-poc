@@ -2,6 +2,8 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import { users } from '../__mocks__/backend'
 import { PublicClientApplication } from '@azure/msal-browser'
 
+const redirectUri = process.env.DEVELOPMENT ? 'http://localhost:3000' : 'https://thankful-sand-0a1eb4203.1.azurestaticapps.net'
+
 const b2cPolicies = {
     names: {
         signUpSignIn: "B2C_1_SignUp_SignIn",
@@ -23,7 +25,7 @@ const msalConfig = {
         clientId: "9dd2dacf-b536-460e-b7fd-307c7dc1f981",
         authority: b2cPolicies.authorities.signUpSignIn.authority,
         knownAuthorities: [b2cPolicies.authorityDomain],
-        redirectUri: "http://localhost:3000",
+        redirectUri: redirectUri,
     },
     cache: {
         cacheLocation: "sessionStorage",

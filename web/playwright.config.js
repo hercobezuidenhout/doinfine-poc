@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const config = {
     testDir: 'e2e'
 }

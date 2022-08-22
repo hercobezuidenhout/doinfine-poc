@@ -19,7 +19,7 @@ namespace TeamLunch.Queries
 
             public async Task<Response?> Handle(Query request, CancellationToken cancellationToken)
             {
-                var fines = db.Fines.Where(x => x.UserId == request.Id && x.Active == true).ToList();
+                var fines = db.Fines.Where(x => x.UserId == request.Id && x.Paid == false).ToList();
                 return new Response(fines);
             }
         }

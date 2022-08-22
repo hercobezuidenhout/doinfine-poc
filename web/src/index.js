@@ -16,6 +16,11 @@ const Corporate = () => {
         setTheme(corporateTheme(mode))
     }, [mode])
 
+    useEffect(() => {
+        const localStorageMode = localStorage.getItem('mode')
+        if (localStorageMode) setMode(localStorageMode)
+    }, [])
+
     return (
         <CorporateContext.Provider value={{ mode, setMode }}>
             <ThemeProvider theme={theme}>

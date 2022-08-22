@@ -30,7 +30,6 @@ public class FineController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddFine(AddFine.Command command) => Ok(await mediator.Send(command));
 
-    [HttpPut]
-    public async Task<IActionResult> MarkFineAsCompleted(MarkAsCompleted.Command command) =>
-        Ok(await mediator.Send(command));
+    [HttpPut("{id}")]
+    public async Task<IActionResult> MarkFineAsPaid(MarkFineAsPaid.Command command) => Ok(await mediator.Send(command));
 }

@@ -31,5 +31,6 @@ public class FineController : ControllerBase
     public async Task<IActionResult> AddFine(AddFine.Command command) => Ok(await mediator.Send(command));
 
     [HttpPut]
-    public async Task<IActionResult> MarkFineAsCompleted(MarkAsCompleted.Command command) => Ok(await mediator.Send(command));
+    public async Task<IActionResult> MarkFineAsCompleted(MarkAsCompleted.Command command) =>
+        Ok(await mediator.Send(command));
 }

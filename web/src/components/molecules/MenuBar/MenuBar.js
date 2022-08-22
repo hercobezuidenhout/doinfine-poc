@@ -8,6 +8,7 @@ export const MenuBar = ({ title = 'TeamLunch' }) => {
 
     const handleSwitcherClick = (newMode) => {
         setMode(newMode)
+        localStorage.setItem('mode', newMode)
     }
 
     return (

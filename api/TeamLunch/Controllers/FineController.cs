@@ -11,7 +11,6 @@ namespace TeamLunch.Controllers;
 [Route("/fines")]
 public class FineController : ControllerBase
 {
-
     private readonly ILogger<FineController> logger;
     private readonly IMediator mediator;
 
@@ -30,4 +29,8 @@ public class FineController : ControllerBase
 
     [HttpPost]
     public async Task<IActionResult> AddFine(AddFine.Command command) => Ok(await mediator.Send(command));
+
+    [HttpPut]
+    public async Task<IActionResult> MarkFineAsCompleted(MarkAsCompleted.Command command) =>
+        Ok(await mediator.Send(command));
 }

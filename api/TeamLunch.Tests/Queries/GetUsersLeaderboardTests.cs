@@ -1,0 +1,1 @@
+namespace TeamLunch.Tests.Queries;

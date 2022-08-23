@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TeamLunch.Data;
 using TeamLunch.Models;
 
@@ -18,10 +19,17 @@ public static class GetUsersLeaderboard
 
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
-            var users = db.Users.ToList();
-            var items = new List<LeaderboardItem> {
-                new LeaderboardItem { Title = "Something", Fines = 20 }
-            };
+            var items = db.Users
+                .Include(user => user.Fines)
+                .Select(user => new LeaderboardItem
+                {
+                    Title = $"{user.FirstName} {user.LastName}",
+                    Fines = user.Fines.Count
+                })
+                .OrderByDescending(item => item.Fines)
+                .Take(10)
+                .ToList();
+
             return new Response(items);
         }
     }

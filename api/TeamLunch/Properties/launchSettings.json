@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "Corporate": {
+    "TeamLunch": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

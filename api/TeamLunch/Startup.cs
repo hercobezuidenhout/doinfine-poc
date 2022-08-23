@@ -40,9 +40,9 @@ namespace TeamLunch
             services.AddSwaggerGen(config =>
             {
                 config.CustomSchemaIds(type => type.ToString());
-                
+
                 config.SwaggerDoc("v1", new OpenApiInfo { Title = "TeamLunch API", Version = "v1" });
-   
+
                 config.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
                 {
                     Description = "OAuth2.0 Auth Code with PKCE",
@@ -76,7 +76,7 @@ namespace TeamLunch
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
-            services.AddDbContext<DataContext>(options => options.UseInMemoryDatabase("Corporate"));
+            services.AddDbContext<DataContext>(options => options.UseInMemoryDatabase("TeamLunch"));
 
             services.AddCors(options =>
             {
@@ -95,7 +95,8 @@ namespace TeamLunch
 
             app.UseSwagger();
 
-            app.UseSwaggerUI(config => {
+            app.UseSwaggerUI(config =>
+            {
                 config.OAuthClientId(Configuration["Swagger:ClientId"]);
                 config.OAuthUsePkce();
                 config.OAuthScopeSeparator(" ");

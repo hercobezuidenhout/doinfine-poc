@@ -11,6 +11,6 @@ namespace TeamLunch.Data.Entities
 
         public string Reason { get; set; }
         public int UserId { get; set; }
-        public bool Active { get; set; }
+        public bool Paid { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using TeamLunch.Data;
 
 namespace TeamLunch.Commands;
 
-public static class MarkAsCompleted
+public static class MarkFineAsPaid
 {
     public record Command(int id) : IRequest<int>;
 
@@ -18,14 +18,14 @@ public static class MarkAsCompleted
 
         public async Task<int> Handle(Command request, CancellationToken cancellationToken)
         {
-            var fine = db.Fines.FirstOrDefault(x => x.UserId == request.id && x.Active == true);
+            var fine = db.Fines.Where(x => x.Id == request.id).First();
 
             if (fine == null)
             {
                 throw new Exception($"Requested fine with ID:{request.id} was not found");
             }
 
-            fine.Active = false;
+            fine.Paid = true;
             db.Fines.Update(fine);
             db.SaveChanges();
             return fine.Id;

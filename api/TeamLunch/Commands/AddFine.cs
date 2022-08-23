@@ -19,7 +19,7 @@ namespace TeamLunch.Commands
 
             public async Task<int> Handle(Command request, CancellationToken cancellationToken)
             {
-                var fine = new Fine { Reason = request.Reason, Active = true };
+                var fine = new Fine { Reason = request.Reason, Paid = false };
                 db.Fines.Add(fine);
                 db.SaveChanges();
                 return fine.Id;

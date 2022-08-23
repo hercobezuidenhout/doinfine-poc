@@ -29,8 +29,9 @@ public class GetUsersLeaderboardTests
         // Act
         var mockQuery = new GetUsersLeaderboard.Handler(stubContext.Object);
         var response = await mockQuery.Handle(new GetUsersLeaderboard.Query(), tcs.Token);
-        
+        var hasCorrectAmountOfItems = (response.items.Count <= 10) && (response.items.Count > 0);
+
         // Assert
-        Assert.True(response.items.Count == 10);
+        Assert.True(hasCorrectAmountOfItems);
     }
 }

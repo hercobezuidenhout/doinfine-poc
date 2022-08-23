@@ -21,10 +21,24 @@ public class FakeDataContext
         return stubSet;
     }
 
+    public Mock<DbSet<User>> FakeDbSetUsers()
+    {
+        var stubSet = new Mock<DbSet<User>>();
+        var data = FakeData.Users.AsQueryable();
+
+        stubSet.As<IQueryable<User>>().Setup(m => m.Provider).Returns(data.Provider);
+        stubSet.As<IQueryable<User>>().Setup(m => m.Expression).Returns(data.Expression);
+        stubSet.As<IQueryable<User>>().Setup(m => m.ElementType).Returns(data.ElementType);
+        stubSet.As<IQueryable<User>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+        return stubSet;
+    }
+
     public Mock<DataContext> Create()
     {
         var stubContext = new Mock<DataContext>();
         stubContext.Setup(c => c.Fines).Returns(FakeDbSetFines().Object);
+        stubContext.Setup(c => c.Users).Returns(FakeDbSetUsers().Object);
         return stubContext;
     }
 }

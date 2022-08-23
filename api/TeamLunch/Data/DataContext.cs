@@ -3,18 +3,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TeamLunch.Data
 {
-    public class DataContext : DbContext {
+    public class DataContext : DbContext
+    {
         public virtual DbSet<Fine> Fines { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
-        public DataContext () { }
+        public DataContext() { }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
-        protected override void OnModelCreating(ModelBuilder builder) {
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
             builder.Entity<User>().HasData(
-                new User { Id = 1, Username = "billy", FirstName = "Billy", LastName = "Anderson", Email = "billy@example.com" },
-                new User { Id = 2, Username = "steve", FirstName = "Steve", LastName = "Walkman", Email = "steve@example.com" },
-                new User { Id = 3, Username = "andrew", FirstName = "Andrew", LastName = "Pint", Email = "andrew@example.com" }
+                new User { Id = 1, Username = "billy", FirstName = "Billy", LastName = "Anderson" },
+                new User { Id = 2, Username = "steve", FirstName = "Steve", LastName = "Walkman" },
+                new User { Id = 3, Username = "andrew", FirstName = "Andrew", LastName = "Pint" }
             );
 
             builder.Entity<Fine>().HasData(

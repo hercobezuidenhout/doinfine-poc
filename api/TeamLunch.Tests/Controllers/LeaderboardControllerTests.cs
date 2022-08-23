@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -6,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
 using TeamLunch.Controllers;
+using TeamLunch.Models;
+using TeamLunch.Queries;
 
 namespace TeamLunch.Tests.Controllers;
 

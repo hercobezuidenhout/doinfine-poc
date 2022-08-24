@@ -1,6 +1,5 @@
 import { useAuthContext } from "@providers/AuthProvider"
 import axios from "axios"
-import { fines } from "../__mocks__/backend"
 
 export const useFineService = () => {
     const authContext = useAuthContext()

@@ -36,7 +36,7 @@ export const BottomNavigationBar = () => {
                         margin: '0 auto'
                     }} />
                 </Link>
-                <Link data-testid="link-company" to='/leaderboard'>COMPANY</Link>
+                <Link data-testid="link-company" to='/leaderboard'>LEADERBOARD</Link>
             </Toolbar>
         </AppBar>
     )

@@ -11,7 +11,7 @@ describe('CompanyFilterBar', () => {
 
     it('renders a component titled Fines', () => {
         render(<CompanyFilterBar />)
-        expect(screen.getByText('Fines')).toBeInTheDocument()
+        expect(screen.getByText('Users')).toBeInTheDocument()
     })
 
     it('renders a component titled Teams', () => {

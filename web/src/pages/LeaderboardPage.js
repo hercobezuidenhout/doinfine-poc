@@ -12,8 +12,12 @@ export const LeaderboardPage = () => {
     const [items, setItems] = useState()
 
     const fetchUsersLeaderboard = async () => {
-        console.log(activeTab)
         const leaderboardItems = await leaderboardService.fetchUsersLeaderboard()
+        if (leaderboardItems) setItems(leaderboardItems)
+    }
+
+    const fetchTeamsLeaderboard = async () => {
+        const leaderboardItems = await leaderboardService.fetchTeamsLeaderboard()
         if (leaderboardItems) setItems(leaderboardItems)
     }
 
@@ -31,7 +35,7 @@ export const LeaderboardPage = () => {
 
     useEffect(() => {
         if (activeTab === 'Users') fetchUsersLeaderboard()
-        if (activeTab === 'Teams') setItems([])
+        if (activeTab === 'Teams') fetchTeamsLeaderboard()
     }, [activeTab])
 
     return (

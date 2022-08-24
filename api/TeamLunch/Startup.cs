@@ -40,7 +40,7 @@ namespace TeamLunch
             services.AddSwaggerGen(config =>
             {
                 config.CustomSchemaIds(type => type.ToString());
-
+                
                 config.SwaggerDoc("v1", new OpenApiInfo { Title = "TeamLunch API", Version = "v1" });
 
                 config.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme

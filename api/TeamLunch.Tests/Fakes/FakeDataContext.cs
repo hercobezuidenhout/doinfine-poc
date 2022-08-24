@@ -4,25 +4,41 @@ using Moq;
 using TeamLunch.Data;
 using TeamLunch.Data.Entities;
 
-namespace TeamLunch.Tests.Fakes
+namespace TeamLunch.Tests.Fakes;
+
+public class FakeDataContext
 {
-    public class FakeDataContext {
-        public Mock<DbSet<Fine>> FakeDbSetFines() {
-            var stubSet = new Mock<DbSet<Fine>>();
-            var data = FakeData.Fines.AsQueryable();
+    public Mock<DbSet<Fine>> FakeDbSetFines()
+    {
+        var stubSet = new Mock<DbSet<Fine>>();
+        var data = FakeData.Fines.AsQueryable();
 
-            stubSet.As<IQueryable<Fine>>().Setup(m => m.Provider).Returns(data.Provider);
-            stubSet.As<IQueryable<Fine>>().Setup(m => m.Expression).Returns(data.Expression);
-            stubSet.As<IQueryable<Fine>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            stubSet.As<IQueryable<Fine>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-            
-            return stubSet;
-        }
+        stubSet.As<IQueryable<Fine>>().Setup(m => m.Provider).Returns(data.Provider);
+        stubSet.As<IQueryable<Fine>>().Setup(m => m.Expression).Returns(data.Expression);
+        stubSet.As<IQueryable<Fine>>().Setup(m => m.ElementType).Returns(data.ElementType);
+        stubSet.As<IQueryable<Fine>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
 
-        public Mock<DataContext> Create() {
-            var stubContext = new Mock<DataContext>();
-            stubContext.Setup(c => c.Fines).Returns(FakeDbSetFines().Object);
-            return stubContext;
-        }
+        return stubSet;
+    }
+
+    public Mock<DbSet<User>> FakeDbSetUsers()
+    {
+        var stubSet = new Mock<DbSet<User>>();
+        var data = FakeData.Users.AsQueryable();
+
+        stubSet.As<IQueryable<User>>().Setup(m => m.Provider).Returns(data.Provider);
+        stubSet.As<IQueryable<User>>().Setup(m => m.Expression).Returns(data.Expression);
+        stubSet.As<IQueryable<User>>().Setup(m => m.ElementType).Returns(data.ElementType);
+        stubSet.As<IQueryable<User>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+        return stubSet;
+    }
+
+    public Mock<DataContext> Create()
+    {
+        var stubContext = new Mock<DataContext>();
+        stubContext.Setup(c => c.Fines).Returns(FakeDbSetFines().Object);
+        stubContext.Setup(c => c.Users).Returns(FakeDbSetUsers().Object);
+        return stubContext;
     }
 }

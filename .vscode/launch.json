@@ -8,28 +8,19 @@
             "name": ".NET Core Launch (web)",
             "type": "coreclr",
             "request": "launch",
+            "console": "integratedTerminal",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/api/Corporate/bin/Debug/net6.0/Corporate.dll",
+            "program": "${workspaceFolder}/api/TeamLunch/bin/Debug/net6.0/TeamLunch.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/api/Corporate",
+            "cwd": "${workspaceFolder}/api/TeamLunch",
             "stopAtEntry": false,
-            // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-            },
             "env": {
                 "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
             }
-        },
-        {
-            "name": ".NET Core Attach",
-            "type": "coreclr",
-            "request": "attach"
         }
     ]
 }

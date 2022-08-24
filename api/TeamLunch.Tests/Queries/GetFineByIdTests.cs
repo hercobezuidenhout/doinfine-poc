@@ -10,44 +10,44 @@ using TeamLunch.Data.Entities;
 using TeamLunch.Queries;
 using TeamLunch.Tests.Fakes;
 
-namespace TeamLunch.Tests.Queries
+namespace TeamLunch.Tests.Queries;
+
+[TestFixture]
+public class GetFineByIdTests
 {
-    [TestFixture]
-    public class GetFineByIdTests
+    Mock<DataContext> stubContext;
+
+    [SetUp]
+    public void SetUp()
     {
-        Mock<DataContext> stubContext;
+        stubContext = new FakeDataContext().Create();
+    }
 
-        [SetUp]
-        public void SetUp()
-        {
-            stubContext = new FakeDataContext().Create();
-        }
+    [Test]
+    public async Task GetFineById_GivenValidRequest_ReturnsValidResponse()
+    {
+        // Arrange
+        var tcs = new CancellationTokenSource(1000);
 
-        [Test]
-        public async Task GetFineById_GivenValidRequest_ReturnsValidResponse()
-        {
-            // Arrange
-            var tcs = new CancellationTokenSource(1000);
+        // Act
+        var mockQuery = new GetFineById.Handler(stubContext.Object);
+        var response = await mockQuery.Handle(new GetFineById.Query(1), tcs.Token);
 
-            // Act
-            var mockQuery = new GetFineById.Handler(stubContext.Object);
-            var response = await mockQuery.Handle(new GetFineById.Query(1), tcs.Token);
+        // Assert
+        Assert.True(response.fines.Count > 0);
+    }
 
-            // Assert
-            Assert.True(response.fines.Count > 0);
-        }
+    [Test]
+    public async Task GetFineById_GivenInvalidRequest_ReturnsInvalidResponse()
+    {
+        // Arrange
+        var tcs = new CancellationTokenSource(1000);
 
-        [Test]
-        public async Task GetFineById_GivenInvalidRequest_ReturnsInvalidResponse() {
-            // Arrange
-            var tcs = new CancellationTokenSource(1000);
+        // Act
+        var mockQuery = new GetFineById.Handler(stubContext.Object);
+        var response = await mockQuery.Handle(new GetFineById.Query(0), tcs.Token);
 
-            // Act
-            var mockQuery = new GetFineById.Handler(stubContext.Object);
-            var response = await mockQuery.Handle(new GetFineById.Query(0), tcs.Token);
-
-            // Assert
-            Assert.True(response.fines.Count == 0);
-        }
+        // Assert
+        Assert.True(response.fines.Count == 0);
     }
 }

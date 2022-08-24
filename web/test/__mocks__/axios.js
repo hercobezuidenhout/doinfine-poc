@@ -19,5 +19,18 @@ module.exports = {
                 fines: fines.filter(fine => fine.id == 1)
             }
         })
+
+        if (url == '/leaderboard/users') return Promise.resolve({
+            data: {
+                items: [
+                    { title: 'Billy Anderson', fines: 10 },
+                    { title: 'Billy Anderson', fines: 9 },
+                    { title: 'Billy Anderson', fines: 8 },
+                    { title: 'Billy Anderson', fines: 7 },
+                    { title: 'Billy Anderson', fines: 6 },
+                    { title: 'Billy Anderson', fines: 5 },
+                ]
+            }
+        })
     })
 }

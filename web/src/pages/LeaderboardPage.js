@@ -8,10 +8,11 @@ export const LeaderboardPage = () => {
     const leaderboardService = useLeaderboardService();
 
     const [searchParams, setSearchParams] = useSearchParams()
-    const [activeTab, setActiveTab] = useState('Fines')
+    const [activeTab, setActiveTab] = useState()
     const [items, setItems] = useState()
 
     const fetchUsersLeaderboard = async () => {
+        console.log(activeTab)
         const leaderboardItems = await leaderboardService.fetchUsersLeaderboard()
         if (leaderboardItems) setItems(leaderboardItems)
     }
@@ -20,16 +21,17 @@ export const LeaderboardPage = () => {
         const tab = searchParams.get('tab')
         if (!tab) {
             setSearchParams({
-                tab: 'fines'
+                tab: 'users'
             })
-            setActiveTab('Fines')
+            setActiveTab('Users')
             return
         }
         setActiveTab(`${tab.charAt(0).toUpperCase()}${tab.slice(1)}`)
     }, [searchParams])
 
     useEffect(() => {
-        if (activeTab == 'Fines') fetchUsersLeaderboard()
+        if (activeTab === 'Users') fetchUsersLeaderboard()
+        if (activeTab === 'Teams') setItems([])
     }, [activeTab])
 
     return (

@@ -13,6 +13,7 @@ export const useLeaderboardService = () => {
 
         if (!response.data) return []
         if (!response.data.items) return []
+        
         return response.data.items
     }
 

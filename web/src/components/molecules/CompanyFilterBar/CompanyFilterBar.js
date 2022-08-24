@@ -10,7 +10,7 @@ export const CompanyFilterBar = () => {
             <Chip sx={{
                 color: 'white',
                 marginRight: '1rem'
-            }} label="Fines" variant="outlined" onClick={() => setSearchParams({ tab: 'fines' })} />
+            }} label="Users" variant="outlined" onClick={() => setSearchParams({ tab: 'users' })} />
             <Chip sx={{
                 color: 'white'
             }} label="Teams" variant="outlined" onClick={() => setSearchParams({ tab: 'teams' })} />

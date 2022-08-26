@@ -34,11 +34,27 @@ public class FakeDataContext
         return stubSet;
     }
 
+    public Mock<DbSet<Team>> FakeDbSetTeams()
+    {
+        var stubSet = new Mock<DbSet<Team>>();
+        var data = FakeData.Teams.AsQueryable();
+
+        stubSet.As<IQueryable<Team>>().Setup(m => m.Provider).Returns(data.Provider);
+        stubSet.As<IQueryable<Team>>().Setup(m => m.Expression).Returns(data.Expression);
+        stubSet.As<IQueryable<Team>>().Setup(m => m.ElementType).Returns(data.ElementType);
+        stubSet.As<IQueryable<Team>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
+
+        return stubSet;
+    }
+
     public Mock<DataContext> Create()
     {
         var stubContext = new Mock<DataContext>();
+
         stubContext.Setup(c => c.Fines).Returns(FakeDbSetFines().Object);
         stubContext.Setup(c => c.Users).Returns(FakeDbSetUsers().Object);
+        stubContext.Setup(c => c.Teams).Returns(FakeDbSetTeams().Object);
+
         return stubContext;
     }
 }

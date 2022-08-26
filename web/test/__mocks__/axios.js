@@ -32,5 +32,14 @@ module.exports = {
                 ]
             }
         })
+
+        if (url == '/leaderboard/teams') return Promise.resolve({
+            data: {
+                items: [
+                    { title: 'Core', fines: 10 },
+                    { title: 'Marketing', fines: 9 }
+                ]
+            }
+        })
     })
 }

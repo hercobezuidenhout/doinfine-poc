@@ -24,4 +24,10 @@ static public class FakeData
         new User { Id = 2, Username = "steve", FirstName = "Steve", LastName = "Walkman", Fines = Fines.Where(fine => fine.UserId == 2).ToList() },
         new User { Id = 3, Username = "andrew", FirstName = "Andrew", LastName = "Pint", Fines = Fines.Where(fine => fine.UserId == 3).ToList() }
     };
+
+    public static List<Team> Teams = new List<Team>
+    {
+        new Team { Id = 1, Name = "Core", Users = Users },
+        new Team { Id = 2, Name = "Marketing", Users = Users }
+    };
 }

@@ -25,4 +25,11 @@ public class LeaderboardController : ControllerBase
         var response = await mediator.Send(new GetUsersLeaderboard.Query());
         return response == null ? NotFound() : Ok(response);
     }
+
+    [HttpGet("teams")]
+    public async Task<IActionResult> GetLeaderboardForTeams()
+    {
+        var response = await mediator.Send(new GetTeamsLeaderboard.Query());
+        return response == null ? NotFound() : Ok(response);
+    }
 }

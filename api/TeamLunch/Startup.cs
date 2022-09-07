@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using TeamLunch.Data;
 using Microsoft.OpenApi.Models;
+using TeamLunch.Hubs;
 
 namespace TeamLunch
 {
@@ -40,7 +41,7 @@ namespace TeamLunch
             services.AddSwaggerGen(config =>
             {
                 config.CustomSchemaIds(type => type.ToString());
-                
+
                 config.SwaggerDoc("v1", new OpenApiInfo { Title = "TeamLunch API", Version = "v1" });
 
                 config.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -84,9 +85,13 @@ namespace TeamLunch
                 {
                     policy
                         .WithOrigins("http://localhost:3000", "https://thankful-sand-0a1eb4203.1.azurestaticapps.net")
-                        .AllowAnyHeader();
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
                 });
             });
+
+            services.AddSignalR();
         }
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
@@ -114,6 +119,7 @@ namespace TeamLunch
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<NotificationsHub>("/hubs/notifications");
             });
         }
 

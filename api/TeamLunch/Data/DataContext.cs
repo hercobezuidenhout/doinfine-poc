@@ -8,6 +8,8 @@ public class DataContext : DbContext
     public virtual DbSet<Fine> Fines { get; set; }
     public virtual DbSet<User> Users { get; set; }
     public virtual DbSet<Team> Teams { get; set; }
+    public virtual DbSet<FineRequest> FineRequests { get; set; }
+    public virtual DbSet<Notification> Notifications { get; set; }
 
     public DataContext() { }
 

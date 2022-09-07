@@ -3,13 +3,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TeamLunch.Data.Entities;
 
-public class Fine
+public class FineRequest
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
+    public string Finer { get; set; }
+    public string Finee { get; set; }
     public string Reason { get; set; }
-    public int UserId { get; set; }
-    public bool Paid { get; set; }
+
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public DateTime DateCreated { get; set; }
 }

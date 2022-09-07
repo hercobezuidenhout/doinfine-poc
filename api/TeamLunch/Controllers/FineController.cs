@@ -3,6 +3,9 @@ using TeamLunch.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using TeamLunch.Models;
 
 namespace TeamLunch.Controllers;
 
@@ -28,7 +31,28 @@ public class FineController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddFine(AddFine.Command command) => Ok(await mediator.Send(command));
+    public async Task<IActionResult> AddFine(FineRequestItem item)
+    {
+        var request = Request;
+        var headers = request.Headers;
+        var authorization = headers.Authorization[0];
+        var startIndex = authorization.IndexOf(" ") + 1;
+        var accessToken = authorization.Substring(startIndex, authorization.Length - startIndex);
+        var handler = new JwtSecurityTokenHandler();
+        var jwt = handler.ReadJwtToken(accessToken);
+        var userId = jwt.Claims.First(claim => claim.Type == "sub").Value;
+
+        var fineRequestId = await mediator.Send(new NewFineRequest.Command { Finer = userId, Finee = item.Finee, Reason = item.Reason });
+
+        var notificationId = await mediator.Send(new NewNotification.Command
+        {
+            Title = "New fine has been submitted",
+            Description = item.Reason,
+            Link = "/requests/fine/" + fineRequestId
+        });
+
+        return Ok(fineRequestId);
+    }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> MarkFineAsPaid(MarkFineAsPaid.Command command) => Ok(await mediator.Send(command));

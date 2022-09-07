@@ -6,7 +6,7 @@ namespace TeamLunch.Commands
 {
     public static class AddFine
     {
-        public record Command(string Reason) : IRequest<int>;
+        public record Command(string finee, string Reason) : IRequest<int>;
 
         public class Handler : IRequestHandler<Command, int>
         {

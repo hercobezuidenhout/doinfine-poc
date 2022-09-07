@@ -5,13 +5,11 @@ import { App } from '../App';
 
 export const RouterProvider = () => {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<App />}>
-                    <Route path="team/:id" element={<TeamPage />} />
-                    <Route path="leaderboard" element={<LeaderboardPage />} />
-                </Route>
-            </Routes>
-        </BrowserRouter>
+        <Routes>
+            <Route path="/" element={<App />}>
+                <Route path="team/:id" element={<TeamPage />} />
+                <Route path="leaderboard" element={<LeaderboardPage />} />
+            </Route>
+        </Routes>
     )
 }

@@ -17,9 +17,15 @@ export const TeamProvider = ({ children }) => {
     const teamService = useTeamService()
 
     const fetchTeam = async () => {
-        if (!location.pathname.includes('/team')) return
-        const team = await teamService.fetchById(id)
-        
+        let teamId = id;
+        if (!location.pathname.includes('/team')) {
+            teamId = localStorage.getItem('activeTeam')
+            if (!teamId) localStorage.setItem('activeTeam', 1)
+        }
+
+        console.log(teamId)
+        const team = await teamService.fetchById(teamId)
+
         if (!team) return
 
         setTeam(team)

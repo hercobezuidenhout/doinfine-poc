@@ -23,12 +23,9 @@ public class DataContext : DbContext
     private void SeedData(ModelBuilder builder)
     {
         builder.Entity<User>().HasData(
-                    new User { Id = 1, Username = "billy", FirstName = "Billy", LastName = "Anderson" },
-                    new User { Id = 2, Username = "steve", FirstName = "Steve", LastName = "Walkman" },
-                    new User { Id = 3, Username = "andrew", FirstName = "Andrew", LastName = "Pint" },
-                    new User { Id = 4, Username = "melissa", FirstName = "Melissa", LastName = "Care" },
-                    new User { Id = 5, Username = "rebecca", FirstName = "Rebecca", LastName = "Care" }
-                );
+            new User { Id = 1, SubscriptionId = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad", Username = "billy", FirstName = "Billy", LastName = "Anderson" },
+            new User { Id = 2, SubscriptionId = "dd760d11-91ed-4a32-9810-683f7df14239", Username = "steve", FirstName = "Steve", LastName = "Walkman" }
+        );
 
         builder.Entity<Fine>().HasData(
             new Fine { Id = 1, Reason = "For showing up late to a meeting.", UserId = 1 },

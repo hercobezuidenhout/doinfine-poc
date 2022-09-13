@@ -10,12 +10,12 @@ import { useTeamService } from './services';
 export const App = () => {
     const [title, setTitle] = useState()
     const [team, setTeam] = useState()
-    
+
     const location = useLocation()
     const navigate = useNavigate()
     const authContext = useAuthContext()
     const teamService = useTeamService()
-    
+
     const fetchTeam = async () => {
         const user = await authContext.getCurrentUser()
 
@@ -42,13 +42,11 @@ export const App = () => {
 
     return (
         <div data-testid="app">
-            <TeamProvider>
-                <MenuBar title={title} />
-                <Container>
-                    <Outlet />
-                </Container>
-                <BottomNavigationBar />
-            </TeamProvider>
+            <MenuBar title={title} />
+            <Container>
+                <Outlet />
+            </Container>
+            <BottomNavigationBar />
         </div>
     )
 }

@@ -6,6 +6,7 @@ import { corporateTheme } from "../src/theme";
 
 import '@testing-library/jest-dom'
 import { AuthProvider } from "@providers/AuthProvider";
+import { BrowserRouter } from "react-router-dom";
 
 
 const AllProviders = ({ children }) => (
@@ -31,9 +32,7 @@ const DarkThemeProviders = ({ children }) => (
 )
 
 const RouterProviders = ({ children }) => (
-    <RouterProvider>
-        {children}
-    </RouterProvider>
+    <BrowserRouter>{children}</BrowserRouter>
 )
 
 export const renderWithProviders = (ui, options) => render(ui, { wrapper: AllProviders, ...options })

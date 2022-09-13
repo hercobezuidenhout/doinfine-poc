@@ -1,4 +1,4 @@
-import { InfoBox } from '@components/atoms';
+import { TextField } from '@mui/material';
 import React, { useState } from 'react'
 
 export const FineBox = ({ setUsername, setReason }) => {
@@ -36,14 +36,11 @@ export const FineBox = ({ setUsername, setReason }) => {
 
     return (
         <div>
-            <textarea onChange={handleChange}></textarea>
+            <TextField sx={{
+                width: '100%'
+            }} rows={4} multiline={true} onChange={handleChange}></TextField>
             {showInfoBox &&
-                <InfoBox title='HOW TO FINE'>
-                    To fine someone, start by typing "Fine" and
-                    then the username you want to fine. As
-                    you start typing the username, you will see
-                    suggestions pop up. Add a "for" and ...
-                </InfoBox>
+                <p>Please format your fine as Fine @someone for something ...</p>
             }
         </div>
     )

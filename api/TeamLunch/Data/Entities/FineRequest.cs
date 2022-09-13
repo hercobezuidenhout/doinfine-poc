@@ -9,8 +9,8 @@ public class FineRequest
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-    public string Finer { get; set; }
-    public string Finee { get; set; }
+    public int Finer { get; set; }
+    public int Finee { get; set; }
     public string Reason { get; set; }
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

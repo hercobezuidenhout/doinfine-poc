@@ -1,5 +1,5 @@
 import React from 'react'
-import { renderWithProviders, renderWithRouter, screen } from '@tests/base'
+import { renderWithProviders, screen } from '@tests/base'
 import { TeamFilterBar } from '@components/organisms'
 
 describe('TeamFilterBar', () => {

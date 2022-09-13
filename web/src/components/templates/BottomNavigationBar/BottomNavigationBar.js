@@ -27,7 +27,7 @@ export const BottomNavigationBar = () => {
             {renderToolbar()}
             <Toolbar data-testid="primary-bar" sx={{ justifyContent: 'space-between' }}>
                 {team && <Link to={`/team/${team.id}`}>TEAM</Link>}
-                <Link to='/add'>
+                <Link to='/fine'>
                     <Add sx={{
                         position: 'absolute',
                         zIndex: 1,

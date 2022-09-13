@@ -8,8 +8,8 @@ public static class NewFineRequest
 {
     public class Command : IRequest<int>
     {
-        public string Finer { get; set; }
-        public string Finee { get; set; }
+        public string UserId { get; set; }
+        public int Finee { get; set; }
         public string Reason { get; set; }
     }
 
@@ -24,7 +24,9 @@ public static class NewFineRequest
 
         public async Task<int> Handle(Command request, CancellationToken cancellationToken)
         {
-            var fineRequest = new FineRequest { Finer = request.Finer, Finee = request.Finee, Reason = request.Reason };
+            var user = db.Users.First(user => user.SubscriptionId == request.UserId);
+            var fineRequest = new FineRequest { Finer = user.Id, Finee = request.Finee, Reason = request.Reason };
+
             db.Add(fineRequest);
             db.SaveChanges();
 

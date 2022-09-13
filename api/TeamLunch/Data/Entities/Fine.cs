@@ -5,10 +5,7 @@ namespace TeamLunch.Data.Entities;
 
 public class Fine
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
-
     public string Reason { get; set; }
     public int UserId { get; set; }
     public bool Paid { get; set; }

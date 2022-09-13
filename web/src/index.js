@@ -2,6 +2,7 @@ import { Box, CssBaseline, ThemeProvider } from '@mui/material'
 import { AuthProvider } from '@providers/AuthProvider'
 import { NotificationsProvider } from '@providers/NotificationsProvider'
 import { RouterProvider } from '@providers/RouterProvider'
+import { TeamProvider } from '@providers/TeamProvider'
 import axios from 'axios'
 import { SnackbarProvider } from 'notistack'
 import React, { useEffect, useState } from 'react'
@@ -29,12 +30,14 @@ const Corporate = () => {
             <BrowserRouter>
                 <ThemeProvider theme={theme}>
                     <AuthProvider>
-                        <CssBaseline />
-                        <SnackbarProvider>
-                            <NotificationsProvider>
-                                <RouterProvider />
-                            </NotificationsProvider>
-                        </SnackbarProvider>
+                        <TeamProvider>
+                            <CssBaseline />
+                            <SnackbarProvider>
+                                <NotificationsProvider>
+                                    <RouterProvider />
+                                </NotificationsProvider>
+                            </SnackbarProvider>
+                        </TeamProvider>
                     </AuthProvider>
                 </ThemeProvider>
             </BrowserRouter>

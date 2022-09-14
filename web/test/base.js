@@ -11,11 +11,11 @@ import { BrowserRouter } from "react-router-dom";
 
 const AllProviders = ({ children }) => (
     <ThemeProvider theme={corporateTheme('light')}>
-        <AuthProvider>
-            <RouterProvider>
+        <BrowserRouter>
+            <AuthProvider>
                 {children}
-            </RouterProvider>
-        </AuthProvider>
+            </AuthProvider>
+        </BrowserRouter>
     </ThemeProvider>
 )
 

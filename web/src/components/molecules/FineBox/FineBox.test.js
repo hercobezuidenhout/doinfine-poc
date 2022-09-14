@@ -21,6 +21,6 @@ describe('FineBox', () => {
 
         await userEvent.type(screen.getByRole('textbox'), '@someone for something')
 
-        expect(screen.getByText('HOW TO FINE')).toBeInTheDocument()
+        expect(screen.getByText('Please format your fine as Fine @someone for something ...')).toBeInTheDocument()
     })
 })

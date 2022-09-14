@@ -10,11 +10,11 @@ describe('BottomNavigationBar', () => {
         let totalChildren = 0
 
         await act(() => {
-            renderWithProviders()   
+            renderWithProviders(<BottomNavigationBar />)
         })
 
         const primaryBar = await screen.findByTestId('primary-bar')
-        totalChildren  = primaryBar.children.length
+        totalChildren = primaryBar.children.length
 
         expect(totalChildren).toBe(3)
     })
@@ -22,20 +22,20 @@ describe('BottomNavigationBar', () => {
     it('renders TeamFilterBar by default', async () => {
         let teamFilterBar;
 
-        renderWithProviders()
+        renderWithProviders(<BottomNavigationBar />)
 
         await act(() => {
             teamFilterBar = screen.findByTestId('team-filter-bar')
         })
-        
+
         expect(teamFilterBar).resolves.toBeInTheDocument()
     })
 
     it('renders CompanyFilterBar if url is /leaderboard', async () => {
-        renderWithProviders()
+        renderWithProviders(<BottomNavigationBar />)
 
-        userEvent.click(screen.getByTestId('link-company'))
-        
+        userEvent.click(screen.getByText('LEADERBOARD'))
+
         expect(screen.findByTestId('company-filter-bar')).resolves.toBeInTheDocument()
     })
 })

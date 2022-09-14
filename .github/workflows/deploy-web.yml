@@ -34,7 +34,7 @@ jobs:
         working-directory: ./web
         run: npm run build --if-present
 
-       - name: 💪 Test
+      - name: 💪 Test
         working-directory: ./web
         run: npm run test
 

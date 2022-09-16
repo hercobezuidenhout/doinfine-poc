@@ -28,7 +28,7 @@ jobs:
 
       - name: 📥 Install
         working-directory: ./web
-        run: npm install --legacy-peer-deps
+        run: npm install
 
       - name: ⚙️ Build
         working-directory: ./web

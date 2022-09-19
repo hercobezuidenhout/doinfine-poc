@@ -6,7 +6,7 @@ namespace TeamLunch.Queries
 {
     public static class GetFineById
     {
-        public record Query(int Id) : IRequest<Response>;
+        public record Query(string Id) : IRequest<Response>;
 
         public class Handler : IRequestHandler<Query, Response>
         {

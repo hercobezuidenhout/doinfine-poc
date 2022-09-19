@@ -24,7 +24,7 @@ public class FineController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<IActionResult> GetById(string id)
     {
         var response = await mediator.Send(new GetFineById.Query(id));
         return response == null ? NotFound() : Ok(response);

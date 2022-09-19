@@ -1,4 +1,4 @@
-import { TeamPage, LeaderboardPage } from '@pages'
+import { TeamPage, LeaderboardPage, MenuPage } from '@pages'
 import { FinePage } from '@pages/FinePage'
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
@@ -12,6 +12,7 @@ export const RouterProvider = () => {
                 <Route path='leaderboard' element={<LeaderboardPage />} />
             </Route>
             <Route path='/fine' element={<FinePage />} />
+            <Route path='/menu' element={<MenuPage />} />
         </Routes>
     )
 }

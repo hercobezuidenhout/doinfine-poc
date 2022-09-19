@@ -1,26 +1,19 @@
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Moq;
 using NUnit.Framework;
 using TeamLunch.Data;
-using TeamLunch.Data.Entities;
 using TeamLunch.Queries;
-using TeamLunch.Tests.Fakes;
 
 namespace TeamLunch.Tests.Queries;
 
 [TestFixture]
-public class GetFineByIdTests
+public class GetFineByIdTests : TestDataContextBase
 {
-    Mock<DataContext> stubContext;
 
     [SetUp]
     public void SetUp()
     {
-        stubContext = new FakeDataContext().Create();
+        _stubContext = new DataContext(_contextOptions);
     }
 
     [Test]
@@ -30,8 +23,8 @@ public class GetFineByIdTests
         var tcs = new CancellationTokenSource(1000);
 
         // Act
-        var mockQuery = new GetFineById.Handler(stubContext.Object);
-        var response = await mockQuery.Handle(new GetFineById.Query(1), tcs.Token);
+        var mockQuery = new GetFineById.Handler(_stubContext);
+        var response = await mockQuery.Handle(new GetFineById.Query(Constants.EXAMPLE_USER_ID), tcs.Token);
 
         // Assert
         Assert.True(response.fines.Count > 0);
@@ -44,8 +37,8 @@ public class GetFineByIdTests
         var tcs = new CancellationTokenSource(1000);
 
         // Act
-        var mockQuery = new GetFineById.Handler(stubContext.Object);
-        var response = await mockQuery.Handle(new GetFineById.Query(0), tcs.Token);
+        var mockQuery = new GetFineById.Handler(_stubContext);
+        var response = await mockQuery.Handle(new GetFineById.Query("abc"), tcs.Token);
 
         // Assert
         Assert.True(response.fines.Count == 0);

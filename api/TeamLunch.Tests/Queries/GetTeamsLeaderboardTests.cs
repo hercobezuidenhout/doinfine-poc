@@ -6,19 +6,17 @@ using NUnit.Framework;
 using TeamLunch.Data;
 using TeamLunch.Models;
 using TeamLunch.Queries;
-using TeamLunch.Tests.Fakes;
 
-namespace TeamLunch.Tests;
+namespace TeamLunch.Tests.Queries;
 
 [TestFixture]
-public class GetTeamsLeaderboardTests
+public class GetTeamsLeaderboardTests : TestDataContextBase
 {
-    Mock<DataContext> stubContext;
 
     [SetUp]
     public void SetUp()
     {
-        stubContext = new FakeDataContext().Create();
+        _stubContext = new DataContext(_contextOptions);
     }
 
     [Test]
@@ -28,7 +26,7 @@ public class GetTeamsLeaderboardTests
         var tcs = new CancellationTokenSource(1000);
 
         // Act
-        var mockQuery = new GetTeamsLeaderboard.Handler(stubContext.Object);
+        var mockQuery = new GetTeamsLeaderboard.Handler(_stubContext);
         var response = await mockQuery.Handle(new GetTeamsLeaderboard.Query(), tcs.Token);
         var isListOfLeaderbordItems = typeof(List<LeaderboardItem>) == response.items.GetType();
 

@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { users } from '../__mocks__/backend'
 import { PublicClientApplication } from '@azure/msal-browser'
 
 const redirectUri = process.env.DEVELOPMENT ? 'http://localhost:3000' : 'https://thankful-sand-0a1eb4203.1.azurestaticapps.net'

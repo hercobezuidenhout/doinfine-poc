@@ -71,12 +71,13 @@ export const corporateTheme = (mode) => createTheme({
         },
         h6: {
             fontSize: '0.8rem',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            textTransform: 'uppercase'
         }
     }
 })
 
 export const CorporateContext = createContext({
     mode: 'light',
-    setMode: () => {}
+    setMode: () => { }
 })

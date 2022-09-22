@@ -20,14 +20,13 @@ export const TeamProvider = ({ children }) => {
 
         if (!teamId) {
             var user = await userContext.getCurrentUser()
-            console.log(user)
             if (!user) return
             teamId = user.teams[0]
             localStorage.setItem('activeTeam', teamId)
         }
 
         const team = await teamService.fetchById(teamId)
-        console.log(team)
+
         if (!team) return
 
         setTeam(team)

@@ -28,7 +28,7 @@ jobs:
 
       - name: 📥 Install
         working-directory: ./web
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: ⚙️ Build
         working-directory: ./web
@@ -38,7 +38,7 @@ jobs:
         working-directory: ./web
         run: npm run test
 
-      - name: Build And Deploy
+      - name: 🚀 Build And Deploy
         uses: Azure/static-web-apps-deploy@1a947af9992250f3bc2e68ad0754c0b0c11566c9
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APP_TOKEN }}

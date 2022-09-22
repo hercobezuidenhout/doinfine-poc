@@ -52,6 +52,14 @@ export const AuthProvider = ({ children }) => {
             msalInstance.setActiveAccount(accounts[0])
             setAccount(accounts[0])
         }
+
+        msalInstance.handleRedirectPromise()
+            .then(() => {
+                const activeAccount = msalInstance.getActiveAccount()
+                console.log(activeAccount)
+            }).catch(error => {
+                console.log(error)
+            })
     }
 
     const getAccessToken = async () => {
@@ -78,19 +86,6 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         loadAuth()
     }, [])
-
-    msalInstance.handleRedirectPromise()
-        .then(() => {
-            const activeAccount = msalInstance.getActiveAccount()
-
-            if (!activeAccount) {
-                msalInstance.loginRedirect({
-                    scopes: ['https://teamlunch.onmicrosoft.com/api/read']
-                })
-            }
-        }).catch(error => {
-            console.log(error)
-        })
 
     return (
         <AuthContext.Provider value={{

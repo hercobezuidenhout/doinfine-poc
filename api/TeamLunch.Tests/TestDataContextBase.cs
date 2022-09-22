@@ -26,6 +26,8 @@ public abstract class TestDataContextBase : IDisposable
         context.Database.EnsureCreated();
     }
 
+    public DataContext CreateContext() => new DataContext(_contextOptions);
+
     public void Dispose() => _connection.Dispose();
 
 }

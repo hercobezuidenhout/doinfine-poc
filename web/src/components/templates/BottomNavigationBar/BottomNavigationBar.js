@@ -18,7 +18,7 @@ export const BottomNavigationBar = () => {
     }, [location])
 
     const renderToolbar = () => {
-        if (pathname.includes('/team')) return <TeamFilterBar />
+        if (pathname === '/team') return <TeamFilterBar />
         if (pathname === '/leaderboard') return <CompanyFilterBar setActiveTab={(tab) => setSearchParams({ tab: tab })} />
     }
 
@@ -26,7 +26,7 @@ export const BottomNavigationBar = () => {
         <AppBar position="fixed" sx={{ top: 'auto', bottom: '0px' }}>
             {renderToolbar()}
             <Toolbar data-testid="primary-bar" sx={{ justifyContent: 'space-between' }}>
-                {team && <Link to={`/team/${team.id}`}>TEAM</Link>}
+                <Link to={`/team`}>TEAM</Link>
                 <Link to='/fine'>
                     <Add sx={{
                         position: 'absolute',

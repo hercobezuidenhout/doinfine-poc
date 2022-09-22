@@ -37,8 +37,7 @@ const msalConfig = {
 const msalInstance = new PublicClientApplication(msalConfig)
 
 export const AuthContext = createContext({
-    userId: undefined,
-    getCurrentUser: () => { },
+    getCurrentUserId: () => { },
     getAccessToken: () => { }
 })
 
@@ -47,7 +46,7 @@ export const AuthProvider = ({ children }) => {
 
     const [account, setAccount] = useState()
 
-    const loadAuth = () => {
+    const loadAuth = async () => {
         const accounts = msalInstance.getAllAccounts()
         if (accounts.length > 0) {
             msalInstance.setActiveAccount(accounts[0])
@@ -56,9 +55,9 @@ export const AuthProvider = ({ children }) => {
 
         msalInstance.handleRedirectPromise()
             .then(() => {
-                const account = msalInstance.getActiveAccount()
+                const activeAccount = msalInstance.getActiveAccount()
 
-                if (!account) {
+                if (!activeAccount) {
                     msalInstance.loginRedirect({
                         scopes: ['https://teamlunch.onmicrosoft.com/api/read']
                     })
@@ -66,11 +65,17 @@ export const AuthProvider = ({ children }) => {
             }).catch(error => {
                 console.log(error)
             })
+
+
     }
 
     const getAccessToken = async () => {
         const response = await msalInstance.acquireTokenSilent({
             scopes: ['https://teamlunch.onmicrosoft.com/api/read']
+        }).catch(error => {
+            msalInstance.acquireTokenRedirect({
+                scopes: ['https://teamlunch.onmicrosoft.com/api/read']
+            })
         })
 
         if (response.accessToken == '') msalInstance.acquireTokenRedirect({
@@ -80,19 +85,21 @@ export const AuthProvider = ({ children }) => {
         return response.accessToken
     }
 
+    const getCurrentUserId = () => {
+        if (!account) return
+        return account.localAccountId
+    }
+
     useEffect(() => {
         loadAuth()
     }, [])
 
-    const getCurrentUser = () => users.find(user => user.id == 1)
     return (
         <AuthContext.Provider value={{
-            userId: 1,
-            getCurrentUser: getCurrentUser,
+            getCurrentUserId: getCurrentUserId,
             getAccessToken: getAccessToken
         }}>
             {account && children}
-
         </AuthContext.Provider>
     )
 }

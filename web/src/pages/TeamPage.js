@@ -5,7 +5,7 @@ import React, { useEffect, useState, Fragment } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 export const TeamPage = () => {
-    const team = useTeamContext()
+    const teamContext = useTeamContext()
     const [searchParams] = useSearchParams()
     const fineService = useFineService()
     const [member, setMember] = useState()
@@ -22,14 +22,20 @@ export const TeamPage = () => {
     }, [member])
 
     useEffect(() => {
-        if (!team) return
-        const teamMember = team.members.filter(x => x.id == searchParams.get('member'))[0]
-        setMember(teamMember)
-    }, [searchParams, team])
+        if (!teamContext) return
+        if (searchParams.get('member')) {
+            const teamMember = teamContext.members.filter(x => x.id == searchParams.get('member'))[0]
+            setMember(teamMember)
+        } else {
+            const teamMember = teamContext.members[0]
+            setMember(teamMember)
+            searchParams.set('member', teamMember.id)
+        }
+    }, [searchParams, teamContext])
 
     return (
         <div>
-            <h1 data-testid="team-page-title">{member && `${member.firstName} ${member.lastName}` || 'Team Member'}</h1>
+            <h1 data-testid="team-page-title">{member && `${member.fullName}` || 'Team Member'}</h1>
             <List>
                 {fines && fines.map(fine => (
                     <Fragment key={fine.id}>

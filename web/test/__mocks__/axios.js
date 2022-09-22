@@ -1,15 +1,14 @@
+const { EXAMPLE_USER_ID, EXAMPLE_USERNAME, EXAMPLE_FULLNAME, EXAMPLE_TEAM_NAME } = require("@tests/constants")
 const { fines } = require("../../src/__mocks__/backend")
 
 module.exports = {
     get: jest.fn(url => {
-        if (url == '/team/1') return Promise.resolve({
+        if (url == '/teams/1') return Promise.resolve({
             data: {
                 id: 1,
-                name: 'Example Team',
+                name: EXAMPLE_TEAM_NAME,
                 members: [
-                    { id: 1, username: 'billy', firstName: 'Billy', lastName: 'Anderson', email: 'billy@example.com' },
-                    { id: 2, username: 'steve', firstName: 'Steve', lastName: 'Wack', email: 'steve@example.com' },
-                    { id: 3, username: 'andrew', firstName: 'Andrew', lastName: 'Pickle', email: 'andrew@example.com' }
+                    { id: EXAMPLE_USER_ID, fullName: 'Billy Anderson' }
                 ]
             }
         })
@@ -39,6 +38,15 @@ module.exports = {
                     { title: 'Core', fines: 10 },
                     { title: 'Marketing', fines: 9 }
                 ]
+            }
+        })
+
+        if (url == `/users/${EXAMPLE_USER_ID}`) return Promise.resolve({
+            data: {
+                id: EXAMPLE_USER_ID,
+                username: EXAMPLE_USERNAME,
+                fullName: EXAMPLE_FULLNAME,
+                teams: [1]
             }
         })
     })

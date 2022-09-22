@@ -3,6 +3,7 @@ import { AuthProvider } from '@providers/AuthProvider'
 import { NotificationsProvider } from '@providers/NotificationsProvider'
 import { RouterProvider } from '@providers/RouterProvider'
 import { TeamProvider } from '@providers/TeamProvider'
+import { UserProvider } from '@providers/UserProvider'
 import axios from 'axios'
 import { SnackbarProvider } from 'notistack'
 import React, { useEffect, useState } from 'react'
@@ -30,14 +31,16 @@ const Corporate = () => {
             <BrowserRouter>
                 <ThemeProvider theme={theme}>
                     <AuthProvider>
-                        <TeamProvider>
-                            <CssBaseline />
-                            <SnackbarProvider>
-                                <NotificationsProvider>
-                                    <RouterProvider />
-                                </NotificationsProvider>
-                            </SnackbarProvider>
-                        </TeamProvider>
+                        <UserProvider>
+                            <TeamProvider>
+                                <CssBaseline />
+                                <SnackbarProvider>
+                                    <NotificationsProvider>
+                                        <RouterProvider />
+                                    </NotificationsProvider>
+                                </SnackbarProvider>
+                            </TeamProvider>
+                        </UserProvider>
                     </AuthProvider>
                 </ThemeProvider>
             </BrowserRouter>

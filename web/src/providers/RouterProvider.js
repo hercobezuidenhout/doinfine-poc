@@ -8,7 +8,7 @@ export const RouterProvider = () => {
     return (
         <Routes>
             <Route path='/' element={<App />}>
-                <Route path='team/:id' element={<TeamPage />} />
+                <Route path='team' element={<TeamPage />} />
                 <Route path='leaderboard' element={<LeaderboardPage />} />
             </Route>
             <Route path='/fine' element={<FinePage />} />

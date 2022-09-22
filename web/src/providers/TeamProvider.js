@@ -35,7 +35,7 @@ export const TeamProvider = ({ children }) => {
 
     useEffect(() => {
         fetchTeam()
-    }, [])
+    }, [userContext])
 
     return (
         <TeamContext.Provider value={team}>

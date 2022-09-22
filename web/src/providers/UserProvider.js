@@ -27,7 +27,7 @@ export const UserProvider = ({ children }) => {
 
     return (
         <UserContext.Provider value={{
-            getCurrentUser: () => currentUser
+            getCurrentUser: fetchUser
         }}>
             {children}
         </UserContext.Provider>

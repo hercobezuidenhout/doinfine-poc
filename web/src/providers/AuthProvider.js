@@ -56,7 +56,12 @@ export const AuthProvider = ({ children }) => {
         msalInstance.handleRedirectPromise()
             .then(() => {
                 const activeAccount = msalInstance.getActiveAccount()
-                console.log(activeAccount)
+
+                if (!activeAccount) {
+                    msalInstance.loginRedirect({
+                        scopes: ['https://teamlunch.onmicrosoft.com/api/read']
+                    })
+                }
             }).catch(error => {
                 console.log(error)
             })

@@ -12,7 +12,5 @@ public class FineRequest
     public string Finer { get; set; }
     public string Finee { get; set; }
     public string Reason { get; set; }
-
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public DateTime DateCreated { get; set; }
+    public List<FineRequestResponse> Responses { get; set; }
 }

@@ -8,6 +8,7 @@ namespace TeamLunch.Data.Entities
         public string LastName { get; set; }
         public List<Fine> Fines { get; set; }
         public List<Team> Teams { get; set; }
+        public List<FineRequestResponse> FineRequestResponses { get; set; }
         public bool Active { get; set; }
     }
 }

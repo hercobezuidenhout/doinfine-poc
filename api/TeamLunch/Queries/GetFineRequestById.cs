@@ -27,8 +27,8 @@ public static class GetFineRequestById
                     .Where(x => x.Responses.Where(r => (r.FineRequestId == request.id) && (r.UserId == x.Finer)).Count() == 0)
                     .First();
 
-                var userFullName = _db.Users.Where(x => x.Id == fineRequest.Finer).Select(x => $"{x.FirstName} {x.LastName}").First();
-                return new Response(fineRequest.Id, "userFullName", fineRequest.Reason);
+                var userFullName = _db.Users.Where(x => x.Id == fineRequest.Finee).Select(x => $"{x.FirstName} {x.LastName}").First();
+                return new Response(fineRequest.Id, userFullName, fineRequest.Reason);
             }
             catch (InvalidOperationException exception)
             {

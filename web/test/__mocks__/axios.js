@@ -1,5 +1,5 @@
-const { EXAMPLE_USER_ID, EXAMPLE_USERNAME, EXAMPLE_FULLNAME, EXAMPLE_TEAM_NAME } = require("@tests/constants")
-const { fines } = require("../../src/__mocks__/backend")
+const { EXAMPLE_USER_ID, EXAMPLE_USERNAME, EXAMPLE_FULLNAME, EXAMPLE_TEAM_NAME, EXAMPLE_REASON } = require('@tests/constants')
+const { fines } = require('../../src/__mocks__/backend')
 
 module.exports = {
     get: jest.fn(url => {
@@ -49,5 +49,21 @@ module.exports = {
                 teams: [1]
             }
         })
+
+        if (url == `/fine-requests/1`) return Promise.resolve({
+            data: {
+                id: EXAMPLE_USER_ID,
+                fullName: EXAMPLE_FULLNAME,
+                reason: EXAMPLE_REASON
+            }
+        })
+
+        if (url == '/fine-requests/0') return Promise.resolve(
+            {
+                data: 'Fine request with ID: 0',
+                status: 404,
+                statusText: 'Not Found'
+            }
+        )
     })
 }

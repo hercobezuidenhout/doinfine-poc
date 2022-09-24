@@ -6,6 +6,7 @@ export const EXAMPLE_USER_ID = '3e64b61f-ce47-4f30-8d4e-4de4869a07ad'
 export const EXAMPLE_FULLNAME = 'Billy Anderson'
 export const EXAMPLE_USERNAME = 'billy'
 export const EXAMPLE_TEAM_NAME = 'Core'
+export const EXAMPLE_REASON = 'for not caring about water'
 
 describe('CONSTANTS', () => {
     it('has EXAMPLE_TITLE', () => {

@@ -35,7 +35,6 @@ export const NotificationsProvider = ({ children }) => {
 
         connection.on('ReceiveNofication', data => {
             setNotifications(prevNotifications => [...prevNotifications, data])
-            console.log(data)
 
             const action = snackbarId => (
                 <>

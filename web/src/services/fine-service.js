@@ -13,18 +13,7 @@ export const useFineService = () => {
         return response.data.fines
     }
 
-    const submitFine = async (fine) => {
-        const response = await axios.post(`/fines`, fine, {
-            headers: {
-                'Authorization': `Bearer ${await authContext.getAccessToken()}`
-            }
-        })
-
-        return response
-    }
-
     return {
-        fetchById,
-        submitFine
+        fetchById
     }
 }

@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
+using TeamLunch.Commands;
 using TeamLunch.Controllers;
 using TeamLunch.Data.Entities;
 using TeamLunch.Exceptions;
+using TeamLunch.Models;
 using TeamLunch.Queries;
 
 namespace TeamLunch.Tests.Controllers;

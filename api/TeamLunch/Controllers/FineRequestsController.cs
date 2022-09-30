@@ -61,4 +61,21 @@ public class FineRequestsController : ControllerBase
 
         return Ok(fineRequestId);
     }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateFineRequest(FineRequestResponseItem item)
+    {
+        var request = Request;
+        var headers = request.Headers;
+        var authorization = headers.Authorization[0];
+        var startIndex = authorization.IndexOf(" ") + 1;
+        var accessToken = authorization.Substring(startIndex, authorization.Length - startIndex);
+        var handler = new JwtSecurityTokenHandler();
+        var jwt = handler.ReadJwtToken(accessToken);
+        var userId = jwt.Claims.First(claim => claim.Type == "sub").Value;
+
+        var responseId = await mediator.Send(new AddFineRequestResponse.Command(item.RequestId, userId, item.Approved));
+
+        return Ok(responseId);
+    }
 }

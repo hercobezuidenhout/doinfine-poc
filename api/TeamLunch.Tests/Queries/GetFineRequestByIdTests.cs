@@ -52,14 +52,13 @@ public class GetFineRequestByIdTests : TestDataContextBase
         // Arrange
         var tcs = new CancellationTokenSource(1000);
 
-
         // Act
         var mockQuery = new GetFineRequestById.Handler(_stubContext);
 
         // Assert
         Assert.ThrowsAsync<FineRequestNotFoundException>(async delegate
         {
-            await mockQuery.Handle(new GetFineRequestById.Query(1), tcs.Token);
+            await mockQuery.Handle(new GetFineRequestById.Query(6), tcs.Token);
         });
     }
 }

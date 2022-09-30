@@ -8,14 +8,14 @@ namespace TeamLunch.Commands;
 
 public static class NewNotification
 {
-    public class Command : IRequest<int>
+    public class Command : IRequest<Response>
     {
         public string Title { get; set; }
         public string Description { get; set; }
         public string Link { get; set; }
     }
 
-    public class Handler : IRequestHandler<Command, int>
+    public class Handler : IRequestHandler<Command, Response>
     {
         private readonly DataContext db;
         private IHubContext<NotificationsHub> notificationsHub;
@@ -26,7 +26,7 @@ public static class NewNotification
             this.notificationsHub = notificationsHub;
         }
 
-        public async Task<int> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
         {
             var notification = new Notification
             {
@@ -41,7 +41,9 @@ public static class NewNotification
 
             await notificationsHub.Clients.All.SendAsync("ReceiveNofication", notification);
 
-            return notification.Id;
+            return new Response(notification.Id);
         }
+
     }
+    public record Response(int id);
 }

@@ -12,5 +12,6 @@ public class FineRequest
     public string Finer { get; set; }
     public string Finee { get; set; }
     public string Reason { get; set; }
+    public int TeamId { get; set; }
     public List<FineRequestResponse> Responses { get; set; }
 }

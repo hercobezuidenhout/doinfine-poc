@@ -32,7 +32,7 @@ public static class GetFineRequestById
             }
             catch (InvalidOperationException exception)
             {
-                throw new FineRequestNotFoundException($"Fine request with ID: {request.id}", exception);
+                throw new FineRequestNotFoundException($"Fine request not found with ID: {request.id}", exception);
             }
         }
     }

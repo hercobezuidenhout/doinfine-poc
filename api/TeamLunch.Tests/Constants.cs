@@ -1,3 +1,5 @@
+using TeamLunch.Models;
+
 namespace TeamLunch.Tests;
 
 public static class Constants
@@ -7,4 +9,12 @@ public static class Constants
     public static string EXAMPLE_FULLNAME = "Billy Anderson";
     public static int EXAMPLE_TEAM_ID = 1;
     public static string EXAMPLE_TEAM_NAME = "Core";
+
+
+    public static NotificationItem EXAMPLE_NOTIFICATION = new NotificationItem
+    {
+        Title = "Example Notification",
+        Description = "This is an example notification",
+        Link = "/to/somwhere"
+    };
 }

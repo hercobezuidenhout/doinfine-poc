@@ -50,7 +50,7 @@ public class FineRequestsController : ControllerBase
         var jwt = handler.ReadJwtToken(accessToken);
         var userId = jwt.Claims.First(claim => claim.Type == "sub").Value;
 
-        var fineRequestId = await mediator.Send(new NewFineRequest.Command { UserId = userId, Finee = item.Finee, Reason = item.Reason });
+        var fineRequestId = await mediator.Send(new NewFineRequest.Command { UserId = userId, TeamId = item.TeamId, Finee = item.Finee, Reason = item.Reason });
 
         var notificationId = await mediator.Send(new NewNotification.Command
         {
@@ -74,8 +74,15 @@ public class FineRequestsController : ControllerBase
         var jwt = handler.ReadJwtToken(accessToken);
         var userId = jwt.Claims.First(claim => claim.Type == "sub").Value;
 
-        var responseId = await mediator.Send(new AddFineRequestResponse.Command(item.RequestId, userId, item.Approved));
+        try
+        {
+            var responseId = await mediator.Send(new AddFineRequestResponse.Command(item.RequestId, userId, item.Approved));
 
-        return Ok(responseId);
+            return Ok(responseId);
+        }
+        catch (FineRequestNotFoundException exception)
+        {
+            return NotFound(exception.Message);
+        }
     }
 }

@@ -6,6 +6,8 @@ using Microsoft.Identity.Web;
 using TeamLunch.Data;
 using Microsoft.OpenApi.Models;
 using TeamLunch.Hubs;
+using TeamLunch.Contracts;
+using TeamLunch.Services;
 
 namespace TeamLunch
 {
@@ -92,6 +94,7 @@ namespace TeamLunch
             });
 
             services.AddSignalR();
+            services.AddScoped<INotificationService, NotificationService>();
         }
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)

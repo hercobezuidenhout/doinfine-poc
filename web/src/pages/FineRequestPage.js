@@ -2,11 +2,12 @@ import { ActionBar } from '@components/atoms'
 import { Box, Button, Modal, Typography } from '@mui/material'
 import { useFineRequestService } from '@services/fine-request-service'
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 export const FineRequestPage = () => {
     const { id } = useParams()
     const fineRequestService = useFineRequestService()
+    const navigate = useNavigate()
 
     const [notFound, setNotFound] = useState()
     const [fineRequest, setFineRequest] = useState()
@@ -21,6 +22,15 @@ export const FineRequestPage = () => {
 
         if (!request) return
         setFineRequest(request)
+    }
+
+    const approveFineRequest = async () => {
+        const response = await fineRequestService.update({
+            requestId: fineRequest.id,
+            approved: true
+        })
+
+        navigate('/')
     }
 
     useEffect(() => {
@@ -47,8 +57,8 @@ export const FineRequestPage = () => {
                         }}>
                             <Button variant='outlined' sx={{
                                 marginRight: '1rem'
-                            }}>Reject</Button>
-                            <Button variant='contained'>Approve</Button>
+                            }} >Reject</Button>
+                            <Button variant='contained' onClick={() => approveFineRequest()}>Approve</Button>
                         </Box>
                     </Box>
                 )}
@@ -68,6 +78,6 @@ export const FineRequestPage = () => {
                     </Box>
                 )}
             </Box>
-        </Box>
+        </Box >
     )
 }

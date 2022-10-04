@@ -25,7 +25,7 @@ export const useFineRequestService = () => {
     }
 
     const update = async (requestResponse) => {
-        const response = await axios.put(`/fine-requests`, requestResponse, {
+        const response = await axios.put('/fine-requests', requestResponse, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`
             }
@@ -36,6 +36,7 @@ export const useFineRequestService = () => {
 
     return {
         fetchById,
-        create
+        create,
+        update
     }
 }

@@ -33,6 +33,15 @@ export const FineRequestPage = () => {
         navigate('/')
     }
 
+    const declineFineRequest = async () => {
+        const response = await fineRequestService.update({
+            requestId: fineRequest.id,
+            approved: false
+        })
+
+        navigate('/')
+    }
+
     useEffect(() => {
         fetchFineRequest()
     }, [id])
@@ -57,7 +66,7 @@ export const FineRequestPage = () => {
                         }}>
                             <Button variant='outlined' sx={{
                                 marginRight: '1rem'
-                            }} >Reject</Button>
+                            }} onClick={() => declineFineRequest()} >Reject</Button>
                             <Button variant='contained' onClick={() => approveFineRequest()}>Approve</Button>
                         </Box>
                     </Box>

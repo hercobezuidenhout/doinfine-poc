@@ -4,6 +4,16 @@ import axios from "axios"
 export const useFineRequestService = () => {
     const authContext = useAuthContext()
 
+    const fetchAll = async () => {
+        const response = await axios.get(`/fine-requests`, {
+            headers: {
+                'Authorization': `Bearer ${await authContext.getAccessToken()}`
+            }
+        })
+        if (response.status == 404) throw Error(response.data)
+        return response.data
+    }
+
     const fetchById = async (id) => {
         const response = await axios.get(`/fine-requests/${id}`, {
             headers: {
@@ -35,6 +45,7 @@ export const useFineRequestService = () => {
     }
 
     return {
+        fetchAll,
         fetchById,
         create,
         update

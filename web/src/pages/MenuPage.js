@@ -1,11 +1,66 @@
+import { ActionBar } from '@components/atoms'
 import { LinkListItem } from '@components/molecules'
 import { OptionsBox } from '@components/organisms'
-import React from 'react'
+import { ChevronRight } from '@mui/icons-material'
+import { Box, Drawer, IconButton, List, ListItem, SwipeableDrawer, Typography } from '@mui/material'
+import { useNotificationsContext } from '@providers/NotificationsProvider'
+import { useFineRequestService } from '@services/fine-request-service'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 export const MenuPage = () => {
+    const nofiticiationsContext = useNotificationsContext()
+    const fineRequestService = useFineRequestService()
+
+    const [activeFineRequests, setActiveFineRequests] = useState([])
+    const [drawerOpen, setDrawerOpen] = React.useState(false);
+
+    const toggleDrawer = () => {
+        setDrawerOpen(prevDrawerOpen => !prevDrawerOpen)
+    };
+
+    const fetchActiveFineRequests = async () => {
+        const requests = await fineRequestService.fetchAll();
+        if (!requests) return
+
+        setActiveFineRequests(requests)
+    }
+
+    useEffect(() => {
+        fetchActiveFineRequests();
+    }, [nofiticiationsContext])
+
     return <div>
-        <OptionsBox label="Options">
-            <LinkListItem label="Account" link="/me" />
+        <ActionBar title="Menu" link={-1} />
+        <OptionsBox label="Manage Fines">
+            {activeFineRequests.length > 0 &&
+                <LinkListItem count={activeFineRequests.length} label="View active requests" handleLinkClick={() => toggleDrawer()} />
+            }
         </OptionsBox>
-    </div>
+        <Drawer
+            anchor='bottom'
+            open={drawerOpen}
+            onClose={() => toggleDrawer()}>
+            <List>
+                {activeFineRequests.map((request, index) => (
+                    <ListItem sx={{
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                    }} key={index}>
+                        <Box sx={{
+                            display: 'flex',
+                            alignItems: 'center'
+                        }}>
+                            <Typography variant='p'>{`Fine for ${request.fullName}`}</Typography>
+                        </Box>
+                        <Link to={`/fine-requests/${request.id}`}>
+                            <IconButton>
+                                <ChevronRight />
+                            </IconButton>
+                        </Link>
+                    </ListItem>
+                ))}
+            </List>
+        </Drawer>
+    </div >
 }

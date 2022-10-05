@@ -2,7 +2,7 @@ import { DarkMode, LightMode, Menu as MenuIcon, Notifications } from "@mui/icons
 import { AppBar, Badge, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import { useNotificationsContext } from "@providers/NotificationsProvider";
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CorporateContext } from "../../../theme";
 
 export const MenuBar = ({ title = 'TeamLunch' }) => {
@@ -72,12 +72,13 @@ export const MenuBar = ({ title = 'TeamLunch' }) => {
                         : <IconButton onClick={() => handleSwitcherClick('light')} ><DarkMode data-testid="theme-switcher-dark" /></IconButton>
                     }
 
-                    <IconButton sx={{
-                        marginLeft: '1rem'
-                    }}>
-                        <MenuIcon data-testid="menubar-icon" />
-                    </IconButton>
-
+                    <Link to="/menu">
+                        <IconButton sx={{
+                            marginLeft: '1rem'
+                        }}>
+                            <MenuIcon data-testid="menubar-icon" />
+                        </IconButton>
+                    </Link>
                 </Box>
             </Toolbar>
         </AppBar>

@@ -33,9 +33,7 @@ export const MenuPage = () => {
     return <div>
         <ActionBar title="Menu" link={-1} />
         <OptionsBox label="Manage Fines">
-            {activeFineRequests.length > 0 &&
-                <LinkListItem count={activeFineRequests.length} label="View active requests" handleLinkClick={() => toggleDrawer()} />
-            }
+            <LinkListItem label="View active requests" handleLinkClick={() => toggleDrawer()} />
             <LinkListItem label="Log payment" link="/payment" />
         </OptionsBox>
         <Drawer
@@ -61,6 +59,14 @@ export const MenuPage = () => {
                         </Link>
                     </ListItem>
                 ))}
+                {!activeFineRequests.length &&
+                    <Box sx={{
+                        padding: '2rem',
+                        textAlign: 'center'
+                    }}>
+                        <Typography variant='h4'>No active fine requests</Typography>
+                    </Box>
+                }
             </List>
         </Drawer>
     </div >

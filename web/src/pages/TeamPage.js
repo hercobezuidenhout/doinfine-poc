@@ -1,11 +1,14 @@
-import { Divider, List, ListItem } from '@mui/material'
+import { Box, Button, Divider, List, ListItem } from '@mui/material'
+import { useAuthContext } from '@providers/AuthProvider'
 import { useTeamContext } from '@providers/TeamProvider'
 import { useFineService } from '@services/fine-service'
 import React, { useEffect, useState, Fragment } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 
 export const TeamPage = () => {
     const teamContext = useTeamContext()
+    const authContext = useAuthContext()
+
     const [searchParams] = useSearchParams()
     const fineService = useFineService()
     const [member, setMember] = useState()
@@ -27,7 +30,14 @@ export const TeamPage = () => {
             const teamMember = teamContext.members.filter(x => x.id == searchParams.get('member'))[0]
             setMember(teamMember)
         } else {
-            const teamMember = teamContext.members[0]
+            let teamMember = undefined
+
+            if (authContext) {
+                teamMember = teamContext.members.filter(x => x.id == authContext.getCurrentUserId())[0]
+            } else {
+                teamMember = teamContext.members[0]
+            }
+
             setMember(teamMember)
             searchParams.set('member', teamMember.id)
         }
@@ -35,7 +45,14 @@ export const TeamPage = () => {
 
     return (
         <div>
-            <h1 data-testid="team-page-title">{member && `${member.fullName}` || 'Team Member'}</h1>
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+            }}>
+                <h1 data-testid="team-page-title">{member && `${member.fullName}` || 'Team Member'}</h1>
+                {member && (member.id == authContext.getCurrentUserId()) && <Link to='/payment'><Button variant='outlined'>Log Payment</Button></Link>}
+            </Box>
             <List>
                 {fines && fines.map(fine => (
                     <Fragment key={fine.id}>

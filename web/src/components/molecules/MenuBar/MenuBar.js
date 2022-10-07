@@ -1,5 +1,5 @@
 import { DarkMode, LightMode, Menu as MenuIcon, Notifications } from "@mui/icons-material";
-import { AppBar, Badge, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import { AppBar, Badge, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import { useNotificationsContext } from "@providers/NotificationsProvider";
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -60,6 +60,16 @@ export const MenuBar = ({ title = 'TeamLunch' }) => {
                             'aria-labelledby': 'menu-button',
                         }}
                     >
+
+                        <Box sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            padding: '0 0.8rem'
+                        }}>
+                            <Typography variant='h6'>Notifications</Typography>
+                            {notificationContext.nofiticiations.length > 3 && <Button>Read All</Button>}
+                        </Box>
                         {notificationContext.nofiticiations.length > 0 && notificationContext.nofiticiations.filter(notification => !notification.read).map(notification => (
                             <MenuItem key={notification.id} onClick={() => handleNotificationClick(notification)}>{notification.title}</MenuItem>
                         ))}

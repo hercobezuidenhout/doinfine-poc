@@ -64,10 +64,6 @@ export const FinePage = () => {
         return `${user.fullName}`
     }
 
-    const setLink = () => {
-        if (teamContext) return `/team/${teamContext.id}`
-    }
-
     useEffect(() => {
         if (!teamContext) return
         if (!teamContext.members) return
@@ -80,7 +76,7 @@ export const FinePage = () => {
         <div>
             {!loading && !successfulSubmit &&
                 <>
-                    <ActionBar title='Fine Someone' link={setLink()} />
+                    <ActionBar title='Fine Someone' link='/team' />
                     <Box sx={{
                         padding: '1rem'
                     }}>

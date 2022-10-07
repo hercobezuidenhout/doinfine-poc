@@ -36,6 +36,7 @@ export const MenuPage = () => {
             {activeFineRequests.length > 0 &&
                 <LinkListItem count={activeFineRequests.length} label="View active requests" handleLinkClick={() => toggleDrawer()} />
             }
+            <LinkListItem label="Log payment" link="/payment" />
         </OptionsBox>
         <Drawer
             anchor='bottom'

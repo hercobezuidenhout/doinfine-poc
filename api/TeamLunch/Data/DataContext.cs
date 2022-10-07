@@ -10,6 +10,9 @@ public class DataContext : DbContext
     public virtual DbSet<Team> Teams { get; set; }
     public virtual DbSet<FineRequest> FineRequests { get; set; }
     public virtual DbSet<FineRequestResponse> FineRequestResponses { get; set; }
+    public virtual DbSet<PaymentRequest> PaymentRequests { get; set; }
+    public virtual DbSet<PaymentRequestResponse> PaymentRequestResponses { get; set; }
+    public virtual DbSet<Payment> Payments { get; set; }
     public virtual DbSet<Notification> Notifications { get; set; }
 
     public DataContext() { }

@@ -44,11 +44,16 @@ export const NotificationsProvider = ({ children }) => {
                 </>
             );
 
-            enqueueSnackbar(data.title, {
-                action,
-                anchorOrigin: { horizontal: 'center', vertical: 'bottom' }
-            })
-
+            if (data.link) {
+                enqueueSnackbar(data.title, {
+                    action,
+                    anchorOrigin: { horizontal: 'center', vertical: 'bottom' }
+                })
+            } else {
+                enqueueSnackbar(data.title, {
+                    anchorOrigin: { horizontal: 'center', vertical: 'bottom' }
+                })
+            }
         })
 
     }, [connectionReady])

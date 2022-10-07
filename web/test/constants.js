@@ -1,4 +1,6 @@
 export const EXAMPLE_TITLE = 'Example Title'
+export const EXAMPLE_TEXT = 'Lorem ipsum yes'
+
 export const DEFAULT_TITLE = 'TeamLunch'
 export const EXAMPLE_FINE = 'For showing up late to a meeting'
 export const EXAMPLE_LINK = '/example/link'
@@ -7,6 +9,7 @@ export const EXAMPLE_FULLNAME = 'Billy Anderson'
 export const EXAMPLE_USERNAME = 'billy'
 export const EXAMPLE_TEAM_NAME = 'Core'
 export const EXAMPLE_REASON = 'for not caring about water'
+
 
 describe('CONSTANTS', () => {
     it('has EXAMPLE_TITLE', () => {

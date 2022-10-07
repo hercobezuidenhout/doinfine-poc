@@ -77,7 +77,7 @@ public class FineRequestsController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateFineRequest(FineRequestResponseItem item)
+    public async Task<IActionResult> UpdateFineRequest(RequestResponseItem item)
     {
         var userId = ExtractUserId();
 

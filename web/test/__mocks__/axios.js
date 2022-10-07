@@ -65,5 +65,10 @@ module.exports = {
                 statusText: 'Not Found'
             }
         )
+    }),
+    post: jest.fn(url => {
+        if (url == '/payment-requests') return Promise.resolve({
+            id: 1
+        })
     })
 }

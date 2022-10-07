@@ -3,6 +3,7 @@ import { LinkListItem } from '@components/molecules'
 import { OptionsBox } from '@components/organisms'
 import { ChevronRight } from '@mui/icons-material'
 import { Box, Drawer, IconButton, List, ListItem, SwipeableDrawer, Typography } from '@mui/material'
+import { useAuthContext } from '@providers/AuthProvider'
 import { useNotificationsContext } from '@providers/NotificationsProvider'
 import { useFineRequestService } from '@services/fine-request-service'
 import React, { useEffect, useState } from 'react'
@@ -10,6 +11,7 @@ import { Link } from 'react-router-dom'
 
 export const MenuPage = () => {
     const nofiticiationsContext = useNotificationsContext()
+    const authContext = useAuthContext()
     const fineRequestService = useFineRequestService()
 
     const [activeFineRequests, setActiveFineRequests] = useState([])
@@ -26,12 +28,21 @@ export const MenuPage = () => {
         setActiveFineRequests(requests)
     }
 
+    const editProfile = () => {
+        if (!authContext) return
+
+        authContext.editProfile()
+    }
+
     useEffect(() => {
         fetchActiveFineRequests();
     }, [nofiticiationsContext])
 
     return <div>
         <ActionBar title="Menu" link={-1} />
+        <OptionsBox label="Account">
+            <LinkListItem label="billy@example.com" handleLinkClick={editProfile} />
+        </OptionsBox>
         <OptionsBox label="Manage Fines">
             <LinkListItem label="View active requests" handleLinkClick={() => toggleDrawer()} />
             <LinkListItem label="Log payment" link="/payment" />

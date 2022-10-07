@@ -5,7 +5,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { useNotificationService } from '@services/notification-service'
 
-var connection = new signalr.HubConnectionBuilder().withUrl('https://localhost:5001/hubs/notifications').build()
+var hubsUrlBase = process.env.DEVELOPMENT ? 'https://localhost:5001' : 'https://dev-api-team-lunch.azurewebsites.net'
+
+var connection = new signalr.HubConnectionBuilder().withUrl(`${hubsUrlBase}/hubs/notifications`).build()
 
 export const NotificationsContext = createContext({
     nofiticiations: [],

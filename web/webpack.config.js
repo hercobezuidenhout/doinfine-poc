@@ -1,4 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const WebpackPwaManifest = require('webpack-pwa-manifest')
+const WorkboxPlugin = require('workbox-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 const path = require('path')
 const pathToPublic = path.join(__dirname, 'public')
@@ -29,7 +31,7 @@ module.exports = {
             },
             {
                 test: /\.s?css$/,
-                use: ['style-loader', 'css-loader','scoped-css-loader', 'sass-loader']
+                use: ['style-loader', 'css-loader', 'scoped-css-loader', 'sass-loader']
             }
         ]
     },
@@ -37,6 +39,22 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './public/index.html',
             favicon: './src/assets/logo.png'
+        }),
+        new WorkboxPlugin.GenerateSW({
+            clientsClaim: true,
+            skipWaiting: true,
+            maximumFileSizeToCacheInBytes: 20 * 1024 * 1024
+        }),
+        new WebpackPwaManifest({
+            name: 'TeamLunch',
+            description: 'Keep your team accountable!',
+            background_color: '#ffffff',
+            icons: [
+                {
+                    src: path.resolve('src/assets/logo.png'),
+                    sizes: [96, 128, 192, 256, 384, 512]
+                }
+            ]
         }),
         new Dotenv()
     ],

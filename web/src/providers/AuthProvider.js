@@ -6,13 +6,13 @@ const redirectUri = process.env.DEVELOPMENT ? 'http://localhost:3000' : 'https:/
 
 const b2cPolicies = {
     names: {
-        signUpSignIn: "B2C_1_SignUp_SignIn",
+        SignIn: "B2C_1_SignIn",
         editProfile: "B2C_1_ProfileEditing",
         resetPassword: "B2C_1_ResetPassword"
     },
     authorities: {
-        signUpSignIn: {
-            authority: "https://teamlunch.b2clogin.com/teamlunch.onmicrosoft.com/B2C_1_SignUp_SignIn",
+        SignIn: {
+            authority: "https://teamlunch.b2clogin.com/teamlunch.onmicrosoft.com/B2C_1_SignIn",
         },
         editProfile: {
             authority: "https://teamlunch.b2clogin.com/teamlunch.onmicrosoft.com/B2C_1_ProfileEditing"
@@ -27,7 +27,7 @@ const b2cPolicies = {
 const msalConfig = {
     auth: {
         clientId: "9dd2dacf-b536-460e-b7fd-307c7dc1f981",
-        authority: b2cPolicies.authorities.signUpSignIn.authority,
+        authority: b2cPolicies.authorities.SignIn.authority,
         knownAuthorities: [b2cPolicies.authorityDomain],
         redirectUri: redirectUri,
     },

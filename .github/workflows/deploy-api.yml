@@ -54,7 +54,7 @@ jobs:
         # The connection string, including authentication information, for the Azure SQL Server database.
         connection-string: ${{ secrets.SQL_CONNECTION_STRING }}
         # Path to SQL script file to deploy
-        sql-file: TeamLunch/sql/sql-script.sql
+        sql-file: api/TeamLunch/sql/sql-script.sql
 
     - name: Publish
       run: dotnet publish -c Release -o build

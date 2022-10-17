@@ -42,6 +42,7 @@ jobs:
 
     - name: Update Database
       run: dotnet ef database update
+      working-directory: api/TeamLunch
 
     - name: Publish
       run: dotnet publish -c Release -o build

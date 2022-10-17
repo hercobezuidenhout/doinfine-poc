@@ -56,6 +56,17 @@ export const NotificationsProvider = ({ children }) => {
                     anchorOrigin: { horizontal: 'center', vertical: 'bottom' }
                 })
             }
+
+            const notification = new Notification(data.title, {
+                body: data.description,
+                icon: '../assets/logo.png',
+                image: '../assets/logo.png'
+            })
+
+            notification.addEventListener('click', () => {
+                if (data.link) navigate(data.link)
+            })
+
         })
 
     }, [connectionReady])
@@ -69,6 +80,18 @@ export const NotificationsProvider = ({ children }) => {
 
     useEffect(() => {
         fetchNotifications()
+
+        Notification.requestPermission().then(result => {
+            if (result == 'granted') {
+                new Notification('Notification from TeamLunch', {
+                    body: 'This is a notification from TeamLunch :)',
+                    icon: '../assets/logo.png'
+                }).onclick(() => {
+                    console.log('user clicked the notification')
+                })
+            }
+        })
+
     }, [])
 
     return (

@@ -34,12 +34,15 @@ public static class NewPaymentRequest
             _db.PaymentRequests.Add(paymentRequest);
             _db.SaveChanges();
 
-            await _notificationService.SendNotification(new NotificationItem
+            var team = _db.Teams.Where(x => x.Id == request.teamId).First();
+            var notification = new NotificationItem
             {
                 Title = "New Payment Request",
                 Description = "A new payment request has been submitted.",
                 Link = $"/payment-requests/{paymentRequest.Id}"
-            });
+            };
+
+            _notificationService.SendNotificationToTeam(notification, team);
 
             return new Response(paymentRequest.Id);
         }

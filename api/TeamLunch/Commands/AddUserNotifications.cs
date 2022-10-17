@@ -1,12 +1,13 @@
+using MediatR;
 using TeamLunch.Data;
 using TeamLunch.Data.Entities;
-using MediatR;
 
 namespace TeamLunch.Commands;
 
-public static class UpdateNotification
+public static class AddUserNotifications
 {
-    public record Command(string userId, int notificationId) : IRequest<Response>;
+
+    public record Command(List<UserNotification> notifications) : IRequest<Response>;
 
     public class Handler : IRequestHandler<Command, Response>
     {
@@ -19,9 +20,7 @@ public static class UpdateNotification
 
         public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
         {
-            var notification = _db.UserNotifications.Where(x => x.NotificationId == request.notificationId && x.UserId == request.userId).First();
-            notification.Read = true;
-            _db.UserNotifications.Update(notification);
+            _db.UserNotifications.AddRange(request.notifications);
             _db.SaveChanges();
 
             return new Response();
@@ -29,4 +28,5 @@ public static class UpdateNotification
     }
 
     public record Response();
+
 }

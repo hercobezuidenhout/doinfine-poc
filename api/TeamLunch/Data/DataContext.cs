@@ -14,6 +14,7 @@ public class DataContext : DbContext
     public virtual DbSet<PaymentRequestResponse> PaymentRequestResponses { get; set; }
     public virtual DbSet<Payment> Payments { get; set; }
     public virtual DbSet<Notification> Notifications { get; set; }
+    public virtual DbSet<UserNotification> UserNotifications { get; set; }
 
     public DataContext() { }
 
@@ -21,6 +22,20 @@ public class DataContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder
+            .Entity<UserNotification>()
+            .HasKey(key => new { key.UserId, key.NotificationId });
+
+        builder.Entity<UserNotification>()
+            .HasOne(un => un.User)
+            .WithMany(u => u.UserNotifications)
+            .HasForeignKey(un => un.UserId);
+
+        builder.Entity<UserNotification>()
+            .HasOne(un => un.Notification)
+            .WithMany(n => n.UserNotifications)
+            .HasForeignKey(un => un.NotificationId);
+
         SeedData(builder);
     }
 

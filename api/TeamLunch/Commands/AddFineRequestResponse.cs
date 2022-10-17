@@ -57,21 +57,21 @@ public static class AddFineRequestResponse
                     _db.Fines.Add(fine);
                     _db.SaveChanges();
 
-                    await _notificationService.SendNotification(new NotificationItem
+                    _notificationService.SendNotificationToTeam(new NotificationItem
                     {
                         Title = $"{userBeingFined} has been fined!",
                         Description = $"{userBeingFined} has been for {fine.Reason}."
-                    });
+                    }, team);
 
                     return new Response(fineRequestResponse.Id, fine.Id);
                 }
                 else
                 {
-                    await _notificationService.SendNotification(new NotificationItem
+                    _notificationService.SendNotificationToTeam(new NotificationItem
                     {
                         Title = $"The fine for {userBeingFined} has been rejected!",
                         Description = $"{userBeingFined} has not been fined for {fineRequest.Reason}."
-                    });
+                    }, team);
                 }
             }
 

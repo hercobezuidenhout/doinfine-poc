@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using TeamLunch.Data.Entities;
+using TeamLunch.Models;
 
 namespace TeamLunch.Controllers;
 
@@ -25,14 +27,31 @@ public class NotificationsController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var response = await mediator.Send(new GetNotifications.Query());
+        var request = Request;
+        var headers = request.Headers;
+        var authorization = headers.Authorization[0];
+        var startIndex = authorization.IndexOf(" ") + 1;
+        var accessToken = authorization.Substring(startIndex, authorization.Length - startIndex);
+        var handler = new JwtSecurityTokenHandler();
+        var jwt = handler.ReadJwtToken(accessToken);
+        var userId = jwt.Claims.First(claim => claim.Type == "sub").Value;
+        var response = await mediator.Send(new GetNotifications.Query(userId));
         return response == null ? NotFound() : Ok(response);
     }
 
     [HttpPut]
-    public async Task<IActionResult> Update(UpdateNotification.Command comand)
+    public async Task<IActionResult> Update(UpdateNotificationItem item)
     {
-        var response = await mediator.Send(comand);
+        var request = Request;
+        var headers = request.Headers;
+        var authorization = headers.Authorization[0];
+        var startIndex = authorization.IndexOf(" ") + 1;
+        var accessToken = authorization.Substring(startIndex, authorization.Length - startIndex);
+        var handler = new JwtSecurityTokenHandler();
+        var jwt = handler.ReadJwtToken(accessToken);
+        var userId = jwt.Claims.First(claim => claim.Type == "sub").Value;
+
+        var response = await mediator.Send(new UpdateNotification.Command(userId, item.NotificationId));
         return Ok(response);
     }
 }

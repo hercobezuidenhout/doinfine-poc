@@ -28,10 +28,6 @@ public class AddFineRequestResponseTests : TestDataContextBase
         var tcs = new CancellationTokenSource(1000);
         var stubNotificationsService = new Mock<INotificationService>();
 
-        stubNotificationsService
-            .Setup(service => service.SendNotification(It.IsAny<NotificationItem>()))
-            .ReturnsAsync(1);
-
         // Act
         var mockQuery = new AddFineRequestResponse.Handler(_stubContext, stubNotificationsService.Object);
         var response = await mockQuery.Handle(new AddFineRequestResponse.Command(1, Constants.EXAMPLE_USER_ID, true), tcs.Token);
@@ -47,16 +43,13 @@ public class AddFineRequestResponseTests : TestDataContextBase
         var tcs = new CancellationTokenSource(1000);
         var stubNotificationsService = new Mock<INotificationService>();
 
-        stubNotificationsService
-            .Setup(service => service.SendNotification(Constants.EXAMPLE_NOTIFICATION))
-            .ReturnsAsync(1);
 
         // Act
         var mockQuery = new AddFineRequestResponse.Handler(_stubContext, stubNotificationsService.Object);
         var response = await mockQuery.Handle(new AddFineRequestResponse.Command(2, Constants.EXAMPLE_USER_ID, true), tcs.Token);
 
         // Assert
-        Mock.Get(stubNotificationsService.Object).Verify(x => x.SendNotification(It.IsAny<NotificationItem>()), Times.Once);
+        Mock.Get(stubNotificationsService.Object).Verify(x => x.SendNotificationToTeam(It.IsAny<NotificationItem>(), It.IsAny<Team>()), Times.Once);
     }
 
     [Test]
@@ -65,10 +58,6 @@ public class AddFineRequestResponseTests : TestDataContextBase
         // Arrange
         var tcs = new CancellationTokenSource(1000);
         var stubNotificationsService = new Mock<INotificationService>();
-
-        stubNotificationsService
-            .Setup(service => service.SendNotification(Constants.EXAMPLE_NOTIFICATION))
-            .ReturnsAsync(1);
 
         // Act
         var mockQuery = new AddFineRequestResponse.Handler(_stubContext, stubNotificationsService.Object);
@@ -85,10 +74,6 @@ public class AddFineRequestResponseTests : TestDataContextBase
         var tcs = new CancellationTokenSource(1000);
         var stubNotificationsService = new Mock<INotificationService>();
 
-        stubNotificationsService
-            .Setup(service => service.SendNotification(Constants.EXAMPLE_NOTIFICATION))
-            .ReturnsAsync(1);
-
         // Act
         var mockQuery = new AddFineRequestResponse.Handler(_stubContext, stubNotificationsService.Object);
         var response = await mockQuery.Handle(new AddFineRequestResponse.Command(4, Constants.EXAMPLE_USER_ID, false), tcs.Token);
@@ -103,10 +88,6 @@ public class AddFineRequestResponseTests : TestDataContextBase
         // Arrange
         var tcs = new CancellationTokenSource(1000);
         var stubNotificationsService = new Mock<INotificationService>();
-
-        stubNotificationsService
-            .Setup(service => service.SendNotification(Constants.EXAMPLE_NOTIFICATION))
-            .ReturnsAsync(1);
 
         // Act
         var mockQuery = new AddFineRequestResponse.Handler(_stubContext, stubNotificationsService.Object);

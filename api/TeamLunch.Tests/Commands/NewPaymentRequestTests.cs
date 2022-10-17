@@ -5,6 +5,7 @@ using Moq;
 using NUnit.Framework;
 using TeamLunch.Commands;
 using TeamLunch.Contracts;
+using TeamLunch.Data.Entities;
 using TeamLunch.Models;
 
 namespace TeamLunch.Tests.Commands;
@@ -31,10 +32,6 @@ public class NewPaymentRequestTests : TestDataContextBase
 
         var stubNotificationsService = new Mock<INotificationService>();
 
-        stubNotificationsService
-            .Setup(service => service.SendNotification(Constants.EXAMPLE_NOTIFICATION))
-            .ReturnsAsync(1);
-
         // Act
         var mockQuery = new NewPaymentRequest.Handler(_stubContext, stubNotificationsService.Object);
         var response = await mockQuery.Handle(request, tcs.Token);
@@ -56,15 +53,11 @@ public class NewPaymentRequestTests : TestDataContextBase
 
         var mockNotificationsService = new Mock<INotificationService>();
 
-        mockNotificationsService
-            .Setup(service => service.SendNotification(Constants.EXAMPLE_NOTIFICATION))
-            .ReturnsAsync(1);
-
         // Act
         var mockQuery = new NewPaymentRequest.Handler(_stubContext, mockNotificationsService.Object);
         var response = await mockQuery.Handle(command, tcs.Token);
 
         // Assert
-        Mock.Get(mockNotificationsService.Object).Verify(x => x.SendNotification(It.IsAny<NotificationItem>()), Times.Once);
+        Mock.Get(mockNotificationsService.Object).Verify(x => x.SendNotificationToTeam(It.IsAny<NotificationItem>(), It.IsAny<Team>()), Times.Once);
     }
 }

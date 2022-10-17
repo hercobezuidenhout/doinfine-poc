@@ -1,6 +1,9 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
+using TeamLunch.Contracts;
 using TeamLunch.Data;
 using TeamLunch.Data.Entities;
+using TeamLunch.Models;
 
 namespace TeamLunch.Commands;
 
@@ -16,11 +19,13 @@ public static class NewFineRequest
 
     public class Handler : IRequestHandler<Command, int>
     {
-        private readonly DataContext db;
+        private readonly DataContext _db;
+        private readonly INotificationService _notificationService;
 
-        public Handler(DataContext db)
+        public Handler(DataContext db, INotificationService notificationService)
         {
-            this.db = db;
+            _db = db;
+            _notificationService = notificationService;
         }
 
         public async Task<int> Handle(Command request, CancellationToken cancellationToken)
@@ -28,8 +33,18 @@ public static class NewFineRequest
 
             var fineRequest = new FineRequest { TeamId = request.TeamId, Finer = request.UserId, Finee = request.Finee, Reason = request.Reason };
 
-            db.Add(fineRequest);
-            db.SaveChanges();
+            _db.Add(fineRequest);
+            _db.SaveChanges();
+
+            var team = _db.Teams.Where(x => x.Id == request.TeamId).Include(x => x.Users).First();
+            var notification = new NotificationItem
+            {
+                Title = "New fine has been submitted",
+                Description = request.Reason,
+                Link = "/fine-requests/" + fineRequest.Id
+            };
+
+            _notificationService.SendNotificationToTeam(notification, team);
 
             return fineRequest.Id;
         }

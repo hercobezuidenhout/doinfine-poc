@@ -11,8 +11,6 @@ public class Notification
     public string Title { get; set; }
     public string Description { get; set; }
     public string? Link { get; set; }
-    public bool Read { get; set; }
-
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public DateTime DateCreated { get; set; }
+    public List<UserNotification> UserNotifications { get; set; }
 }

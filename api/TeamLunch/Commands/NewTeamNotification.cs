@@ -6,10 +6,11 @@ using TeamLunch.Hubs;
 
 namespace TeamLunch.Commands;
 
-public static class NewNotification
+public static class NewTeamNotification
 {
     public class Command : IRequest<Response>
     {
+        public int TeamId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string? Link { get; set; }
@@ -33,7 +34,7 @@ public static class NewNotification
                 Title = request.Title,
                 Description = request.Description,
                 Link = request.Link,
-                Read = false
+
             };
 
             db.Add(notification);

@@ -61,21 +61,21 @@ public static class AddPaymentRequestResponse
                     _db.SaveChanges();
 
 
-                    await _notificationService.SendNotification(new NotificationItem
+                    _notificationService.SendNotificationToTeam(new NotificationItem
                     {
                         Title = $"{userPaying} has paid off a fine!",
                         Description = $"{userPaying} has paid of a fine by {payment.Action}."
-                    });
+                    }, team);
 
                     return new Response(paymentRequestResponse.Id, payment.Id);
                 }
                 else
                 {
-                    await _notificationService.SendNotification(new NotificationItem
+                    _notificationService.SendNotificationToTeam(new NotificationItem
                     {
                         Title = $"The payment request by {userPaying} has been rejected!",
                         Description = $"{userPaying} has not been paid off any fines by {paymentRequest.Action}."
-                    });
+                    }, team);
                 }
             }
 

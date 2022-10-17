@@ -11,6 +11,6 @@ namespace TeamLunch.Data.Entities
         public List<Fine> Fines { get; set; }
         public List<Team> Teams { get; set; }
         public List<FineRequestResponse> FineRequestResponses { get; set; }
-        public bool Active { get; set; }
+        public List<UserNotification> UserNotifications { get; set; }
     }
 }

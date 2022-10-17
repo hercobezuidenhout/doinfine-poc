@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using TeamLunch.Models;
 using TeamLunch.Exceptions;
+using TeamLunch.Contracts;
 
 namespace TeamLunch.Controllers;
 
@@ -65,13 +66,6 @@ public class FineRequestsController : ControllerBase
         var userId = ExtractUserId();
 
         var fineRequestId = await mediator.Send(new NewFineRequest.Command { UserId = userId, TeamId = item.TeamId, Finee = item.Finee, Reason = item.Reason });
-
-        var notificationId = await mediator.Send(new NewNotification.Command
-        {
-            Title = "New fine has been submitted",
-            Description = item.Reason,
-            Link = "/fine-requests/" + fineRequestId
-        });
 
         return Ok(fineRequestId);
     }

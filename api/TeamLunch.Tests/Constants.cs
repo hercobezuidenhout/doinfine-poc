@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using TeamLunch.Data.Entities;
 using TeamLunch.Models;
 
 namespace TeamLunch.Tests;
@@ -10,6 +12,15 @@ public static class Constants
     public static int EXAMPLE_TEAM_ID = 1;
     public static string EXAMPLE_TEAM_NAME = "Core";
 
+    public static Team EXAMPLE_TEAM = new Team
+    {
+        Id = 1,
+        Name = "Example Team",
+        Users = new List<User>
+        {
+            new User { Id = "abcd", FirstName = "Billy", LastName = "Anderson" }
+        }
+    };
 
     public static NotificationItem EXAMPLE_NOTIFICATION = new NotificationItem
     {

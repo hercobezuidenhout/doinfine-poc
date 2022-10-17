@@ -1,8 +1,9 @@
+using TeamLunch.Data.Entities;
 using TeamLunch.Models;
 
 namespace TeamLunch.Contracts;
 
 public interface INotificationService
 {
-    Task<int> SendNotification(NotificationItem notification);
+    void SendNotificationToTeam(NotificationItem notification, Team team);
 }

@@ -1,6 +1,7 @@
 using MediatR;
 using TeamLunch.Commands;
 using TeamLunch.Contracts;
+using TeamLunch.Data.Entities;
 using TeamLunch.Models;
 
 namespace TeamLunch.Services;
@@ -14,15 +15,28 @@ public class NotificationService : INotificationService
         _mediator = mediator;
     }
 
-    public async Task<int> SendNotification(NotificationItem notification)
+    public async void SendNotificationToTeam(NotificationItem notification, Team team)
     {
-        var response = await _mediator.Send(new NewNotification.Command
+        var response = await _mediator.Send(new NewTeamNotification.Command
         {
+            TeamId = team.Id,
             Title = notification.Title,
             Description = notification.Description,
             Link = notification.Link
         });
 
-        return response.id;
+        var userNotifications = new List<UserNotification>();
+
+        foreach (var user in team.Users)
+        {
+            userNotifications.Add(new UserNotification
+            {
+                UserId = user.Id,
+                NotificationId = response.id,
+                Read = false
+            });
+        }
+
+        await _mediator.Send(new AddUserNotifications.Command(userNotifications));
     }
 }

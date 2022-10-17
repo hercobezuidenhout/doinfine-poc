@@ -37,7 +37,7 @@ jobs:
     - name: Test
       run: dotnet test
 
-    - nam: Install ef core tools
+    - name: Install ef core tools
       run: dotnet tool install --global dotnet-ef
 
     - name: Update Database

@@ -48,14 +48,13 @@ jobs:
 
     - name: Azure SQL Deploy
       uses: Azure/sql-action@v1
-      working-directory: api/TeamLunch
       with:
         # Name of the Azure SQL Server name, like Fabrikam.database.windows.net.
         server-name: tcp:teamlunchdb.database.windows.net
         # The connection string, including authentication information, for the Azure SQL Server database.
         connection-string: ${{ secrets.SQL_CONNECTION_STRING }}
         # Path to SQL script file to deploy
-        sql-file: /sql/sql-script.sql
+        sql-file: /TeamLunch/sql/sql-script.sql
 
     - name: Publish
       run: dotnet publish -c Release -o build

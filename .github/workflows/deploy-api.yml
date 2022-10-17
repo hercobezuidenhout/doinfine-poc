@@ -27,9 +27,6 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
-        filters: |
-          data:
-            - 'api/TeamLunch/Data/**'
 
     - name: Restore dependencies
       run: dotnet restore
@@ -46,12 +43,10 @@ jobs:
           dotnet tool install dotnet-ef
       
     - name: Generate scripts
-      if: steps.filter.outputs.data == 'true'
       run: dotnet ef migrations script --output sql/sql-script.sql --idempotent --context DataContext
       working-directory: api/TeamLunch
 
     - name: Azure SQL Deploy
-      if: steps.filter.outputs.data == 'true'
       uses: Azure/sql-action@v1
       with:
         # Name of the Azure SQL Server name, like Fabrikam.database.windows.net.

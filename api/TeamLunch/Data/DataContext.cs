@@ -21,7 +21,7 @@ public class DataContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        // SeedData(builder);
+        SeedData(builder);
     }
 
     private void SeedData(ModelBuilder builder)

@@ -38,7 +38,8 @@ const msalInstance = new PublicClientApplication(msalConfig)
 export const AuthContext = createContext({
     getCurrentUserId: () => { },
     getAccessToken: () => { },
-    editProfile: () => { }
+    editProfile: () => { },
+    signOut: () => { }
 })
 
 
@@ -65,7 +66,6 @@ export const AuthProvider = ({ children }) => {
             }).catch(error => {
                 console.log(error)
             })
-
     }
 
     const getAccessToken = async () => {
@@ -99,6 +99,10 @@ export const AuthProvider = ({ children }) => {
         return account.localAccountId
     }
 
+    const signOut = () => {
+        msalInstance.logoutRedirect()
+    }
+
     useEffect(() => {
         const callbackId = msalInstance.addEventCallback(async (event) => {
             // if (!event.eventType == 'msal:acquireTokenSuccess') return
@@ -107,9 +111,23 @@ export const AuthProvider = ({ children }) => {
 
             if (event.eventType == EventType.ACQUIRE_TOKEN_SUCCESS) {
                 if (event?.payload) {
+                    if (event.payload.idTokenClaims['newUser']) {
+                        const lastName = event.payload.account.idTokenClaims.family_name
+                        const firstName = event.payload.account.idTokenClaims.name
+                        const accessToken = event.payload.accessToken
+
+                        await axios.post('/users', {
+                            firstName: firstName,
+                            lastName: lastName
+                        }, {
+                            headers: {
+                                'Authorization': `Bearer ${accessToken}`
+                            }
+                        }).catch(error => console.error(error))
+                    }
                     if (event.payload.idTokenClaims['tfp'] == b2cPolicies.names.editProfile) {
                         const lastName = event.payload.account.idTokenClaims.family_name
-                        const firstName = event.payload.account.idTokenClaims.given_name
+                        const firstName = event.payload.account.idTokenClaims.name
                         const accessToken = event.payload.accessToken
 
                         await axios.put('/users', {
@@ -137,7 +155,8 @@ export const AuthProvider = ({ children }) => {
         <AuthContext.Provider value={{
             getCurrentUserId: getCurrentUserId,
             getAccessToken: getAccessToken,
-            editProfile: editProfile
+            editProfile: editProfile,
+            signOut: signOut
         }}>
             {account && children}
         </AuthContext.Provider>

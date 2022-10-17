@@ -25,7 +25,6 @@ public static class GetUserById
                 var user = _db.Users.Where(x => x.Id == request.id).Include(x => x.Teams).First();
                 return new Response(
                     user.Id,
-                    user.Username,
                     string.Concat(user.FirstName, " ", user.LastName),
                     user.Teams.Select(x => x.Id).ToList()
                 );
@@ -36,5 +35,5 @@ public static class GetUserById
             }
         }
     }
-    public record Response(string id, string username, string fullName, List<int> teams);
+    public record Response(string id, string fullName, List<int> teams);
 }

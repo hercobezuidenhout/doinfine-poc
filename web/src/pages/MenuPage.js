@@ -42,6 +42,7 @@ export const MenuPage = () => {
         <ActionBar title="Menu" link={-1} />
         <OptionsBox label="Account">
             <LinkListItem label="billy@example.com" handleLinkClick={editProfile} />
+            <LinkListItem label="Sign Out" handleLinkClick={() => authContext.signOut()} />
         </OptionsBox>
         <OptionsBox label="Manage Fines">
             <LinkListItem label="View active requests" handleLinkClick={() => toggleDrawer()} />

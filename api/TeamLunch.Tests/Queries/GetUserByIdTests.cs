@@ -26,7 +26,7 @@ public class GetUserByIdTests : TestDataContextBase
         var response = await mockQuery.Handle(new GetUserById.Query(Constants.EXAMPLE_USER_ID), tcs.Token);
 
         // Assert
-        Assert.AreEqual(Constants.EXAMPLE_USERNAME, response.username);
+        Assert.AreEqual(Constants.EXAMPLE_FULLNAME, response.fullName);
     }
 
     [Test]

@@ -1,6 +1,7 @@
 using System.Reflection;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using TeamLunch.Data;
@@ -79,7 +80,10 @@ namespace TeamLunch
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
-            services.AddDbContext<DataContext>(options => options.UseInMemoryDatabase("TeamLunch"));
+            services.AddDbContext<DataContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DataContext"));
+            });
 
             services.AddCors(options =>
             {
@@ -99,7 +103,10 @@ namespace TeamLunch
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
         {
-            SeedInMemoryDatabase(app.ApplicationServices);
+            if (env.IsDevelopment())
+            {
+                SeedInMemoryDatabase(app.ApplicationServices);
+            }
 
             app.UseSwagger();
 

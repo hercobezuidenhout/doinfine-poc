@@ -27,7 +27,7 @@ public class UsersControllerTests
 
         stubMediator
             .Setup(mediator => mediator.Send(It.IsAny<GetUserById.Query>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new GetUserById.Response(Constants.EXAMPLE_USER_ID, Constants.EXAMPLE_USERNAME, Constants.EXAMPLE_FULLNAME, new List<int> { 1 }));
+            .ReturnsAsync(new GetUserById.Response(Constants.EXAMPLE_USER_ID, Constants.EXAMPLE_FULLNAME, new List<int> { 1 }));
 
         var controller = new UsersController(stubLogger.Object, stubMediator.Object);
 
@@ -37,7 +37,7 @@ public class UsersControllerTests
         var actualResult = okResult.Value as GetUserById.Response;
 
         // Assert
-        Assert.True(actualResult.username == Constants.EXAMPLE_USERNAME);
+        Assert.True(actualResult.fullName == Constants.EXAMPLE_FULLNAME);
     }
 
     [Test]

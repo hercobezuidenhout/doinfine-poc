@@ -21,14 +21,14 @@ public class DataContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        SeedData(builder);
+        // SeedData(builder);
     }
 
     private void SeedData(ModelBuilder builder)
     {
         builder.Entity<User>().HasData(
-            new User { Id = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad", Username = "billy", FirstName = "Billy", LastName = "Anderson" },
-            new User { Id = "dd760d11-91ed-4a32-9810-683f7df14239", Username = "steve", FirstName = "Steve", LastName = "Walkman" }
+            new User { Id = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad", FirstName = "Billy", LastName = "Anderson" },
+            new User { Id = "dd760d11-91ed-4a32-9810-683f7df14239", FirstName = "Steve", LastName = "Walkman" }
         );
 
         builder.Entity<Fine>().HasData(

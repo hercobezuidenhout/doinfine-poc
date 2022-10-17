@@ -82,7 +82,14 @@ namespace TeamLunch
 
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DataContext"));
+                if (HostingEnvironment.IsDevelopment())
+                {
+                    options.UseInMemoryDatabase("InMemoryDb");
+                }
+                else
+                {
+                    options.UseSqlServer(Configuration.GetConnectionString("DataContext"));
+                }
             });
 
             services.AddCors(options =>

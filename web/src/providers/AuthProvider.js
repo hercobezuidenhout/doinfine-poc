@@ -7,7 +7,8 @@ const redirectUri = process.env.DEVELOPMENT ? 'http://localhost:3000' : 'https:/
 const b2cPolicies = {
     names: {
         signUpSignIn: "B2C_1_SignUp_SignIn",
-        editProfile: "B2C_1_ProfileEditing"
+        editProfile: "B2C_1_ProfileEditing",
+        resetPassword: "B2C_1_ResetPassword"
     },
     authorities: {
         signUpSignIn: {
@@ -15,6 +16,9 @@ const b2cPolicies = {
         },
         editProfile: {
             authority: "https://teamlunch.b2clogin.com/teamlunch.onmicrosoft.com/B2C_1_ProfileEditing"
+        },
+        resetPassword: {
+            authority: "https://teamlunch.b2clogin.com/teamlunch.onmicrosoft.com/B2C_1_ResetPassword"
         }
     },
     authorityDomain: "teamlunch.b2clogin.com"
@@ -39,6 +43,7 @@ export const AuthContext = createContext({
     getCurrentUserId: () => { },
     getAccessToken: () => { },
     editProfile: () => { },
+    resetPassword: () => { },
     signOut: () => { }
 })
 
@@ -94,6 +99,16 @@ export const AuthProvider = ({ children }) => {
         msalInstance.acquireTokenRedirect(request);
     }
 
+    const resetPassword = () => {
+        const request = {
+            scopes: ['https://teamlunch.onmicrosoft.com/api/read'],
+            authority: b2cPolicies.authorities.resetPassword.authority,
+            redirectUri: redirectUri
+        }
+
+        msalInstance.acquireTokenRedirect(request);
+    }
+
     const getCurrentUserId = () => {
         if (!account) return
         return account.localAccountId
@@ -108,6 +123,13 @@ export const AuthProvider = ({ children }) => {
             // if (!event.eventType == 'msal:acquireTokenSuccess') return
             // if (!event.payload.account.idTokenClaims.tfp == 'B2C_1_ProfileEditing') return
 
+            if (event.error) {
+                const isResetPassword = event.error.errorMessage.includes('AADB2C90118')
+
+                if (isResetPassword) {
+                    resetPassword()
+                }
+            }
 
             if (event.eventType == EventType.ACQUIRE_TOKEN_SUCCESS) {
                 if (event?.payload) {
@@ -141,6 +163,9 @@ export const AuthProvider = ({ children }) => {
 
                         console.log('Update success')
                     }
+                    if (event.payload.idTokenClaims['tfp'] == b2cPolicies.names.resetPassword) {
+                        console.log('Password reset')
+                    }
                 }
             }
         })
@@ -156,6 +181,7 @@ export const AuthProvider = ({ children }) => {
             getCurrentUserId: getCurrentUserId,
             getAccessToken: getAccessToken,
             editProfile: editProfile,
+            resetPassword: resetPassword,
             signOut: signOut
         }}>
             {account && children}

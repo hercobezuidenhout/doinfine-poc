@@ -41,7 +41,8 @@ export const MenuPage = () => {
     return <div>
         <ActionBar title="Menu" link={-1} />
         <OptionsBox label="Account">
-            <LinkListItem label="billy@example.com" handleLinkClick={editProfile} />
+            <LinkListItem label="Edit Profile" handleLinkClick={editProfile} />
+            <LinkListItem label="Reset Password" handleLinkClick={() => authContext.resetPassword()} />
             <LinkListItem label="Sign Out" handleLinkClick={() => authContext.signOut()} />
         </OptionsBox>
         <OptionsBox label="Manage Fines">

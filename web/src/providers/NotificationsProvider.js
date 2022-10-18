@@ -92,6 +92,7 @@ export const NotificationsProvider = ({ children }) => {
     }, [])
 
     useEffect(() => {
+        if (isIOS()) return;
         if (notifications.length == 0) {
             navigator.clearAppBadge()
         }

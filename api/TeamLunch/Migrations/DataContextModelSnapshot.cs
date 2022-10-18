@@ -45,7 +45,7 @@ namespace TeamLunch.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Fines");
+                    b.ToTable("Fines", (string)null);
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.FineRequest", b =>
@@ -73,7 +73,7 @@ namespace TeamLunch.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FineRequests");
+                    b.ToTable("FineRequests", (string)null);
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.FineRequestResponse", b =>
@@ -100,7 +100,7 @@ namespace TeamLunch.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("FineRequestResponses");
+                    b.ToTable("FineRequestResponses", (string)null);
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.Notification", b =>
@@ -127,7 +127,7 @@ namespace TeamLunch.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notifications", (string)null);
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.Payment", b =>
@@ -151,7 +151,7 @@ namespace TeamLunch.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.PaymentRequest", b =>
@@ -178,7 +178,7 @@ namespace TeamLunch.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PaymentRequests");
+                    b.ToTable("PaymentRequests", (string)null);
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.PaymentRequestResponse", b =>
@@ -203,7 +203,7 @@ namespace TeamLunch.Migrations
 
                     b.HasIndex("PaymentRequestId");
 
-                    b.ToTable("PaymentRequestResponses");
+                    b.ToTable("PaymentRequestResponses", (string)null);
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.Team", b =>
@@ -220,7 +220,7 @@ namespace TeamLunch.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teams");
+                    b.ToTable("Teams", (string)null);
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.User", b =>
@@ -238,7 +238,7 @@ namespace TeamLunch.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.UserNotification", b =>
@@ -256,7 +256,7 @@ namespace TeamLunch.Migrations
 
                     b.HasIndex("NotificationId");
 
-                    b.ToTable("UserNotifications");
+                    b.ToTable("UserNotifications", (string)null);
                 });
 
             modelBuilder.Entity("TeamUser", b =>
@@ -271,7 +271,7 @@ namespace TeamLunch.Migrations
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("TeamUser");
+                    b.ToTable("TeamUser", (string)null);
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.Fine", b =>

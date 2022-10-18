@@ -14,6 +14,18 @@ export const NotificationsContext = createContext({
     readNotification: (id) => { }
 })
 
+function isIOS() {
+    const browserInfo = navigator.userAgent.toLowerCase();
+
+    if (browserInfo.match('iphone') || browserInfo.match('ipad')) {
+        return true;
+    }
+    if (['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform)) {
+        return true;
+    }
+    return false;
+}
+
 export const NotificationsProvider = ({ children }) => {
     const [connectionReady, setConnectionReady] = useState(false)
     const [notifications, setNotifications] = useState([])
@@ -57,6 +69,7 @@ export const NotificationsProvider = ({ children }) => {
                 })
             }
 
+            if (isIOS()) return
             const notification = new Notification(data.title, {
                 body: data.description,
                 icon: '../assets/logo.png',
@@ -80,7 +93,9 @@ export const NotificationsProvider = ({ children }) => {
 
     useEffect(() => {
         fetchNotifications()
+        if (isIOS()) return;
         Notification.requestPermission()
+
     }, [])
 
     return (

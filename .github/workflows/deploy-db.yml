@@ -4,10 +4,13 @@ on:
   push: 
     branches: ['develop']
 
+defaults: 
+  run: 
+    working-directory: api/TeamLunch
+
 jobs: 
   UpdateDatabase: 
     runs-on: ubuntu-latest
-    working-directory: api/TeamLunch
 
     steps: 
       - uses: actions/checkout@v3

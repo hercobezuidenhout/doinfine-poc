@@ -5,20 +5,17 @@ on:
     branches: ['develop']
 
 jobs: 
-  job1: 
+  UpdateDatabase: 
     runs-on: ubuntu-latest
 
     steps: 
       - uses: actions/checkout@v3
 
-      - name: Print HelloWorld
-        run: echo Hello World!
-
-  job2:
-    runs-on: ubuntu-latest
-
-    steps: 
-      - uses: actions/checkout@v3
-
-      - name: Print HelloWorld from Job 2
-        run: echo Hello World! from job 2
+      - name: Install EF Tool
+        run: |
+            dotnet new tool-manifest
+            dotnet tool install dotnet-ef
+      
+      - name: Update Database
+        run: dotnet ef database update
+        working-directory: api/TeamLunch

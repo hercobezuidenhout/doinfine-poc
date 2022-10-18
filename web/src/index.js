@@ -9,6 +9,7 @@ import { SnackbarProvider } from 'notistack'
 import React, { useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
+import { ErrorBoundary } from './ErrorBoundary'
 import './index.css'
 import { CorporateContext, corporateTheme } from './theme'
 
@@ -45,18 +46,20 @@ const Corporate = () => {
         <CorporateContext.Provider value={{ mode, setMode }}>
             <BrowserRouter>
                 <ThemeProvider theme={theme}>
-                    <AuthProvider>
-                        <UserProvider>
-                            <TeamProvider>
-                                <CssBaseline />
-                                <SnackbarProvider>
-                                    <NotificationsProvider>
-                                        <RouterProvider />
-                                    </NotificationsProvider>
-                                </SnackbarProvider>
-                            </TeamProvider>
-                        </UserProvider>
-                    </AuthProvider>
+                    <ErrorBoundary>
+                        <AuthProvider>
+                            <UserProvider>
+                                <TeamProvider>
+                                    <CssBaseline />
+                                    <SnackbarProvider>
+                                        <NotificationsProvider>
+                                            <RouterProvider />
+                                        </NotificationsProvider>
+                                    </SnackbarProvider>
+                                </TeamProvider>
+                            </UserProvider>
+                        </AuthProvider>
+                    </ErrorBoundary>
                 </ThemeProvider>
             </BrowserRouter>
         </CorporateContext.Provider>

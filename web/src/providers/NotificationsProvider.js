@@ -92,10 +92,16 @@ export const NotificationsProvider = ({ children }) => {
     }, [])
 
     useEffect(() => {
+        if (notifications.length == 0) {
+            navigator.clearAppBadge()
+        }
+        navigator.setAppBadge(notifications.length)
+    }, [notifications])
+
+    useEffect(() => {
         fetchNotifications()
         if (isIOS()) return;
         Notification.requestPermission()
-
     }, [])
 
     return (

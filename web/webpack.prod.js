@@ -54,6 +54,36 @@ module.exports = {
                     src: path.resolve('src/assets/logo.png'),
                     sizes: [96, 128, 192, 256, 384, 512]
                 }
+            ],
+            shortcuts: [
+                {
+                    name: "Fine Someone",
+                    short_name: "Fines",
+                    description: "Submit a new fine request",
+                    url: "/fine",
+                    icons: []
+                },
+                {
+                    name: "Pay Fine",
+                    short_name: "Payments",
+                    description: "Submit a new payment request",
+                    url: "/payment",
+                    icons: []
+                },
+                {
+                    name: "Active Fine Requests",
+                    short_name: "Fine Requests",
+                    description: "View active fine requests",
+                    url: "/fine-requests",
+                    icons: []
+                },
+                {
+                    name: "Active Payment Requests",
+                    short_name: "Payment Requests",
+                    description: "View active payment requests",
+                    url: "/payment-requests",
+                    icons: []
+                },
             ]
         }),
         new Dotenv()

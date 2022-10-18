@@ -12,8 +12,8 @@ using TeamLunch.Data;
 namespace TeamLunch.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221018170514_ImproveUserNotifications")]
-    partial class ImproveUserNotifications
+    [Migration("20221018172559_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -48,57 +48,6 @@ namespace TeamLunch.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Fines");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Paid = false,
-                            Reason = "For showing up late to a meeting.",
-                            UserId = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Paid = false,
-                            Reason = "For leaving a dirty pull request.",
-                            UserId = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Paid = false,
-                            Reason = "For wearing a Manchester United shirt.",
-                            UserId = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Paid = false,
-                            Reason = "For pushing a secret into remote.",
-                            UserId = "dd760d11-91ed-4a32-9810-683f7df14239"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Paid = false,
-                            Reason = "For not using the team's virtual background.",
-                            UserId = "dd760d11-91ed-4a32-9810-683f7df14239"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Paid = false,
-                            Reason = "For leaving without completing the pull request.",
-                            UserId = "dd760d11-91ed-4a32-9810-683f7df14239"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Paid = false,
-                            Reason = "For loving coffee way too much.",
-                            UserId = "dd760d11-91ed-4a32-9810-683f7df14239"
-                        });
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.FineRequest", b =>
@@ -127,48 +76,6 @@ namespace TeamLunch.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FineRequests");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Finee = "dd760d11-91ed-4a32-9810-683f7df14239",
-                            Finer = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad",
-                            Reason = "not caring enough about water",
-                            TeamId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Finee = "dd760d11-91ed-4a32-9810-683f7df14239",
-                            Finer = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad",
-                            Reason = "not caring enough about dogs",
-                            TeamId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Finee = "dd760d11-91ed-4a32-9810-683f7df14239",
-                            Finer = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad",
-                            Reason = "not caring enough about something else",
-                            TeamId = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Finee = "dd760d11-91ed-4a32-9810-683f7df14239",
-                            Finer = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad",
-                            Reason = "not caring enough about something else",
-                            TeamId = 1
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Finee = "dd760d11-91ed-4a32-9810-683f7df14239",
-                            Finer = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad",
-                            Reason = "not caring enough about something else",
-                            TeamId = 1
-                        });
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.FineRequestResponse", b =>
@@ -196,15 +103,6 @@ namespace TeamLunch.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("FineRequestResponses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Approved = true,
-                            FineRequestId = 5,
-                            UserId = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad"
-                        });
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.Notification", b =>
@@ -325,13 +223,6 @@ namespace TeamLunch.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Teams");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Core"
-                        });
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.User", b =>
@@ -350,20 +241,6 @@ namespace TeamLunch.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad",
-                            FirstName = "Billy",
-                            LastName = "Anderson"
-                        },
-                        new
-                        {
-                            Id = "dd760d11-91ed-4a32-9810-683f7df14239",
-                            FirstName = "Steve",
-                            LastName = "Walkman"
-                        });
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.UserNotification", b =>
@@ -397,18 +274,6 @@ namespace TeamLunch.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("TeamUser");
-
-                    b.HasData(
-                        new
-                        {
-                            TeamsId = 1,
-                            UsersId = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad"
-                        },
-                        new
-                        {
-                            TeamsId = 1,
-                            UsersId = "dd760d11-91ed-4a32-9810-683f7df14239"
-                        });
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.Fine", b =>

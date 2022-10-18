@@ -1,0 +1,24 @@
+name: Deploy Database
+
+on: 
+  push: 
+    branches: ['develop']
+
+jobs: 
+  job1: 
+    runs-on: ubuntu-latest
+
+    steps: 
+      - uses: actions/checkout@v3
+
+      - name: Print HelloWorld
+        run: echo Hello World!
+
+  job2:
+    runs-on: ubuntu-latest
+
+    steps: 
+      - uses: actions/checkout@v3
+
+      - name: Print HelloWorld from Job 2
+        run: echo Hello World! from job 2

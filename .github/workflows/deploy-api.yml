@@ -42,19 +42,9 @@ jobs:
           dotnet new tool-manifest
           dotnet tool install dotnet-ef
       
-    - name: Generate scripts
-      run: dotnet ef migrations script --output sql/sql-script.sql --idempotent --context DataContext
+    - name: Update Database
+      run: dotnet ef database update
       working-directory: api/TeamLunch
-
-    - name: Azure SQL Deploy
-      uses: Azure/sql-action@v1
-      with:
-        # Name of the Azure SQL Server name, like Fabrikam.database.windows.net.
-        server-name: tcp:teamlunchdb.database.windows.net
-        # The connection string, including authentication information, for the Azure SQL Server database.
-        connection-string: ${{ secrets.SQL_CONNECTION_STRING }}
-        # Path to SQL script file to deploy
-        sql-file: api/TeamLunch/sql/sql-script.sql
 
     - name: Publish
       run: dotnet publish -c Release -o build

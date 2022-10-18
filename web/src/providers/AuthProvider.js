@@ -184,7 +184,7 @@ export const AuthProvider = ({ children }) => {
             resetPassword: resetPassword,
             signOut: signOut
         }}>
-            {account && children}
+            {account ? children : <h1>Loading ...</h1>}
         </AuthContext.Provider>
     )
 }

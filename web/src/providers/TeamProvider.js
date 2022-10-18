@@ -16,14 +16,10 @@ export const TeamProvider = ({ children }) => {
     const userContext = useUserContext()
 
     const fetchTeam = async () => {
-        let teamId = localStorage.getItem('activeTeam');
+        var user = await userContext.getCurrentUser()
 
-        if (!teamId) {
-            var user = await userContext.getCurrentUser()
-            if (!user) return
-            teamId = user.teams[0]
-            localStorage.setItem('activeTeam', teamId)
-        }
+        if (!user) return
+        var teamId = user.teams[0]
 
         const team = await teamService.fetchById(teamId)
 

@@ -5,8 +5,8 @@
   "author": "Herco Bezuidenhout",
   "license": "MIT",
   "scripts": {
-    "build": "webpack",
-    "start": "webpack-dev-server",
+    "build": "webpack --config webpack.prod.js",
+    "start": "webpack serve --config webpack.dev.js",
     "test": "jest --env=jsdom",
     "test:e2e": "npx playwright test"
   },

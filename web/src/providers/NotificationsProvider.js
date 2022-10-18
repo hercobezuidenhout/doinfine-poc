@@ -80,18 +80,7 @@ export const NotificationsProvider = ({ children }) => {
 
     useEffect(() => {
         fetchNotifications()
-
-        Notification.requestPermission().then(result => {
-            if (result == 'granted') {
-                new Notification('Notification from TeamLunch', {
-                    body: 'This is a notification from TeamLunch :)',
-                    icon: '../assets/logo.png'
-                }).onclick(() => {
-                    console.log('user clicked the notification')
-                })
-            }
-        })
-
+        Notification.requestPermission()
     }, [])
 
     return (

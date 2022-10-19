@@ -1,5 +1,5 @@
 import { LeaderboardItem } from '@components/atoms'
-import { List } from '@mui/material'
+import { List, Skeleton } from '@mui/material'
 import { useLeaderboardService } from '@services'
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -34,6 +34,7 @@ export const LeaderboardPage = () => {
     }, [searchParams])
 
     useEffect(() => {
+        setItems(undefined)
         if (activeTab === 'Users') fetchUsersLeaderboard()
         if (activeTab === 'Teams') fetchTeamsLeaderboard()
     }, [activeTab])
@@ -42,9 +43,16 @@ export const LeaderboardPage = () => {
         <div>
             <h1>{activeTab}</h1>
             <List>
-                {items && items.map((item, index) => (
+                {items ? items.map((item, index) => (
                     <LeaderboardItem key={index} position={index + 1} name={item.title} fines={item.fines} />
-                ))}
+                )) : (
+                    <>
+                        <Skeleton variant='text' sx={{ fontSize: '2rem', display: 'inline-block', width: '100%', marginBottom: '1rem ' }} />
+                        <Skeleton variant='text' sx={{ fontSize: '2rem', display: 'inline-block', width: '100%', marginBottom: '1rem ' }} />
+                        <Skeleton variant='text' sx={{ fontSize: '2rem', display: 'inline-block', width: '100%', marginBottom: '1rem ' }} />
+                        <Skeleton variant='text' sx={{ fontSize: '2rem', display: 'inline-block', width: '100%', marginBottom: '1rem ' }} />
+                    </>
+                )}
             </List>
         </div>
     )

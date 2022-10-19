@@ -26,6 +26,7 @@ export const TeamPage = () => {
 
     useEffect(() => {
         if (!teamContext) return
+        setFines(undefined)
         if (searchParams.get('member')) {
             const teamMember = teamContext.members.filter(x => x.id == searchParams.get('member'))[0]
             setMember(teamMember)

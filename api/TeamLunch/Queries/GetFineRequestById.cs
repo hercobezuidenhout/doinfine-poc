@@ -7,7 +7,7 @@ namespace TeamLunch.Queries;
 
 public static class GetFineRequestById
 {
-    public record Query(int id) : IRequest<Response>;
+    public record Query(int id, string userId) : IRequest<Response>;
 
     public class Handler : IRequestHandler<Query, Response>
     {
@@ -24,7 +24,7 @@ public static class GetFineRequestById
             {
                 var fineRequest = _db.FineRequests
                     .Where(x => x.Id == request.id)
-                    .Where(x => x.Responses.Where(r => (r.FineRequestId == request.id) && (r.UserId == x.Finer)).Count() == 0)
+                    .Where(x => !x.Responses.Any(r => r.UserId == request.userId && r.FineRequestId == request.id))
                     .First();
 
                 var userFullName = _db.Users.Where(x => x.Id == fineRequest.Finee).Select(x => $"{x.FirstName} {x.LastName}").First();

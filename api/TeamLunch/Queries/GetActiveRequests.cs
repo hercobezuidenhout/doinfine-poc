@@ -1,6 +1,5 @@
 using MediatR;
 using TeamLunch.Data;
-using TeamLunch.Models;
 
 namespace TeamLunch.Queries;
 

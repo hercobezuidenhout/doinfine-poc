@@ -51,7 +51,8 @@ public class FineRequestsController : ControllerBase
     {
         try
         {
-            var response = await mediator.Send(new GetFineRequestById.Query(id));
+            var userId = ExtractUserId();
+            var response = await mediator.Send(new GetFineRequestById.Query(id, userId));
             return response == null ? NotFound() : Ok(response);
         }
         catch (FineRequestNotFoundException exception)

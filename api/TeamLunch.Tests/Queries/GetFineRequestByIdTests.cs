@@ -23,7 +23,7 @@ public class GetFineRequestByIdTests : TestDataContextBase
 
         // Act
         var mockQuery = new GetFineRequestById.Handler(_stubContext);
-        var response = await mockQuery.Handle(new GetFineRequestById.Query(2), tcs.Token);
+        var response = await mockQuery.Handle(new GetFineRequestById.Query(2, Constants.EXAMPLE_USER_ID), tcs.Token);
 
         // Assert
         Assert.AreEqual("not caring enough about dogs", response.reason);
@@ -42,7 +42,7 @@ public class GetFineRequestByIdTests : TestDataContextBase
         // Assert
         Assert.ThrowsAsync<FineRequestNotFoundException>(async delegate
         {
-            await mockQuery.Handle(new GetFineRequestById.Query(0), tcs.Token);
+            await mockQuery.Handle(new GetFineRequestById.Query(0, Constants.EXAMPLE_USER_ID), tcs.Token);
         });
     }
 
@@ -58,7 +58,7 @@ public class GetFineRequestByIdTests : TestDataContextBase
         // Assert
         Assert.ThrowsAsync<FineRequestNotFoundException>(async delegate
         {
-            await mockQuery.Handle(new GetFineRequestById.Query(6), tcs.Token);
+            await mockQuery.Handle(new GetFineRequestById.Query(6, Constants.EXAMPLE_USER_ID), tcs.Token);
         });
     }
 }

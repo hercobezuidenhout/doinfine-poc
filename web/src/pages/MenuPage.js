@@ -6,6 +6,7 @@ import { Box, Drawer, IconButton, List, ListItem, SwipeableDrawer, Typography } 
 import { useAuthContext } from '@providers/AuthProvider'
 import { useNotificationsContext } from '@providers/NotificationsProvider'
 import { useFineRequestService } from '@services/fine-request-service'
+import { usePaymentRequestService } from '@services/payment-request-service'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -13,8 +14,10 @@ export const MenuPage = () => {
     const nofiticiationsContext = useNotificationsContext()
     const authContext = useAuthContext()
     const fineRequestService = useFineRequestService()
+    const paymentRequestService = usePaymentRequestService()
 
     const [activeFineRequests, setActiveFineRequests] = useState([])
+    const [activePaymentRequests, setActivePaymentRequests] = useState([])
     const [drawerOpen, setDrawerOpen] = React.useState(false);
 
     const toggleDrawer = () => {
@@ -28,6 +31,13 @@ export const MenuPage = () => {
         setActiveFineRequests(requests)
     }
 
+    const fetchActivePaymentRequests = async () => {
+        const requests = await paymentRequestService.fetchAll()
+        if (!requests) return
+
+        setActivePaymentRequests(requests)
+    }
+
     const editProfile = () => {
         if (!authContext) return
 
@@ -36,6 +46,7 @@ export const MenuPage = () => {
 
     useEffect(() => {
         fetchActiveFineRequests();
+        fetchActivePaymentRequests();
     }, [nofiticiationsContext])
 
     return <div>
@@ -72,7 +83,25 @@ export const MenuPage = () => {
                         </Link>
                     </ListItem>
                 ))}
-                {!activeFineRequests.length &&
+                {activePaymentRequests.map((request, index) => (
+                    <ListItem sx={{
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                    }} key={index}>
+                        <Box sx={{
+                            display: 'flex',
+                            alignItems: 'center'
+                        }}>
+                            <Typography variant='p'>{`Payment request for ${request.fullName}`}</Typography>
+                        </Box>
+                        <Link to={`/payment-requests/${request.id}`}>
+                            <IconButton>
+                                <ChevronRight />
+                            </IconButton>
+                        </Link>
+                    </ListItem>
+                ))}
+                {!activeFineRequests.length && !activePaymentRequests.length &&
                     <Box sx={{
                         padding: '2rem',
                         textAlign: 'center'

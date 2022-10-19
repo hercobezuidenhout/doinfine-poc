@@ -42,7 +42,7 @@ public class FineRequestsController : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var userId = ExtractUserId();
-        var response = await mediator.Send(new GetActiveRequests.Query(userId));
+        var response = await mediator.Send(new GetActiveFineRequests.Query(userId));
         return Ok(response);
     }
 

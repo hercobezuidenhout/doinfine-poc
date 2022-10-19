@@ -21,8 +21,8 @@ public class GetFineRequestsTests : TestDataContextBase
         var tcs = new CancellationTokenSource(1000);
 
         // Act
-        var mockQuery = new GetActiveRequests.Handler(_stubContext);
-        var response = await mockQuery.Handle(new GetActiveRequests.Query(Constants.EXAMPLE_USER_ID), tcs.Token);
+        var mockQuery = new GetActiveFineRequests.Handler(_stubContext);
+        var response = await mockQuery.Handle(new GetActiveFineRequests.Query(Constants.EXAMPLE_USER_ID), tcs.Token);
 
         // Assert
         var hasItems = response.Count > 0;
@@ -36,8 +36,8 @@ public class GetFineRequestsTests : TestDataContextBase
         var tcs = new CancellationTokenSource(1000);
 
         // Act
-        var mockQuery = new GetActiveRequests.Handler(_stubContext);
-        var response = await mockQuery.Handle(new GetActiveRequests.Query(Constants.EXAMPLE_USER_ID), tcs.Token);
+        var mockQuery = new GetActiveFineRequests.Handler(_stubContext);
+        var response = await mockQuery.Handle(new GetActiveFineRequests.Query(Constants.EXAMPLE_USER_ID), tcs.Token);
 
         // Assert
         var hasCorrectAmountOfItems = response.Count == 4;

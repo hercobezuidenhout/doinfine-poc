@@ -4,6 +4,16 @@ import { useAuthContext } from "@providers/AuthProvider"
 export const usePaymentRequestService = () => {
     const authContext = useAuthContext()
 
+    const fetchAll = async () => {
+        const response = await axios.get(`/payment-requests`, {
+            headers: {
+                'Authorization': `Bearer ${await authContext.getAccessToken()}`
+            }
+        })
+        if (response.status == 404) throw Error(response.data)
+        return response.data
+    }
+
     const fetchById = async (id) => {
         const response = await axios.get(`/payment-requests/${id}`, {
             headers: {
@@ -35,6 +45,7 @@ export const usePaymentRequestService = () => {
     }
 
     return {
+        fetchAll,
         fetchById,
         submitPaymentRequest,
         update

@@ -36,6 +36,14 @@ public class PaymentRequestsController : ControllerBase
         return userId;
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var userId = ExtractUserId();
+        var response = await _mediator.Send(new GetActivePaymentRequests.Query(userId));
+        return Ok(response);
+    }
+
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {

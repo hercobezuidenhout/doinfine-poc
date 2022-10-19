@@ -49,7 +49,7 @@ public class PaymentRequestsController : ControllerBase
     {
         try
         {
-            var userId = ExtractUserId()
+            var userId = ExtractUserId();
             var response = await _mediator.Send(new GetPaymentRequestById.Query(id, userId));
             return response == null ? NotFound() : Ok(response);
         }

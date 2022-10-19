@@ -11,14 +11,19 @@ export const MenuBar = ({ title = 'TeamLunch' }) => {
     const navigate = useNavigate()
 
     const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
+    const open = Boolean(anchorEl)
 
     const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+        setAnchorEl(event.currentTarget)
+    }
+
     const handleClose = () => {
-        setAnchorEl(null);
-    };
+        setAnchorEl(null)
+    }
+
+    const handleReadAllClick = () => {
+        notificationContext.readAll()
+    }
 
     const handleSwitcherClick = (newMode) => {
         setMode(newMode)
@@ -68,7 +73,7 @@ export const MenuBar = ({ title = 'TeamLunch' }) => {
                             padding: '0 0.8rem'
                         }}>
                             <Typography variant='h6'>Notifications</Typography>
-                            {notificationContext.nofiticiations.length > 3 && <Button>Read All</Button>}
+                            {notificationContext.nofiticiations.length > 3 && <Button onClick={handleReadAllClick}>Read All</Button>}
                         </Box>
                         {notificationContext.nofiticiations.length > 0 && notificationContext.nofiticiations.filter(notification => !notification.read).map(notification => (
                             <MenuItem key={notification.id} onClick={() => handleNotificationClick(notification)}>{notification.title}</MenuItem>

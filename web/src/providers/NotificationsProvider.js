@@ -12,7 +12,8 @@ var connection = new signalr.HubConnectionBuilder().withUrl(`${hubsUrlBase}/hubs
 
 export const NotificationsContext = createContext({
     nofiticiations: [],
-    readNotification: (id) => { }
+    readNotification: (id) => { },
+    readAll: () => { }
 })
 
 export const NotificationsProvider = ({ children }) => {
@@ -32,6 +33,17 @@ export const NotificationsProvider = ({ children }) => {
     const readNotification = async (id) => {
         setNotifications(notifications.filter(notification => notification.id !== id))
         await notificationService.update(id)
+    }
+
+    const readAll = async () => {
+        const notificationsToRead = notifications
+
+        setNotifications([])
+
+        for (let index = 0; index < notificationsToRead.length; index++) {
+            const notificationToRead = notifications[index];
+            await notificationService.update(notificationToRead.id)
+        }
     }
 
     useEffect(() => {
@@ -89,7 +101,8 @@ export const NotificationsProvider = ({ children }) => {
     return (
         <NotificationsContext.Provider value={{
             nofiticiations: notifications,
-            readNotification: readNotification
+            readNotification: readNotification,
+            readAll: readAll
         }}>
             <SnackbarProvider>
                 {children}

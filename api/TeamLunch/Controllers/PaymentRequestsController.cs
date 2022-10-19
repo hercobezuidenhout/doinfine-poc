@@ -63,7 +63,7 @@ public class PaymentRequestsController : ControllerBase
     public async Task<IActionResult> CreatePaymentRequest(PaymentRequestItem item)
     {
         var userId = ExtractUserId();
-        var response = await _mediator.Send(new NewPaymentRequest.Command(userId, DateTime.Parse(item.DateOfPayment), item.Action, item.TeamId));
+        var response = await _mediator.Send(new NewPaymentRequest.Command(userId, DateTime.ParseExact(item.DateOfPayment, "dd/MM/yyyy", null), item.Action, item.TeamId));
         return Ok(response);
     }
 

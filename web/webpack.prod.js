@@ -48,7 +48,7 @@ module.exports = {
         new WebpackPwaManifest({
             name: 'TeamLunch',
             description: 'Keep your team accountable!',
-            background_color: '#ffffff',
+            background_color: '#f44336',
             icons: [
                 {
                     src: path.resolve('src/assets/logo.png'),

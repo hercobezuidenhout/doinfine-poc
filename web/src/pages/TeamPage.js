@@ -1,4 +1,4 @@
-import { Box, Button, Divider, List, ListItem } from '@mui/material'
+import { Box, Button, Divider, List, ListItem, Skeleton } from '@mui/material'
 import { useAuthContext } from '@providers/AuthProvider'
 import { useTeamContext } from '@providers/TeamProvider'
 import { useFineService } from '@services/fine-service'
@@ -12,7 +12,7 @@ export const TeamPage = () => {
     const [searchParams] = useSearchParams()
     const fineService = useFineService()
     const [member, setMember] = useState()
-    const [fines, setFines] = useState([])
+    const [fines, setFines] = useState()
 
     const fetchFines = async () => {
         if (!member) return
@@ -50,11 +50,11 @@ export const TeamPage = () => {
                 justifyContent: 'space-between',
                 alignItems: 'center'
             }}>
-                <h1 data-testid="team-page-title">{member && `${member.fullName}` || 'Team Member'}</h1>
+                <h1 data-testid="team-page-title">{member ? member.fullName : <Skeleton variant='text' width={300} sx={{ fontSize: '3rem ' }} />}</h1>
                 {member && (member.id == authContext.getCurrentUserId()) && <Link to='/payment'><Button variant='outlined'>Log Payment</Button></Link>}
             </Box>
             <List>
-                {fines && fines.map(fine => (
+                {fines ? fines.map(fine => (
                     <Fragment key={fine.id}>
                         <ListItem sx={{
                             padding: '1.2rem 0'
@@ -63,7 +63,13 @@ export const TeamPage = () => {
                         </ListItem>
                         <Divider />
                     </Fragment>
-                ))}
+                )) :
+                    <>
+                        <Skeleton variant='text' sx={{ fontSize: '2rem', display: 'inline-block', width: '100%', marginBottom: '1rem ' }} />
+                        <Skeleton variant='text' sx={{ fontSize: '2rem', display: 'inline-block', width: '100%', marginBottom: '1rem ' }} />
+                        <Skeleton variant='text' sx={{ fontSize: '2rem', display: 'inline-block', width: '100%', marginBottom: '1rem ' }} />
+                    </>
+                }
             </List>
         </div>
     )

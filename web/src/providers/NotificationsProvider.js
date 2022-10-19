@@ -40,8 +40,8 @@ export const NotificationsProvider = ({ children }) => {
     }
 
     const readNotification = async (id) => {
-        const result = await notificationService.update(id)
         setNotifications(notifications.filter(notification => notification.id !== id))
+        await notificationService.update(id)
     }
 
     useEffect(() => {
@@ -68,18 +68,6 @@ export const NotificationsProvider = ({ children }) => {
                     anchorOrigin: { horizontal: 'center', vertical: 'bottom' }
                 })
             }
-
-            if (isIOS()) return
-            const notification = new Notification(data.title, {
-                body: data.description,
-                icon: '../assets/logo.png',
-                image: '../assets/logo.png'
-            })
-
-            notification.addEventListener('click', () => {
-                if (data.link) navigate(data.link)
-            })
-
         })
 
     }, [connectionReady])
@@ -91,18 +79,9 @@ export const NotificationsProvider = ({ children }) => {
             .catch(error => console.error(error))
     }, [])
 
-    useEffect(() => {
-        if (isIOS()) return;
-        if (notifications.length == 0) {
-            navigator.clearAppBadge()
-        }
-        navigator.setAppBadge(notifications.length)
-    }, [notifications])
 
     useEffect(() => {
         fetchNotifications()
-        if (isIOS()) return;
-        Notification.requestPermission()
     }, [])
 
     return (

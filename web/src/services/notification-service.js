@@ -14,7 +14,7 @@ export const useNotificationService = () => {
     }
 
     const update = async (id) => {
-        const response = await axios.put(`/notifications`, { id: id }, {
+        const response = await axios.put(`/notifications`, { notificationId: id }, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`
             }

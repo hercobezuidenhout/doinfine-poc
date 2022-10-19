@@ -4,6 +4,7 @@ import { SnackbarProvider, useSnackbar } from 'notistack'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@mui/material'
 import { useNotificationService } from '@services/notification-service'
+import { useTeamContext } from './TeamProvider'
 
 var hubsUrlBase = process.env.DEVELOPMENT ? 'https://localhost:5001' : 'https://dev-api-team-lunch.azurewebsites.net'
 
@@ -14,24 +15,13 @@ export const NotificationsContext = createContext({
     readNotification: (id) => { }
 })
 
-function isIOS() {
-    const browserInfo = navigator.userAgent.toLowerCase();
-
-    if (browserInfo.match('iphone') || browserInfo.match('ipad')) {
-        return true;
-    }
-    if (['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform)) {
-        return true;
-    }
-    return false;
-}
-
 export const NotificationsProvider = ({ children }) => {
     const [connectionReady, setConnectionReady] = useState(false)
     const [notifications, setNotifications] = useState([])
     const { enqueueSnackbar, closeSnackbar } = useSnackbar()
     const navigate = useNavigate();
     const notificationService = useNotificationService()
+    const teamContext = useTeamContext()
 
     const fetchNotifications = async () => {
         const result = await notificationService.fetchAll()
@@ -75,9 +65,21 @@ export const NotificationsProvider = ({ children }) => {
     useEffect(() => {
         if (connection.state !== 'Disconnected') return
         connection.start()
-            .then(() => setConnectionReady(true))
+            .then(() => {
+                setConnectionReady(true)
+            })
             .catch(error => console.error(error))
     }, [])
+
+    useEffect(() => {
+        if (!connectionReady) return
+        if (!teamContext) return
+
+        const roomName = teamContext.id.toString()
+        connection.invoke('JoinRoom', roomName)
+            .then(() => console.info('Connected to room: ', roomName))
+            .catch(error => console.log(error))
+    }, [teamContext, connectionReady])
 
 
     useEffect(() => {

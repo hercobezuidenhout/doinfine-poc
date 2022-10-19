@@ -34,13 +34,12 @@ public static class NewTeamNotification
                 Title = request.Title,
                 Description = request.Description,
                 Link = request.Link,
-
             };
 
             db.Add(notification);
             db.SaveChanges();
 
-            await notificationsHub.Clients.All.SendAsync("ReceiveNofication", notification);
+            await notificationsHub.Clients.Group(request.TeamId.ToString()).SendAsync("ReceiveNofication", notification);
 
             return new Response(notification.Id);
         }

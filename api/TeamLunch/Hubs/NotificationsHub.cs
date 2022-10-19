@@ -14,9 +14,4 @@ public class NotificationsHub : Hub
     {
         return Groups.RemoveFromGroupAsync(Context.ConnectionId, name);
     }
-
-    public void SendNotification(Notification notification)
-    {
-        Clients.All.SendAsync("ReceiveNotification", notification);
-    }
 }

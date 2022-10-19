@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TeamLunch.Contracts;
 using TeamLunch.Data;
 using TeamLunch.Data.Entities;
@@ -34,7 +35,7 @@ public static class NewPaymentRequest
             _db.PaymentRequests.Add(paymentRequest);
             _db.SaveChanges();
 
-            var team = _db.Teams.Where(x => x.Id == request.teamId).First();
+            var team = _db.Teams.Include(team => team.Users).Where(x => x.Id == request.teamId).First();
             var notification = new NotificationItem
             {
                 Title = "New Payment Request",

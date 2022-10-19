@@ -7,7 +7,7 @@ namespace TeamLunch.Queries;
 
 public static class GetPaymentRequestById
 {
-    public record Query(int id) : IRequest<Response>;
+    public record Query(int id, string userId) : IRequest<Response>;
 
     public class Handler : IRequestHandler<Query, Response>
     {
@@ -24,7 +24,7 @@ public static class GetPaymentRequestById
             {
                 var paymentRequest = _db.PaymentRequests
                     .Where(x => x.Id == request.id)
-                    .Where(x => x.Responses.Where(r => (r.PaymentRequestId == request.id) && (r.UserId == x.UserId)).Count() == 0)
+                    .Where(x => !x.Responses.Where(r => (r.PaymentRequestId == request.id) && (r.UserId == request.userId)).Any())
                     .First();
 
                 var userFullName = _db.Users.Where(x => x.Id == paymentRequest.UserId).Select(x => $"{x.FirstName} {x.LastName}").First();

@@ -6,6 +6,7 @@ on:
 
     paths:
       - api/**
+      - .github/workflows/**
 
 env:
   AZURE_WEBAPP_NAME: dev-api-team-lunch    # set this to your application's name

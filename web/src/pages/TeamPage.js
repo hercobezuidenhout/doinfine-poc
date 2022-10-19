@@ -16,7 +16,10 @@ export const TeamPage = () => {
 
     const fetchFines = async () => {
         if (!member) return
+        setFines(undefined)
+
         const userFines = await fineService.fetchById(member.id)
+
         setFines(userFines)
     }
 
@@ -26,18 +29,17 @@ export const TeamPage = () => {
 
     useEffect(() => {
         if (!teamContext) return
-        setFines(undefined)
+
         if (searchParams.get('member')) {
             const teamMember = teamContext.members.filter(x => x.id == searchParams.get('member'))[0]
             setMember(teamMember)
         } else {
             let teamMember = undefined
 
-            if (authContext) {
-                teamMember = teamContext.members.filter(x => x.id == authContext.getCurrentUserId())[0]
-            } else {
-                teamMember = teamContext.members[0]
-            }
+            if (!authContext) return
+
+            const filteredMembers = teamContext.members.filter(x => x.id == authContext.getCurrentUserId())
+            teamMember = filteredMembers[0]
 
             setMember(teamMember)
             searchParams.set('member', teamMember.id)
@@ -60,7 +62,7 @@ export const TeamPage = () => {
                         <ListItem sx={{
                             padding: '1.2rem 0'
                         }}>
-                            {fine.reason}
+                            For {fine.reason}
                         </ListItem>
                         <Divider />
                     </Fragment>

@@ -32,7 +32,7 @@ const msalConfig = {
         redirectUri: redirectUri,
     },
     cache: {
-        cacheLocation: "sessionStorage",
+        cacheLocation: "localStorage",
         storeAuthStateInCookie: false
     }
 }

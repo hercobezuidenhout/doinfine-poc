@@ -39,7 +39,7 @@ export const MenuPage = () => {
     }, [nofiticiationsContext])
 
     return <div>
-        <ActionBar title="Menu" link={-1} />
+        <ActionBar title="Menu" link="/team" />
         <OptionsBox label="Account">
             <LinkListItem label="Edit Profile" handleLinkClick={editProfile} />
             <LinkListItem label="Reset Password" handleLinkClick={() => authContext.resetPassword()} />

@@ -56,7 +56,11 @@ public static class AddPaymentRequestResponse
                     };
 
                     _db.Payments.Add(payment);
-                    var fine = _db.Fines.Where(f => f.UserId == payment.UserId && !f.Paid).Last();
+                    var fine = _db.Fines
+                        .Where(f => f.UserId == payment.UserId && !f.Paid)
+                        .OrderBy(fine => fine.Id)
+                        .Last();
+
                     fine.Paid = true;
                     _db.SaveChanges();
 

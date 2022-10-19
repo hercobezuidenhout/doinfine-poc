@@ -21,17 +21,19 @@ public static class GetTeamsLeaderboard
         public async Task<Response> Handle(Query request, CancellationToken cancellationToken)
         {
             var items = db.Teams
-            .Include(team => team.Users)
-            .ThenInclude(user => user.Fines)
-            .Select(team => new LeaderboardItem
+                .Include(team => team.Users)
+                .ThenInclude(user => user.Fines)
+                .Select(team => new { team.Name, team.Users })
+                .ToList();
+
+            var leaderboard = items.Select(teamWithUsers => new LeaderboardItem
             {
-                Title = team.Name,
-                Fines = team.Users.Select(user => user.Fines.Count).Sum()
+                Title = teamWithUsers.Name,
+                Fines = teamWithUsers.Users.Sum(user => user.Fines.Count())
             })
-            .OrderByDescending(item => item.Fines)
             .ToList();
 
-            return new Response(items);
+            return new Response(leaderboard);
         }
     }
 

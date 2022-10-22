@@ -36,7 +36,7 @@ public class DataContext : DbContext
             .WithMany(n => n.UserNotifications)
             .HasForeignKey(un => un.NotificationId);
 
-        SeedData(builder);
+        // SeedData(builder);
     }
 
     private void SeedData(ModelBuilder builder)
@@ -57,7 +57,7 @@ public class DataContext : DbContext
         );
 
         builder.Entity<Team>().HasData(
-            new Team { Id = 1, Name = "Core" }
+            new Team { Id = 1, Name = "Core", SegmentId = 1 }
         );
 
         builder.Entity<FineRequest>().HasData(

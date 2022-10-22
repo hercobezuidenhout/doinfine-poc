@@ -1,3 +1,6 @@
+using MauticNetClient;
+using MauticNetClient.Commands.Emails;
+using MauticNetClient.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TeamLunch.Contracts;
@@ -16,11 +19,13 @@ public static class AddFineRequestResponse
     {
         private readonly DataContext _db;
         private readonly INotificationService _notificationService;
+        private readonly MauticClient _mauticClient;
 
-        public Handler(DataContext db, INotificationService notificationService)
+        public Handler(DataContext db, INotificationService notificationService, MauticClient mauticClient)
         {
             _db = db;
             _notificationService = notificationService;
+            _mauticClient = mauticClient;
         }
 
         public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
@@ -63,6 +68,35 @@ public static class AddFineRequestResponse
                         Description = $"{userBeingFined} has been for {fine.Reason}."
                     }, team);
 
+                    var segmentEmail = new SegmentEmail<int>
+                    {
+                        Name = $"Fine Request Approved {fineRequest.Id}",
+                        Subject = $"{userBeingFined} has been fined!",
+                        IsPublished = true,
+                        CustomHtml = @$"
+                            <!DOCTYPE html>
+                                <html lang='en'>
+                                <head>
+                                    <meta charset='UTF-8' />
+                                    <meta name='viewport' content='width=device-width' />
+                                </head>
+                                <body>
+                                    <div>
+                                    <p>
+                                        {userBeingFined} has been fined for {fine.Reason}.
+                                    </p>
+                                    </div>
+                                </body>
+                                </html>
+
+                        ",
+                        Lists = new List<int> { team.SegmentId.GetValueOrDefault() }
+                    };
+
+                    var createSegmentEmailRequest = new CreateSegmentEmail.Request(segmentEmail);
+                    var createEmailResponse = await _mauticClient.MakeRequest<CreateSegmentEmail.Request, CreateSegmentEmail.Response>(createSegmentEmailRequest);
+                    var sendEmailResponse = await _mauticClient.MakeRequest<SendEmailToSegment.Request, SendEmailToSegment.Response>(new SendEmailToSegment.Request(createEmailResponse.email.Id));
+
                     return new Response(fineRequestResponse.Id, fine.Id);
                 }
                 else
@@ -72,6 +106,36 @@ public static class AddFineRequestResponse
                         Title = $"The fine for {userBeingFined} has been rejected!",
                         Description = $"{userBeingFined} has not been fined for {fineRequest.Reason}."
                     }, team);
+
+                    var segmentEmail = new SegmentEmail<int>
+                    {
+                        Name = $"Fine Request Rejected {fineRequest.Id}",
+                        Subject = $"The fine for {userBeingFined} has been rejected!",
+                        IsPublished = true,
+                        CustomHtml = @$"
+                            <!DOCTYPE html>
+                                <html lang='en'>
+                                <head>
+                                    <meta charset='UTF-8' />
+                                    <meta name='viewport' content='width=device-width' />
+                                </head>
+                                <body>
+                                    <div>
+                                    <p>
+                                        {userBeingFined} has not been fined for {fineRequest.Reason}.
+                                    </p>
+                                    </div>
+                                </body>
+                                </html>
+
+                        ",
+                        Lists = new List<int> { team.SegmentId.GetValueOrDefault() }
+                    };
+
+                    var createSegmentEmailRequest = new CreateSegmentEmail.Request(segmentEmail);
+                    var createEmailResponse = await _mauticClient.MakeRequest<CreateSegmentEmail.Request, CreateSegmentEmail.Response>(createSegmentEmailRequest);
+                    var sendEmailResponse = await _mauticClient.MakeRequest<SendEmailToSegment.Request, SendEmailToSegment.Response>(new SendEmailToSegment.Request(createEmailResponse.email.Id));
+
                 }
             }
 

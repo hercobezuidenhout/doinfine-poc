@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using TeamLunch.Hubs;
 using TeamLunch.Contracts;
 using TeamLunch.Services;
+using MauticNetClient.Extensions;
 
 namespace TeamLunch
 {
@@ -40,6 +41,7 @@ namespace TeamLunch
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
+            services.AddMauticNetClient("http://m.thinwood.co/api/");
 
             services.AddSwaggerGen(config =>
             {

@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using MauticNetClient;
 using Moq;
 using NUnit.Framework;
 using TeamLunch.Commands;
@@ -31,9 +32,10 @@ public class NewPaymentRequestTests : TestDataContextBase
             Constants.EXAMPLE_TEAM_ID);
 
         var stubNotificationsService = new Mock<INotificationService>();
+        var stubMauticClient = new Mock<MauticClient>();
 
         // Act
-        var mockQuery = new NewPaymentRequest.Handler(_stubContext, stubNotificationsService.Object);
+        var mockQuery = new NewPaymentRequest.Handler(_stubContext, stubNotificationsService.Object, stubMauticClient.Object);
         var response = await mockQuery.Handle(request, tcs.Token);
 
         // Assert
@@ -52,9 +54,10 @@ public class NewPaymentRequestTests : TestDataContextBase
             Constants.EXAMPLE_TEAM_ID);
 
         var mockNotificationsService = new Mock<INotificationService>();
+        var stubMauticClient = new Mock<MauticClient>();
 
         // Act
-        var mockQuery = new NewPaymentRequest.Handler(_stubContext, mockNotificationsService.Object);
+        var mockQuery = new NewPaymentRequest.Handler(_stubContext, mockNotificationsService.Object, stubMauticClient.Object);
         var response = await mockQuery.Handle(command, tcs.Token);
 
         // Assert

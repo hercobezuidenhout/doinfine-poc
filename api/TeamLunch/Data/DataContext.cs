@@ -16,6 +16,8 @@ public class DataContext : DbContext
     public virtual DbSet<Notification> Notifications { get; set; }
     public virtual DbSet<UserNotification> UserNotifications { get; set; }
 
+    public string DbPath { get; }
+
     public DataContext() { }
 
     public DataContext(DbContextOptions<DataContext> options) : base(options) { }

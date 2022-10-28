@@ -84,7 +84,11 @@ namespace TeamLunch
 
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DataContext"));
+                var folder = Environment.SpecialFolder.LocalApplicationData;
+                var path = Environment.GetFolderPath(folder);
+                var dbPath = System.IO.Path.Join(path, "blogging.db");
+                options.UseSqlite($"Data Source={dbPath}");
+                // options.UseSqlServer(Configuration.GetConnectionString("DataContext"));
                 // options.UseInMemoryDatabase("Hi");
             });
 

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeamLunch.Data;
@@ -11,79 +12,182 @@ using TeamLunch.Data;
 namespace TeamLunch.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221028124959_UpdateDataSource")]
-    partial class UpdateDataSource
+    [Migration("20221029100036_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.10");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "6.0.10")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("TeamLunch.Data.Entities.Fine", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Paid")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Reason")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("Fines");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Paid = false,
+                            Reason = "For showing up late to a meeting.",
+                            UserId = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Paid = false,
+                            Reason = "For leaving a dirty pull request.",
+                            UserId = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Paid = false,
+                            Reason = "For wearing a Manchester United shirt.",
+                            UserId = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Paid = false,
+                            Reason = "For pushing a secret into remote.",
+                            UserId = "dd760d11-91ed-4a32-9810-683f7df14239"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Paid = false,
+                            Reason = "For not using the team's virtual background.",
+                            UserId = "dd760d11-91ed-4a32-9810-683f7df14239"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Paid = false,
+                            Reason = "For leaving without completing the pull request.",
+                            UserId = "dd760d11-91ed-4a32-9810-683f7df14239"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Paid = false,
+                            Reason = "For loving coffee way too much.",
+                            UserId = "dd760d11-91ed-4a32-9810-683f7df14239"
+                        });
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.FineRequest", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Finee")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Finer")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Reason")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("TeamId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("FineRequests");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Finee = "dd760d11-91ed-4a32-9810-683f7df14239",
+                            Finer = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad",
+                            Reason = "not caring enough about water",
+                            TeamId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Finee = "dd760d11-91ed-4a32-9810-683f7df14239",
+                            Finer = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad",
+                            Reason = "not caring enough about dogs",
+                            TeamId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Finee = "dd760d11-91ed-4a32-9810-683f7df14239",
+                            Finer = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad",
+                            Reason = "not caring enough about something else",
+                            TeamId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Finee = "dd760d11-91ed-4a32-9810-683f7df14239",
+                            Finer = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad",
+                            Reason = "not caring enough about something else",
+                            TeamId = 1
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Finee = "dd760d11-91ed-4a32-9810-683f7df14239",
+                            Finer = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad",
+                            Reason = "not caring enough about something else",
+                            TeamId = 1
+                        });
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.FineRequestResponse", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Approved")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<int>("FineRequestId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -92,27 +196,38 @@ namespace TeamLunch.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("FineRequestResponses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Approved = true,
+                            FineRequestId = 5,
+                            UserId = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad"
+                        });
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.Notification", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("DateCreated")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Link")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -123,18 +238,20 @@ namespace TeamLunch.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Action")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateOfPayment")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -145,21 +262,23 @@ namespace TeamLunch.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Action")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateOfPayment")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("TeamId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -170,17 +289,19 @@ namespace TeamLunch.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Approved")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<int>("PaymentRequestId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -193,48 +314,72 @@ namespace TeamLunch.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("SegmentId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.ToTable("Teams");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Core",
+                            SegmentId = 1
+                        });
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.User", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad",
+                            FirstName = "Billy",
+                            LastName = "Anderson"
+                        },
+                        new
+                        {
+                            Id = "dd760d11-91ed-4a32-9810-683f7df14239",
+                            FirstName = "Steve",
+                            LastName = "Walkman"
+                        });
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.UserNotification", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("NotificationId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<bool>("Read")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.HasKey("UserId", "NotificationId");
 
@@ -246,16 +391,28 @@ namespace TeamLunch.Migrations
             modelBuilder.Entity("TeamUser", b =>
                 {
                     b.Property<int>("TeamsId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("UsersId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("TeamsId", "UsersId");
 
                     b.HasIndex("UsersId");
 
                     b.ToTable("TeamUser");
+
+                    b.HasData(
+                        new
+                        {
+                            TeamsId = 1,
+                            UsersId = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad"
+                        },
+                        new
+                        {
+                            TeamsId = 1,
+                            UsersId = "dd760d11-91ed-4a32-9810-683f7df14239"
+                        });
                 });
 
             modelBuilder.Entity("TeamLunch.Data.Entities.Fine", b =>

@@ -84,8 +84,7 @@ namespace TeamLunch
 
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseSqlite($"Data Source=doinfine.db");
-                // options.UseSqlServer(Configuration.GetConnectionString("DataContext"));
+                options.UseSqlServer(Configuration.GetConnectionString("DataContext"));
                 // options.UseInMemoryDatabase("Hi");
             });
 

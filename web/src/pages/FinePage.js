@@ -2,7 +2,6 @@ import { ActionBar } from '@components/atoms'
 import { Box, Button, FormControl, InputLabel, LinearProgress, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
 import { useTeamContext } from '@providers/TeamProvider'
 import { useFineRequestService } from '@services/fine-request-service'
-import { useFineService } from '@services/fine-service'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -13,7 +12,6 @@ export const FinePage = () => {
     const [members, setMembers] = useState()
     const [loading, setLoading] = useState()
     const [successfulSubmit, setSuccessfulSubmit] = useState()
-    const [counter, setCounter] = useState(5)
 
     const teamContext = useTeamContext()
     const fineRequestService = useFineRequestService()

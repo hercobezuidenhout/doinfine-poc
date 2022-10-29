@@ -1,5 +1,5 @@
 import { ActionBar } from '@components/atoms'
-import { Box, Button, Stack, TextField, Typography } from '@mui/material'
+import { Box, Button, LinearProgress, Stack, TextField, Typography } from '@mui/material'
 import { LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { useTeamContext } from '@providers/TeamProvider'
@@ -20,6 +20,7 @@ export const PaymentPage = () => {
     const [paymentMethod, setPaymentMethod] = useState()
     const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false)
     const [successDialogOpen, setSuccessDialogOpen] = useState(false)
+    const [loading, setLoading] = useState()
 
     const handleDateOfPaymentChange = (newDate) => {
         setDateOfPayment(newDate)
@@ -32,6 +33,7 @@ export const PaymentPage = () => {
 
     const confirmSubmit = async () => {
         if (!teamContext) return
+        setLoading(true)
 
         const paymentRequest = {
             teamId: teamContext.id,
@@ -42,6 +44,7 @@ export const PaymentPage = () => {
         const response = await paymentRequestService.submitPaymentRequest(paymentRequest)
         if (!response) return
 
+        setLoading(false)
         setConfirmationDialogOpen(false)
         setSuccessDialogOpen(true)
     }
@@ -52,53 +55,75 @@ export const PaymentPage = () => {
 
     return (
         <div>
-            <ActionBar title="Log Payment" link={-1} />
-            <Box sx={{
-                padding: '1rem'
-            }}>
-                <Stack spacing={3}>
-                    <Box>
-                        <Typography variant="h6">When was this payment made</Typography>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <MobileDatePicker
-                                inputFormat="MM/DD/YYYY"
-                                value={dateOfPayment}
-                                onChange={handleDateOfPaymentChange}
-                                renderInput={(params) => <TextField sx={{ width: '100%' }} {...params} />}
-                            />
-                        </LocalizationProvider>
-                    </Box>
+            {!loading &&
+                <>
 
-                    <Box>
-                        <Typography variant="h6">How did you pay</Typography>
-                        <TextField sx={{
-                            width: '100%'
-                        }} rows={4} multiline={true} onChange={handlePaymentMethodChange}></TextField>
-                    </Box>
+                    <ActionBar title="Log Payment" link={-1} />
+                    <Box sx={{
+                        padding: '1rem'
+                    }}>
+                        <Stack spacing={3}>
+                            <Box>
+                                <Typography variant="h6">When was this payment made</Typography>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <MobileDatePicker
+                                        inputFormat="MM/DD/YYYY"
+                                        value={dateOfPayment}
+                                        onChange={handleDateOfPaymentChange}
+                                        renderInput={(params) => <TextField sx={{ width: '100%' }} {...params} />}
+                                    />
+                                </LocalizationProvider>
+                            </Box>
 
+                            <Box>
+                                <Typography variant="h6">How did you pay</Typography>
+                                <TextField sx={{
+                                    width: '100%'
+                                }} rows={4} multiline={true} onChange={handlePaymentMethodChange}></TextField>
+                            </Box>
+
+                            <Box sx={{
+                                display: 'flex',
+                                justifyContent: 'end',
+                                marginTop: '1rem'
+                            }}>
+                                <Button onClick={handleSubmit}>Submit</Button>
+                            </Box>
+                        </Stack>
+                    </Box>
+                    <ConfirmationDialog
+                        open={confirmationDialogOpen}
+                        title="Confirm Payment"
+                        text="Are you sure you want to submit this payment request?"
+                        handleClose={() => setConfirmationDialogOpen(false)}
+                        handleConfirm={confirmSubmit} />
+
+                    <SuccessDialog
+                        open={successDialogOpen}
+                        title="Payment Request Submitted!"
+                        handleDone={() => {
+                            setSuccessDialogOpen(false)
+                            navigate('/')
+                        }} />
+                </>
+            }
+            {loading &&
+                <>
                     <Box sx={{
                         display: 'flex',
-                        justifyContent: 'end',
-                        marginTop: '1rem'
+                        alignItems: 'center',
+                        justifyContent: 'space-around',
+                        height: '100vh'
                     }}>
-                        <Button onClick={handleSubmit}>Submit</Button>
+                        <Box sx={{
+                            textAlign: 'center'
+                        }}>
+                            <p>👀 Submitting payment ...</p>
+                            <LinearProgress />
+                        </Box>
                     </Box>
-                </Stack>
-            </Box>
-            <ConfirmationDialog
-                open={confirmationDialogOpen}
-                title="Confirm Payment"
-                text="Are you sure you want to submit this payment request?"
-                handleClose={() => setConfirmationDialogOpen(false)}
-                handleConfirm={confirmSubmit} />
-
-            <SuccessDialog
-                open={successDialogOpen}
-                title="Payment Request Submitted!"
-                handleDone={() => {
-                    setSuccessDialogOpen(false)
-                    navigate('/')
-                }} />
+                </>
+            }
         </div>
     )
 }

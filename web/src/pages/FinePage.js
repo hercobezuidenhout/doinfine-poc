@@ -1,4 +1,4 @@
-import { ActionBar } from '@components/atoms'
+import { ActionBar, InfoBox } from '@components/atoms'
 import { Box, Button, FormControl, InputLabel, LinearProgress, MenuItem, Modal, Select, TextField, Typography } from '@mui/material'
 import { useTeamContext } from '@providers/TeamProvider'
 import { useFineRequestService } from '@services/fine-request-service'
@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 
 export const FinePage = () => {
     const [finee, setFinee] = useState('')
-    const [reason, setReason] = useState()
+    const [reason, setReason] = useState('')
     const [open, setOpen] = useState(false)
     const [members, setMembers] = useState()
     const [loading, setLoading] = useState()
@@ -104,8 +104,15 @@ export const FinePage = () => {
                             justifyContent: 'end',
                             marginTop: '1rem'
                         }}>
-                            <Button onClick={handleClick}>Submit</Button>
+                            <Button disabled={finee.length < 1 || reason.length < 1 || reason.includes('for')} onClick={handleClick}>Submit</Button>
                         </Box>
+                        <InfoBox title="How to fine">
+                            To fine someone, choose the user you want to fine then write out the fine in
+                            continuous tense so that it reads <i>Someone wants to fine [<b>who</b>]
+                                for [<b>doing something</b>]</i>.
+                            <br />
+                            <b>Note: The for is already inserted for your.</b>
+                        </InfoBox>
                     </Box>
                 </>
             }

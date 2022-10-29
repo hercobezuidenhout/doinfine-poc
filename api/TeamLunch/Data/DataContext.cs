@@ -38,7 +38,7 @@ public class DataContext : DbContext
             .WithMany(n => n.UserNotifications)
             .HasForeignKey(un => un.NotificationId);
 
-        SeedData(builder);
+        // SeedData(builder);
     }
 
     private void SeedData(ModelBuilder builder)

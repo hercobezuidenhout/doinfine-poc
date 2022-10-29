@@ -48,7 +48,7 @@ jobs:
       working-directory: api/TeamLunch
 
     - name: Move Database into Release
-      run: mv doinfine.db bin/Release/net6.0
+      run: mv doinfine.db ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/build
       working-directory: api/TeamLunch
 
     - name: Publish

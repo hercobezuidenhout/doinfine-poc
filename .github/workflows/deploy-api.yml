@@ -47,6 +47,10 @@ jobs:
       run: dotnet ef database update
       working-directory: api/TeamLunch
 
+    - name: Move Database into Release
+      run: mv doinfine.db bin/Release/net6.0
+      working-directory: api/TeamLunch
+
     - name: Publish
       run: dotnet publish -c Release -o build
       working-directory: api/TeamLunch

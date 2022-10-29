@@ -1,4 +1,4 @@
-import { ActionBar } from '@components/atoms'
+import { ActionBar, InfoBox } from '@components/atoms'
 import { Box, Button, LinearProgress, Stack, TextField, Typography } from '@mui/material'
 import { LocalizationProvider, MobileDatePicker } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -17,7 +17,7 @@ export const PaymentPage = () => {
     const navigate = useNavigate()
 
     const [dateOfPayment, setDateOfPayment] = useState(dayjs().format(DATE_FORMAT))
-    const [paymentMethod, setPaymentMethod] = useState()
+    const [paymentMethod, setPaymentMethod] = useState('')
     const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false)
     const [successDialogOpen, setSuccessDialogOpen] = useState(false)
     const [loading, setLoading] = useState()
@@ -87,8 +87,14 @@ export const PaymentPage = () => {
                                 justifyContent: 'end',
                                 marginTop: '1rem'
                             }}>
-                                <Button onClick={handleSubmit}>Submit</Button>
+                                <Button disabled={paymentMethod.length < 1 || paymentMethod.includes('for')} onClick={handleSubmit}>Submit</Button>
                             </Box>
+                            <InfoBox title="How to fine">
+                                To submit a payment, choose the date on which you made the payment then write out the payment in
+                                continuous tense so that it reads <i>Someone claims to have made a payment by [<b>doing something</b>] ...</i>.
+                                <br />
+                                <b>Note: The "by" is already inserted for you.</b>
+                            </InfoBox>
                         </Stack>
                     </Box>
                     <ConfirmationDialog

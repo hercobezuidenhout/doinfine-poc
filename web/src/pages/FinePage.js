@@ -111,7 +111,7 @@ export const FinePage = () => {
                             continuous tense so that it reads <i>Someone wants to fine [<b>who</b>]
                                 for [<b>doing something</b>]</i>.
                             <br />
-                            <b>Note: The for is already inserted for your.</b>
+                            <b>Note: The "for" is already inserted for you.</b>
                         </InfoBox>
                     </Box>
                 </>

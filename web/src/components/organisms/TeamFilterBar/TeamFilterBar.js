@@ -22,7 +22,7 @@ export const TeamFilterBar = () => {
         setSearchParams({
             member: team.members[0].id
         })
-    }, [team]) 
+    }, [team])
 
     useEffect(() => {
         setActiveMember()
@@ -35,7 +35,9 @@ export const TeamFilterBar = () => {
     }
 
     return (
-        <Toolbar data-testid="team-filter-bar">
+        <Toolbar data-testid="team-filter-bar" sx={{
+            overflowX: 'auto'
+        }}>
             {team && team.members.map(member => (
                 active && member.id === active.id
                     ? <ActiveAvatar key={member.id} alt={member.name} src={member.avatar} />

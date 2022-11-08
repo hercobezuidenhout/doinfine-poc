@@ -44,7 +44,7 @@ const analytics = getAnalytics(app)
 axios.defaults.baseURL = process.env.DEVELOPMENT ? 'https://localhost:5001' : 'https://dev-api-team-lunch.azurewebsites.net'
 
 const Corporate = () => {
-    const [mode, setMode] = useState('dark')
+    const [mode, setMode] = useState('light')
     const [theme, setTheme] = useState(corporateTheme(mode))
 
     useEffect(() => {

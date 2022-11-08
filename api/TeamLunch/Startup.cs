@@ -11,6 +11,7 @@ using TeamLunch.Contracts;
 using TeamLunch.Services;
 using MauticNetClient.Extensions;
 using Microsoft.IdentityModel.Tokens;
+using Npgsql;
 
 namespace TeamLunch
 {
@@ -24,6 +25,20 @@ namespace TeamLunch
         {
             Configuration = configuration;
             HostingEnvironment = hostingEnvironment;
+        }
+
+        private NpgsqlConnectionStringBuilder NpgsqlConnectionString()
+        {
+            var connectionString = new NpgsqlConnectionStringBuilder()
+            {
+                SslMode = SslMode.Disable,
+                Host = "/cloudsql/doin-fine:europe-west1:doinfine-db/.s.PGSQL.5432",
+                Username = "postgres",
+                Password = "DKan]V8S_<Rl:=ad",
+                Database = "doinfine-db"
+            };
+            connectionString.Pooling = true;
+            return connectionString;
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -51,7 +66,7 @@ namespace TeamLunch
 
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseNpgsql(Configuration.GetConnectionString("DataContext"));
+                options.UseNpgsql(NpgsqlConnectionString().ConnectionString);
             });
 
             services.AddCors(options =>

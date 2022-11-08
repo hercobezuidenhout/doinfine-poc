@@ -5,7 +5,7 @@ import { createContext } from "react"
 export const lightPalette = ({
     primary: {
         light: red[200],
-        main: red[500],
+        main: '#E03E3E',
         dark: '#E03E3E'
     },
     secondary: {

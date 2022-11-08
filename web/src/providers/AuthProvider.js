@@ -1,179 +1,47 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { EventType, PublicClientApplication } from '@azure/msal-browser'
-import axios from 'axios'
-
-const redirectUri = process.env.DEVELOPMENT ? 'http://localhost:3000' : 'https://thankful-sand-0a1eb4203.1.azurestaticapps.net'
-
-const b2cPolicies = {
-    names: {
-        SignIn: "B2C_1_SignIn",
-        editProfile: "B2C_1_ProfileEditing",
-        resetPassword: "B2C_1_ResetPassword"
-    },
-    authorities: {
-        SignIn: {
-            authority: "https://teamlunch.b2clogin.com/teamlunch.onmicrosoft.com/B2C_1_SignIn",
-        },
-        editProfile: {
-            authority: "https://teamlunch.b2clogin.com/teamlunch.onmicrosoft.com/B2C_1_ProfileEditing"
-        },
-        resetPassword: {
-            authority: "https://teamlunch.b2clogin.com/teamlunch.onmicrosoft.com/B2C_1_ResetPassword"
-        }
-    },
-    authorityDomain: "teamlunch.b2clogin.com"
-}
-
-const msalConfig = {
-    auth: {
-        clientId: "9dd2dacf-b536-460e-b7fd-307c7dc1f981",
-        authority: b2cPolicies.authorities.SignIn.authority,
-        knownAuthorities: [b2cPolicies.authorityDomain],
-        redirectUri: redirectUri,
-    },
-    cache: {
-        cacheLocation: "localStorage",
-        storeAuthStateInCookie: false
-    }
-}
-
-const msalInstance = new PublicClientApplication(msalConfig)
+import { LoginPage } from '@pages/LoginPage'
+import { browserLocalPersistence, getAuth, sendPasswordResetEmail, setPersistence, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 
 export const AuthContext = createContext({
     getCurrentUserId: () => { },
     getAccessToken: () => { },
     editProfile: () => { },
-    resetPassword: () => { },
-    signOut: () => { }
+    resetPassword: (email) => { },
+    signOut: () => { },
+    signIn: (email, password) => { }
 })
 
-
 export const AuthProvider = ({ children }) => {
+    let auth = getAuth()
+    const [currentUser, setCurrentUser] = useState()
 
-    const [account, setAccount] = useState()
-
-    const loadAuth = async () => {
-        const accounts = msalInstance.getAllAccounts()
-        if (accounts.length > 0) {
-            msalInstance.setActiveAccount(accounts[0])
-            setAccount(accounts[0])
-        }
-
-        msalInstance.handleRedirectPromise()
-            .then(() => {
-                const activeAccount = msalInstance.getActiveAccount()
-
-                if (!activeAccount) {
-                    msalInstance.loginRedirect({
-                        scopes: ['https://teamlunch.onmicrosoft.com/api/read']
-                    })
-                }
-            }).catch(error => {
-                console.log(error)
-            })
-    }
-
-    const getAccessToken = async () => {
-        const response = await msalInstance.acquireTokenSilent({
-            scopes: ['https://teamlunch.onmicrosoft.com/api/read']
-        }).catch(error => {
-            msalInstance.acquireTokenRedirect({
-                scopes: ['https://teamlunch.onmicrosoft.com/api/read']
-            })
+    const getCurrentUserId = () => currentUser.uid
+    const getAccessToken = () => currentUser.accessToken
+    const editProfile = () => { }
+    const resetPassword = async (email) => {
+        await sendPasswordResetEmail(auth, email, {
+            url: 'https://example.com/nice'
         })
-
-        if (response.accessToken == '') msalInstance.acquireTokenRedirect({
-            scopes: ['https://teamlunch.onmicrosoft.com/api/read']
-        })
-
-        return response.accessToken
     }
 
-    const editProfile = () => {
-        const request = {
-            scopes: ['https://teamlunch.onmicrosoft.com/api/read'],
-            authority: b2cPolicies.authorities.editProfile.authority,
-            redirectUri: redirectUri
-        }
-
-        msalInstance.acquireTokenRedirect(request);
+    const logout = async () => {
+        await signOut(auth)
     }
 
-    const resetPassword = () => {
-        const request = {
-            scopes: ['https://teamlunch.onmicrosoft.com/api/read'],
-            authority: b2cPolicies.authorities.resetPassword.authority,
-            redirectUri: redirectUri
-        }
-
-        msalInstance.acquireTokenRedirect(request);
-    }
-
-    const getCurrentUserId = () => {
-        if (!account) return
-        return account.localAccountId
-    }
-
-    const signOut = () => {
-        msalInstance.logoutRedirect()
+    const signIn = async (email, password) => {
+        if (!auth) return
+        const response = await signInWithEmailAndPassword(auth, email, password).catch(error => console.log(error))
+        return response
     }
 
     useEffect(() => {
-        const callbackId = msalInstance.addEventCallback(async (event) => {
-            // if (!event.eventType == 'msal:acquireTokenSuccess') return
-            // if (!event.payload.account.idTokenClaims.tfp == 'B2C_1_ProfileEditing') return
+        auth.onAuthStateChanged(user => {
+            console.log(user)
+            setCurrentUser(user)
+            if (user) {
 
-            if (event.error) {
-                const isResetPassword = event.error.errorMessage.includes('AADB2C90118')
-
-                if (isResetPassword) {
-                    resetPassword()
-                }
-            }
-
-            if (event.eventType == EventType.ACQUIRE_TOKEN_SUCCESS) {
-                if (event?.payload) {
-                    if (event.payload.idTokenClaims['newUser']) {
-                        const lastName = event.payload.account.idTokenClaims.family_name
-                        const firstName = event.payload.account.idTokenClaims.name
-                        const accessToken = event.payload.accessToken
-
-                        await axios.post('/users', {
-                            firstName: firstName,
-                            lastName: lastName
-                        }, {
-                            headers: {
-                                'Authorization': `Bearer ${accessToken}`
-                            }
-                        }).catch(error => console.error(error))
-                    }
-                    if (event.payload.idTokenClaims['tfp'] == b2cPolicies.names.editProfile) {
-                        const lastName = event.payload.account.idTokenClaims.family_name
-                        const firstName = event.payload.account.idTokenClaims.name
-                        const accessToken = event.payload.accessToken
-
-                        await axios.put('/users', {
-                            firstName: firstName,
-                            lastName: lastName
-                        }, {
-                            headers: {
-                                'Authorization': `Bearer ${accessToken}`
-                            }
-                        }).catch(error => console.error(error))
-
-                        console.log('Update success')
-                    }
-                    if (event.payload.idTokenClaims['tfp'] == b2cPolicies.names.resetPassword) {
-                        console.log('Password reset')
-                    }
-                }
             }
         })
-        loadAuth()
-
-        return () => {
-            msalInstance.removeEventCallback(callbackId)
-        }
     }, [])
 
     return (
@@ -182,9 +50,10 @@ export const AuthProvider = ({ children }) => {
             getAccessToken: getAccessToken,
             editProfile: editProfile,
             resetPassword: resetPassword,
-            signOut: signOut
+            signOut: logout,
+            signIn: signIn
         }}>
-            {account ? children : <h1>Loading ...</h1>}
+            {currentUser ? children : <LoginPage />}
         </AuthContext.Provider>
     )
 }

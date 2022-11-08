@@ -12,6 +12,8 @@ import { BrowserRouter } from 'react-router-dom'
 import { ErrorBoundary } from './ErrorBoundary'
 import './index.css'
 import { CorporateContext, corporateTheme } from './theme'
+import { initializeApp } from 'firebase/app'
+import { getAnalytics } from 'firebase/analytics'
 
 if (!process.env.DEVELOPMENT) {
     if ('serviceWorker' in navigator) {
@@ -26,6 +28,17 @@ if (!process.env.DEVELOPMENT) {
         })
     }
 }
+
+initializeApp({
+    apiKey: "AIzaSyAR_1Yfan_Ru-09BRPmqnSXjNwAk6rvfss",
+    authDomain: "doin-fine.firebaseapp.com",
+    projectId: "doin-fine",
+    storageBucket: "doin-fine.appspot.com",
+    messagingSenderId: "852724502631",
+    appId: "1:852724502631:web:429d35119d234cdb5004c2",
+    measurementId: "G-45SECZFJMV"
+})
+const analytics = getAnalytics(app)
 
 axios.defaults.baseURL = process.env.DEVELOPMENT ? 'https://localhost:5001' : 'https://dev-api-team-lunch.azurewebsites.net'
 

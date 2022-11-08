@@ -39,14 +39,14 @@ jobs:
     # - name: Test
     #   run: dotnet test
 
-    - name: Install EF Tool
-      run: |
-          dotnet new tool-manifest
-          dotnet tool install dotnet-ef
+    # - name: Install EF Tool
+    #   run: |
+    #       dotnet new tool-manifest
+    #       dotnet tool install dotnet-ef
       
-    - name: Update Database
-      run: dotnet ef database update
-      working-directory: api/TeamLunch    
+    # - name: Update Database
+    #   run: dotnet ef database update
+    #   working-directory: api/TeamLunch    
 
     - name: 'Setup Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v0'

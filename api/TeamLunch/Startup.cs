@@ -32,13 +32,13 @@ namespace TeamLunch
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    options.Authority = "https://securetoken.google.com/pickle-auth";
+                    options.Authority = "https://securetoken.google.com/doin-fine";
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
-                        ValidIssuer = "https://securetoken.google.com/pickle-auth",
+                        ValidIssuer = "https://securetoken.google.com/doin-fine",
                         ValidateAudience = true,
-                        ValidAudience = "pickle-auth",
+                        ValidAudience = "doin-fine",
                         ValidateLifetime = true
                     };
                 });
@@ -59,7 +59,7 @@ namespace TeamLunch
                 options.AddPolicy(name: AllowLocalhost, policy =>
                 {
                     policy
-                        .WithOrigins("http://localhost:3000", "https://thankful-sand-0a1eb4203.1.azurestaticapps.net")
+                        .WithOrigins("http://localhost:3000", "https://doinfine.app")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();

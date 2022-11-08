@@ -10,6 +10,7 @@ using TeamLunch.Hubs;
 using TeamLunch.Contracts;
 using TeamLunch.Services;
 using MauticNetClient.Extensions;
+using Microsoft.IdentityModel.Tokens;
 
 namespace TeamLunch
 {
@@ -27,65 +28,30 @@ namespace TeamLunch
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApi(options =>
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
                 {
-                    Configuration.Bind("AzureAdB2C", options);
-
-                    options.TokenValidationParameters.NameClaimType = "name";
-                },
-                options =>
-                {
-                    Configuration.Bind("AzureAdB2C", options);
+                    options.Authority = "https://securetoken.google.com/pickle-auth";
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = "https://securetoken.google.com/pickle-auth",
+                        ValidateAudience = true,
+                        ValidAudience = "pickle-auth",
+                        ValidateLifetime = true
+                    };
                 });
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddMauticNetClient("http://m.thinwood.co/api/");
 
-            services.AddSwaggerGen(config =>
-            {
-                config.CustomSchemaIds(type => type.ToString());
-
-                config.SwaggerDoc("v1", new OpenApiInfo { Title = "TeamLunch API", Version = "v1" });
-
-                config.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
-                {
-                    Description = "OAuth2.0 Auth Code with PKCE",
-                    Name = "oauth2",
-                    Type = SecuritySchemeType.OAuth2,
-                    Flows = new OpenApiOAuthFlows
-                    {
-                        AuthorizationCode = new OpenApiOAuthFlow
-                        {
-                            AuthorizationUrl = new Uri(Configuration["Swagger:AuthorizationUrl"]),
-                            TokenUrl = new Uri(Configuration["Swagger:TokenUrl"]),
-                            Scopes = new Dictionary<string, string>
-                            {
-                                { Configuration["Swagger:ApiScope"], "read the API" }
-                            }
-                        }
-                    }
-                });
-
-                config.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
-                        },
-                        new[] { Configuration["Swagger:ApiScope"] }
-                    }
-                });
-            });
-
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DataContext"));
-                // options.UseInMemoryDatabase("Hi");
+                options.UseNpgsql(Configuration.GetConnectionString("DataContext"));
             });
 
             services.AddCors(options =>
@@ -106,20 +72,6 @@ namespace TeamLunch
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
         {
-            if (env.IsDevelopment())
-            {
-                SeedInMemoryDatabase(app.ApplicationServices);
-            }
-
-            app.UseSwagger();
-
-            app.UseSwaggerUI(config =>
-            {
-                config.OAuthClientId(Configuration["Swagger:ClientId"]);
-                config.OAuthUsePkce();
-                config.OAuthScopeSeparator(" ");
-            });
-
             app.UseRouting();
 
             app.UseHttpsRedirection();
@@ -134,13 +86,6 @@ namespace TeamLunch
                 endpoints.MapControllers();
                 endpoints.MapHub<NotificationsHub>("/hubs/notifications");
             });
-        }
-
-        public void SeedInMemoryDatabase(IServiceProvider serviceProvider)
-        {
-            using var scope = serviceProvider.CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<DataContext>();
-            db.Database.EnsureCreated();
         }
     }
 }

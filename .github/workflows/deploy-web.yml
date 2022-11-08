@@ -1,8 +1,4 @@
-name: Deploy Web App to Azure
-
-env:
-  APP_LOCATION: "/web" 
-  APP_ARTIFACT_LOCATION: "public" 
+name: Deploy Web App to Firebase
 
 on:
   push:
@@ -11,6 +7,10 @@ on:
     paths:
       - web/**
       - .github/workflows/**
+  
+defaults:
+  run:
+    working-directory: web
 
 jobs:
   build_and_preview:

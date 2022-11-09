@@ -41,7 +41,7 @@ const app = initializeApp({
 
 const analytics = getAnalytics(app);
 
-axios.defaults.baseURL = process.env.DEVELOPMENT ? 'https://localhost:5001' : 'https://doin-fine.oa.r.appspot.com';
+axios.defaults.baseURL = process.env.DEVELOPMENT ? 'https://localhost:5001' : 'https://api.doinfine.app';
 
 const Corporate = () => {
     const [mode, setMode] = useState('light');

@@ -32,7 +32,7 @@ namespace TeamLunch
             var connectionString = new NpgsqlConnectionStringBuilder()
             {
                 SslMode = SslMode.Disable,
-                Host = "/cloudsql/doin-fine:europe-west1:doinfine-db/.s.PGSQL.5432",
+                Host = "127.0.0.1",
                 Username = "postgres",
                 Password = "DKan]V8S_<Rl:=ad",
                 Database = "doinfine-db"

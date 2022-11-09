@@ -18,6 +18,7 @@ public class EmailService
 
         var x = new CreateEmailCampaign(
                 sender: new CreateEmailCampaignSender(email: "finemaster@doinfine.app"),
+                subject: $"Someone wants to fine {userBeingFined}",
                 name: $"New Fine Request ID {requestId}",
                 recipients: new CreateEmailCampaignRecipients { ListIds = new List<long?> { segmentId } },
                 templateId: 3,
@@ -39,6 +40,7 @@ public class EmailService
 
         var x = new CreateEmailCampaign(
                 sender: new CreateEmailCampaignSender(email: "finemaster@doinfine.app"),
+                subject: $"{userMakingPayment} claims to have made a payment",
                 name: $"New Payment Request ID {requestId}",
                 recipients: new CreateEmailCampaignRecipients { ListIds = new List<long?> { segmentId } },
                 templateId: 6,
@@ -59,6 +61,7 @@ public class EmailService
 
         var x = new CreateEmailCampaign(
                 sender: new CreateEmailCampaignSender(email: "finemaster@doinfine.app"),
+                subject: $"{userBeingFined} has been fined!",
                 name: $"Fine Request Approved ID {requestId}",
                 recipients: new CreateEmailCampaignRecipients { ListIds = new List<long?> { segmentId } },
                 templateId: 8,
@@ -80,6 +83,7 @@ public class EmailService
 
         var x = new CreateEmailCampaign(
                 sender: new CreateEmailCampaignSender(email: "finemaster@doinfine.app"),
+                subject: $"The fine request for {userBeingFined} has been rejected!",
                 name: $"Fine Request Rejected ID {requestId}",
                 recipients: new CreateEmailCampaignRecipients { ListIds = new List<long?> { segmentId } },
                 templateId: 9,
@@ -101,6 +105,7 @@ public class EmailService
 
         var x = new CreateEmailCampaign(
                 sender: new CreateEmailCampaignSender(email: "finemaster@doinfine.app"),
+                subject: $"{userMakingPayment} has paid of fines!",
                 name: $"Payment Request Approved ID {requestId}",
                 recipients: new CreateEmailCampaignRecipients { ListIds = new List<long?> { segmentId } },
                 templateId: 10,
@@ -122,6 +127,7 @@ public class EmailService
 
         var x = new CreateEmailCampaign(
                 sender: new CreateEmailCampaignSender(email: "finemaster@doinfine.app"),
+                subject: $"Payment request for {userMakingPayment} has been rejected!",
                 name: $"Payment Request Rejected ID {requestId}",
                 recipients: new CreateEmailCampaignRecipients { ListIds = new List<long?> { segmentId } },
                 templateId: 11,

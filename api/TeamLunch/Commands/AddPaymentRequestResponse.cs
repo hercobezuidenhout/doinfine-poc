@@ -8,6 +8,7 @@ using TeamLunch.Data;
 using TeamLunch.Data.Entities;
 using TeamLunch.Exceptions;
 using TeamLunch.Models;
+using TeamLunch.Services;
 
 namespace TeamLunch.Commands;
 
@@ -19,13 +20,13 @@ public static class AddPaymentRequestResponse
     {
         private readonly DataContext _db;
         private readonly INotificationService _notificationService;
-        private readonly MauticClient _mauticClient;
+        private readonly EmailService _emailService;
 
-        public Handler(DataContext db, INotificationService notificationService, MauticClient mauticClient)
+        public Handler(DataContext db, INotificationService notificationService, EmailService emailService)
         {
             _db = db;
             _notificationService = notificationService;
-            _mauticClient = mauticClient;
+            _emailService = emailService;
         }
 
         public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
@@ -76,35 +77,7 @@ public static class AddPaymentRequestResponse
                         Description = $"{userPaying} has paid of a fine by {payment.Action}."
                     }, team);
 
-                    var segmentEmail = new SegmentEmail<int>
-                    {
-                        Name = $"Payment Request Approved {paymentRequest.Id}",
-                        Subject = $"{userPaying} has paid off a fine!",
-                        IsPublished = true,
-                        CustomHtml = @$"
-                            <!DOCTYPE html>
-                                <html lang='en'>
-                                <head>
-                                    <meta charset='UTF-8' />
-                                    <meta name='viewport' content='width=device-width' />
-                                </head>
-                                <body>
-                                    <div>
-                                    <p>
-                                        {userPaying} has paid of a fine by {payment.Action}.
-                                    </p>
-                                    </div>
-                                </body>
-                                </html>
-
-                        ",
-                        Lists = new List<int> { team.SegmentId.GetValueOrDefault() }
-                    };
-
-                    var createSegmentEmailRequest = new CreateSegmentEmail.Request(segmentEmail);
-                    var createEmailResponse = await _mauticClient.MakeRequest<CreateSegmentEmail.Request, CreateSegmentEmail.Response>(createSegmentEmailRequest);
-                    var sendEmailResponse = await _mauticClient.MakeRequest<SendEmailToSegment.Request, SendEmailToSegment.Response>(new SendEmailToSegment.Request(createEmailResponse.email.Id));
-
+                    _emailService.SendPaymentApprovedEmailToTeam(paymentRequest.Id, userPaying, paymentRequest.Action, team.SegmentId);
 
                     return new Response(paymentRequestResponse.Id, payment.Id);
                 }
@@ -116,35 +89,7 @@ public static class AddPaymentRequestResponse
                         Description = $"{userPaying} has not paid off any fines by {paymentRequest.Action}."
                     }, team);
 
-                    var segmentEmail = new SegmentEmail<int>
-                    {
-                        Name = $"Payment Request Rejected {paymentRequest.Id}",
-                        Subject = $"The payment request by {userPaying} has been rejected!",
-                        IsPublished = true,
-                        CustomHtml = @$"
-                            <!DOCTYPE html>
-                                <html lang='en'>
-                                <head>
-                                    <meta charset='UTF-8' />
-                                    <meta name='viewport' content='width=device-width' />
-                                </head>
-                                <body>
-                                    <div>
-                                    <p>
-                                       {userPaying} has not paid off any fines by {paymentRequest.Action}.
-                                    </p>
-                                    </div>
-                                </body>
-                                </html>
-
-                        ",
-                        Lists = new List<int> { team.SegmentId.GetValueOrDefault() }
-                    };
-
-                    var createSegmentEmailRequest = new CreateSegmentEmail.Request(segmentEmail);
-                    var createEmailResponse = await _mauticClient.MakeRequest<CreateSegmentEmail.Request, CreateSegmentEmail.Response>(createSegmentEmailRequest);
-                    var sendEmailResponse = await _mauticClient.MakeRequest<SendEmailToSegment.Request, SendEmailToSegment.Response>(new SendEmailToSegment.Request(createEmailResponse.email.Id));
-
+                    _emailService.SendPaymentRejectedEmailToTeam(paymentRequest.Id, userPaying, paymentRequest.Action, team.SegmentId);
                 }
             }
 

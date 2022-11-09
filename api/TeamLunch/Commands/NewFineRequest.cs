@@ -7,6 +7,7 @@ using TeamLunch.Contracts;
 using TeamLunch.Data;
 using TeamLunch.Data.Entities;
 using TeamLunch.Models;
+using TeamLunch.Services;
 
 namespace TeamLunch.Commands;
 
@@ -24,13 +25,13 @@ public static class NewFineRequest
     {
         private readonly DataContext _db;
         private readonly INotificationService _notificationService;
-        private readonly MauticClient _mauticClient;
+        private readonly EmailService _emailService;
 
-        public Handler(DataContext db, INotificationService notificationService, MauticClient mauticClient)
+        public Handler(DataContext db, INotificationService notificationService, EmailService emailService)
         {
             _db = db;
             _notificationService = notificationService;
-            _mauticClient = mauticClient;
+            _emailService = emailService;
         }
 
         public async Task<int> Handle(Command request, CancellationToken cancellationToken)
@@ -50,52 +51,7 @@ public static class NewFineRequest
                 Link = "/fine-requests/" + fineRequest.Id
             };
 
-            var style = @"
-                button {
-                    border: none;
-                    border-radius: 3px;
-                    padding: 1rem 1.5rem;
-                    background-color: #f44336;
-                    color: white;
-                    font-weight: bold;
-                }
-            ";
-
-            var segmentEmail = new SegmentEmail<int>
-            {
-                Name = $"New Fine Request {fineRequest.Id}",
-                Subject = "New fine has been submitted",
-                IsPublished = true,
-                CustomHtml = @$"
-                    <!DOCTYPE html>
-                        <html lang='en'>
-                        <head>
-                            <meta charset='UTF-8' />
-                            <meta name='viewport' content='width=device-width' />
-                            <style>
-                                {style}
-                            </style>
-                        </head>
-                        <body>
-                            <div>
-                            <p>
-                                Someone wants to fine {userBeingFined} for {fineRequest.Reason}.
-                            </p>
-                            <a href='https://thankful-sand-0a1eb4203.1.azurestaticapps.net/fine-requests/{fineRequest.Id}'>
-                                <button>View Fine Request</button>
-                            </a>
-                            </div>
-                        </body>
-                        </html>
-
-                ",
-                Lists = new List<int> { team.SegmentId.GetValueOrDefault() }
-            };
-
-            var createSegmentEmailRequest = new CreateSegmentEmail.Request(segmentEmail);
-            var createEmailResponse = await _mauticClient.MakeRequest<CreateSegmentEmail.Request, CreateSegmentEmail.Response>(createSegmentEmailRequest);
-            var sendEmailResponse = await _mauticClient.MakeRequest<SendEmailToSegment.Request, SendEmailToSegment.Response>(new SendEmailToSegment.Request(createEmailResponse.email.Id));
-
+            _emailService.SendFineRequestEmailToTeam(fineRequest.Id, userBeingFined, fineRequest.Reason, team.SegmentId);
             _notificationService.SendNotificationToTeam(notification, team);
 
             return fineRequest.Id;

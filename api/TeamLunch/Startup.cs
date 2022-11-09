@@ -83,6 +83,7 @@ namespace TeamLunch
 
             services.AddSignalR();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<EmailService>();
         }
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)

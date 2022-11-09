@@ -8,6 +8,7 @@ using TeamLunch.Data;
 using TeamLunch.Data.Entities;
 using TeamLunch.Exceptions;
 using TeamLunch.Models;
+using TeamLunch.Services;
 
 namespace TeamLunch.Commands;
 
@@ -19,13 +20,13 @@ public static class AddFineRequestResponse
     {
         private readonly DataContext _db;
         private readonly INotificationService _notificationService;
-        private readonly MauticClient _mauticClient;
+        private readonly EmailService _emailService;
 
-        public Handler(DataContext db, INotificationService notificationService, MauticClient mauticClient)
+        public Handler(DataContext db, INotificationService notificationService, EmailService emailService)
         {
             _db = db;
             _notificationService = notificationService;
-            _mauticClient = mauticClient;
+            _emailService = emailService;
         }
 
         public async Task<Response> Handle(Command request, CancellationToken cancellationToken)
@@ -68,35 +69,8 @@ public static class AddFineRequestResponse
                         Description = $"{userBeingFined} has been for {fine.Reason}."
                     }, team);
 
-                    var segmentEmail = new SegmentEmail<int>
-                    {
-                        Name = $"Fine Request Approved {fineRequest.Id}",
-                        Subject = $"{userBeingFined} has been fined!",
-                        IsPublished = true,
-                        CustomHtml = @$"
-                            <!DOCTYPE html>
-                                <html lang='en'>
-                                <head>
-                                    <meta charset='UTF-8' />
-                                    <meta name='viewport' content='width=device-width' />
-                                </head>
-                                <body>
-                                    <div>
-                                    <p>
-                                        {userBeingFined} has been fined for {fine.Reason}.
-                                    </p>
-                                    </div>
-                                </body>
-                                </html>
-
-                        ",
-                        Lists = new List<int> { team.SegmentId.GetValueOrDefault() }
-                    };
-
-                    var createSegmentEmailRequest = new CreateSegmentEmail.Request(segmentEmail);
-                    var createEmailResponse = await _mauticClient.MakeRequest<CreateSegmentEmail.Request, CreateSegmentEmail.Response>(createSegmentEmailRequest);
-                    var sendEmailResponse = await _mauticClient.MakeRequest<SendEmailToSegment.Request, SendEmailToSegment.Response>(new SendEmailToSegment.Request(createEmailResponse.email.Id));
-
+                    _emailService.SendFineApprovedEmailToTeam(fineRequest.Id, userBeingFined, fineRequest.Reason, team.SegmentId);
+                    
                     return new Response(fineRequestResponse.Id, fine.Id);
                 }
                 else
@@ -107,35 +81,7 @@ public static class AddFineRequestResponse
                         Description = $"{userBeingFined} has not been fined for {fineRequest.Reason}."
                     }, team);
 
-                    var segmentEmail = new SegmentEmail<int>
-                    {
-                        Name = $"Fine Request Rejected {fineRequest.Id}",
-                        Subject = $"The fine for {userBeingFined} has been rejected!",
-                        IsPublished = true,
-                        CustomHtml = @$"
-                            <!DOCTYPE html>
-                                <html lang='en'>
-                                <head>
-                                    <meta charset='UTF-8' />
-                                    <meta name='viewport' content='width=device-width' />
-                                </head>
-                                <body>
-                                    <div>
-                                    <p>
-                                        {userBeingFined} has not been fined for {fineRequest.Reason}.
-                                    </p>
-                                    </div>
-                                </body>
-                                </html>
-
-                        ",
-                        Lists = new List<int> { team.SegmentId.GetValueOrDefault() }
-                    };
-
-                    var createSegmentEmailRequest = new CreateSegmentEmail.Request(segmentEmail);
-                    var createEmailResponse = await _mauticClient.MakeRequest<CreateSegmentEmail.Request, CreateSegmentEmail.Response>(createSegmentEmailRequest);
-                    var sendEmailResponse = await _mauticClient.MakeRequest<SendEmailToSegment.Request, SendEmailToSegment.Response>(new SendEmailToSegment.Request(createEmailResponse.email.Id));
-
+                    _emailService.SendFineRejectedEmailToTeam(fineRequest.Id, userBeingFined, fineRequest.Reason, team.SegmentId);
                 }
             }
 

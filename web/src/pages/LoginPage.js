@@ -1,3 +1,4 @@
+import { SuccessDialog } from '@components/molecules'
 import { Box, Button, OutlinedInput, TextField, Typography } from '@mui/material'
 import { useAuthContext } from '@providers/AuthProvider'
 import React, { useState } from 'react'
@@ -7,6 +8,10 @@ export const LoginPage = () => {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [isForgotPassword, setIsForgotPassword] = useState(false)
+    const [isSuccess, setIsSuccess] = useState(false)
+    const [dialogTitle, setDialogTitle] = useState('')
+    const [dialogMessage, setDialogMessage] = useState('')
 
     const handleEmailChange = (event) => {
         const value = event.target.value
@@ -22,6 +27,23 @@ export const LoginPage = () => {
         if (!authContext) return
         const response = await authContext.signIn(email, password)
         if (!response) console.log('login failed')
+    }
+
+    const resetPassword = async () => {
+        authContext.resetPassword(email)
+            .then(response => {
+                console.log(response)
+                setDialogTitle('Reset Password Link Sent')
+                setDialogMessage('An link to reset your password has been sent to the email which you have given.')
+            })
+            .catch(error => {
+                console.log(error.message)
+                if (error.message.includes('user-not-found')) {
+                    setDialogTitle('User Not Found')
+                    setDialogMessage('No account with given email exists. Try signing up or contact support@doinfine.app for help.')
+                }
+            })
+        setIsSuccess(true)
     }
 
     return (
@@ -44,24 +66,42 @@ export const LoginPage = () => {
                         width: '100%'
                     }} label='Email' variant='outlined' type='email' value={email} onChange={handleEmailChange} />
                 </div>
+                {!isForgotPassword && (
+                    <div>
+                        <TextField sx={{
+                            marginBottom: '1rem',
+                            width: '100%'
+                        }} label='Password' variant='outlined' type='password' value={password} onChange={handlePasswordChange} />
+                    </div>
+                )}
                 <div>
-                    <TextField sx={{
-                        marginBottom: '1rem',
-                        width: '100%'
-                    }} label='Password' variant='outlined' type='password' value={password} onChange={handlePasswordChange} />
+                    {authContext && !isForgotPassword && (
+                        <Button disabled={email.length < 5 || password.length < 5} sx={{
+                            width: '100%',
+                            marginBottom: '1rem'
+                        }} variant='contained' onClick={signIn}>SignIn</Button>
+                    )}
+                    {authContext && isForgotPassword && (
+                        <Button disabled={email.length < 5} sx={{
+                            width: '100%',
+                            marginBottom: '1rem'
+                        }} variant='contained' onClick={resetPassword}>Send Reset Password Link</Button>
+                    )}
                 </div>
                 <div>
-                    {authContext && <Button sx={{
-                        width: '100%',
-                        marginBottom: '1rem'
-                    }} variant='contained' onClick={signIn}>SignIn</Button>}
-                </div>
-                <div>
-                    <Button sx={{
+                    <Button onClick={() => setIsForgotPassword(!isForgotPassword)} sx={{
                         width: '100%'
-                    }}>Forgot Password?</Button>
+                    }}>{isForgotPassword ? 'Back to Sign In' : 'Forgot Password?'}</Button>
                 </div>
             </Box>
+            <SuccessDialog
+                open={isSuccess}
+                title={dialogTitle}
+                text={dialogMessage}
+                handleDone={() => {
+                    setIsForgotPassword(false)
+                    setIsSuccess(false)
+                }} />
         </Box>
     )
 }

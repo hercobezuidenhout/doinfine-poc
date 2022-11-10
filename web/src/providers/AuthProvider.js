@@ -8,7 +8,8 @@ export const AuthContext = createContext({
     editProfile: () => { },
     resetPassword: (email) => { },
     signOut: () => { },
-    signIn: (email, password) => { }
+    signIn: (email, password) => { },
+    getCurrentEmail: () => { }
 })
 
 export const AuthProvider = ({ children }) => {
@@ -17,11 +18,11 @@ export const AuthProvider = ({ children }) => {
 
     const getCurrentUserId = () => currentUser.uid
     const getAccessToken = () => currentUser.accessToken
+    const getCurrentEmail = () => currentUser.email
+
     const editProfile = () => { }
     const resetPassword = async (email) => {
-        await sendPasswordResetEmail(auth, email, {
-            url: 'https://example.com/nice'
-        })
+        return await sendPasswordResetEmail(auth, email)
     }
 
     const logout = async () => {
@@ -35,13 +36,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        auth.onAuthStateChanged(user => {
-            console.log(user)
-            setCurrentUser(user)
-            if (user) {
-
-            }
-        })
+        auth.onAuthStateChanged(user => setCurrentUser(user))
     }, [])
 
     return (
@@ -51,7 +46,8 @@ export const AuthProvider = ({ children }) => {
             editProfile: editProfile,
             resetPassword: resetPassword,
             signOut: logout,
-            signIn: signIn
+            signIn: signIn,
+            getCurrentEmail: getCurrentEmail
         }}>
             {currentUser ? children : <LoginPage />}
         </AuthContext.Provider>

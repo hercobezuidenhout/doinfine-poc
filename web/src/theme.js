@@ -28,7 +28,7 @@ export const lightPalette = ({
 export const darkPallete = ({
     primary: {
         light: red[400],
-        main: '#594141',
+        main: '#E03E3E',
         dark: '#FF7369'
     },
     secondary: {

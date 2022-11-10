@@ -1,5 +1,5 @@
 import { ActionBar } from '@components/atoms'
-import { LinkListItem } from '@components/molecules'
+import { LinkListItem, SuccessDialog } from '@components/molecules'
 import { OptionsBox } from '@components/organisms'
 import { ChevronRight } from '@mui/icons-material'
 import { Box, Drawer, IconButton, List, ListItem, SwipeableDrawer, Typography } from '@mui/material'
@@ -18,7 +18,8 @@ export const MenuPage = () => {
 
     const [activeFineRequests, setActiveFineRequests] = useState([])
     const [activePaymentRequests, setActivePaymentRequests] = useState([])
-    const [drawerOpen, setDrawerOpen] = React.useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [isPasswordResetSuccess, setIsPasswordResetSuccess] = useState()
 
     const toggleDrawer = () => {
         setDrawerOpen(prevDrawerOpen => !prevDrawerOpen)
@@ -53,13 +54,20 @@ export const MenuPage = () => {
         <ActionBar title="Menu" link="/team" />
         <OptionsBox label="Account">
             <LinkListItem label="Edit Profile" handleLinkClick={editProfile} />
-            <LinkListItem label="Reset Password" handleLinkClick={() => authContext.resetPassword()} />
+            <LinkListItem label="Reset Password" handleLinkClick={async () => {
+                console.log('click')
+                await authContext.resetPassword(authContext.getCurrentEmail())
+                console.log('done')
+                setIsPasswordResetSuccess(true)
+            }
+            } />
             <LinkListItem label="Sign Out" handleLinkClick={() => authContext.signOut()} />
         </OptionsBox>
         <OptionsBox label="Manage Fines">
             <LinkListItem label="View active requests" handleLinkClick={() => toggleDrawer()} />
             <LinkListItem label="Log payment" link="/payment" />
         </OptionsBox>
+        <SuccessDialog open={isPasswordResetSuccess} title='Password Reset Link Sent' text='A link to reset your password has been sent to your email.' handleDone={() => setIsPasswordResetSuccess(false)} />
         <Drawer
             anchor='bottom'
             open={drawerOpen}

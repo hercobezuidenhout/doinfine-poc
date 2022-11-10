@@ -61,10 +61,10 @@ const Corporate = () => {
             <BrowserRouter>
                 <ThemeProvider theme={theme}>
                     <ErrorBoundary>
+                        <CssBaseline />
                         <AuthProvider>
                             <UserProvider>
                                 <TeamProvider>
-                                    <CssBaseline />
                                     <SnackbarProvider>
                                         <NotificationsProvider>
                                             <RouterProvider />

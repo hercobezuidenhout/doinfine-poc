@@ -1,20 +1,16 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# DoinFine 👌
+DoinFine is an app (currently PWA) that enables teams to keep each other accountable and build team culture while doing it. 
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+## The Fine System
+The Fine System is a simple system where teams fine each other for a specific act. The member who was fined should then do something to pay back their fine. There are a couple of rules to this to comply to the DoinFine Manifesto.
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+### Rules
+1. One can not simply fine someone. A fine request must be submitted which must the be approved by the majority of the team. 
+2. One can not simply pay back a fine. A payment request must be submitted which must be approved by the majority of the team. 
+3. One has the ability to reject a fine request towards them. 
+4. Anonymity is important for keeping team culture and to avoid salty situations.
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+## Tech Stack
+The app currently exists out of a `React Web App` and a `.NET Web API` which is set up as a `PWA` so that it can run on a mobile device.
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+It is deployed to a Google Cloud infrastructure and Firebase.

@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v0.1.1 <font size=1>`10/11/2022`</font>
+
+### Bug Fixes
+- Fixed failing requests because of api-key being added more than once to the configuration.
+
 ## v0.1.0 <font size=1>`10/11/2022`</font>
 
 ### Features

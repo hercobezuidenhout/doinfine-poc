@@ -39,10 +39,9 @@ export const MenuPage = () => {
         setActivePaymentRequests(requests)
     }
 
-    const editProfile = () => {
-        if (!authContext) return
-
-        authContext.editProfile()
+    const handleResetPasswordClick = async () => {
+        await authContext.resetPassword(authContext.getCurrentEmail())
+        setIsPasswordResetSuccess(true)
     }
 
     useEffect(() => {
@@ -53,14 +52,7 @@ export const MenuPage = () => {
     return <div>
         <ActionBar title="Menu" link="/team" />
         <OptionsBox label="Account">
-            <LinkListItem label="Edit Profile" handleLinkClick={editProfile} />
-            <LinkListItem label="Reset Password" handleLinkClick={async () => {
-                console.log('click')
-                await authContext.resetPassword(authContext.getCurrentEmail())
-                console.log('done')
-                setIsPasswordResetSuccess(true)
-            }
-            } />
+            <LinkListItem label="Reset Password" handleLinkClick={handleResetPasswordClick} />
             <LinkListItem label="Sign Out" handleLinkClick={() => authContext.signOut()} />
         </OptionsBox>
         <OptionsBox label="Manage Fines">

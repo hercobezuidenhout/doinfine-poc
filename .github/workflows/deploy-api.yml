@@ -6,7 +6,7 @@ on:
 
     paths:
       - api/**
-
+      - .github/workflows/**
 env:
   AZURE_WEBAPP_NAME: dev-api-team-lunch    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: './api/TeamLunch'      # set this to the path to your web app project, defaults to the repository root
@@ -19,31 +19,41 @@ defaults:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v3
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 6.0.x
 
-    - name: Restore dependencies
-      run: dotnet restore
-
-    - name: Build
-      run: dotnet build --configuration Release
-
-    - name: Test
-      run: dotnet test
+    # - name: Restore dependencies
+    #   run: dotnet restore
 
     - name: Publish
-      run: dotnet publish -c Release -o build
+      run: dotnet publish -c Release
       working-directory: api/TeamLunch
 
-    - name: 'Run Azure webapp deploy action using publish profile credentials'
-      uses: azure/webapps-deploy@v2
-      with: 
-        app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE  }} # Define secret variable in repository settings as per action documentation
-        package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/build'
+    # - name: Test
+    #   run: dotnet test
+
+    # - name: Install EF Tool
+    #   run: |
+    #       dotnet new tool-manifest
+    #       dotnet tool install dotnet-ef
+      
+    # - name: Update Database
+    #   run: dotnet ef database update
+    #   working-directory: api/TeamLunch    
+
+    - name: 'Setup Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v0'
+      with:
+        project_id: doin-fine
+        service_account_key: '${{ secrets.GCP_SA_KEY }}' 
+
+    - name: Deploy to App Engine
+      run: gcloud app deploy .\bin\Release\net6.0\publish\app.yaml --version v1
+      working-directory: api/TeamLunch

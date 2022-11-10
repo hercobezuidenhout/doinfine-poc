@@ -1,2 +1,4 @@
 {
+    "dotnet-test-explorer.testProjectPath": "api/TeamLunch.Tests/TeamLunch.Tests.csproj",
+    "jestTestExplorer.pathToJest": "./web/node_modules/.bin/jest"
 }

@@ -2,26 +2,26 @@ using TeamLunch.Data;
 using MediatR;
 using TeamLunch.Data.Entities;
 
-namespace TeamLunch.Queries
+namespace TeamLunch.Queries;
+public static class GetFineById
 {
-    public static class GetFineById {
-        public record Query(int Id) : IRequest<Response>;
+    public record Query(string Id) : IRequest<Response>;
 
-        public class Handler : IRequestHandler<Query, Response>
+    public class Handler : IRequestHandler<Query, Response>
+    {
+        private readonly DataContext db;
+
+        public Handler(DataContext db)
         {
-            private readonly DataContext db;
-
-            public Handler(DataContext db) {
-                this.db = db;
-            }
-
-            public async Task<Response?> Handle(Query request, CancellationToken cancellationToken)
-            {
-                var fines = db.Fines.Where(x => x.UserId == request.Id).ToList();
-                return new Response(fines);
-            }
+            this.db = db;
         }
 
-        public record Response(List<Fine> fines);
+        public async Task<Response?> Handle(Query request, CancellationToken cancellationToken)
+        {
+            var fines = db.Fines.Where(x => x.UserId == request.Id && x.Paid == false).ToList();
+            return new Response(fines);
+        }
     }
+
+    public record Response(List<Fine> fines);
 }

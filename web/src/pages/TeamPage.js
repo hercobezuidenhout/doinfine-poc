@@ -1,19 +1,25 @@
-import { Divider, List, ListItem } from '@mui/material'
+import { Box, Button, Divider, List, ListItem, Skeleton } from '@mui/material'
+import { useAuthContext } from '@providers/AuthProvider'
 import { useTeamContext } from '@providers/TeamProvider'
 import { useFineService } from '@services/fine-service'
 import React, { useEffect, useState, Fragment } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 
 export const TeamPage = () => {
-    const team = useTeamContext()
+    const teamContext = useTeamContext()
+    const authContext = useAuthContext()
+
     const [searchParams] = useSearchParams()
     const fineService = useFineService()
     const [member, setMember] = useState()
-    const [fines, setFines] = useState([])
+    const [fines, setFines] = useState()
 
     const fetchFines = async () => {
         if (!member) return
+        setFines(undefined)
+
         const userFines = await fineService.fetchById(member.id)
+
         setFines(userFines)
     }
 
@@ -22,25 +28,51 @@ export const TeamPage = () => {
     }, [member])
 
     useEffect(() => {
-        if (!team) return
-        const teamMember = team.members.filter(x => x.id == searchParams.get('member'))[0]
-        setMember(teamMember)
-    }, [searchParams, team])
+        if (!teamContext) return
+
+        if (searchParams.get('member')) {
+            const teamMember = teamContext.members.filter(x => x.id == searchParams.get('member'))[0]
+            setMember(teamMember)
+        } else {
+            let teamMember = undefined
+
+            if (!authContext) return
+
+            const filteredMembers = teamContext.members.filter(x => x.id == authContext.getCurrentUserId())
+            teamMember = filteredMembers[0]
+
+            setMember(teamMember)
+            searchParams.set('member', teamMember.id)
+        }
+    }, [searchParams, teamContext])
 
     return (
         <div>
-            <h1 data-testid="team-page-title">{member && `${member.firstName} ${member.lastName}` || 'Team Member'}</h1>
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+            }}>
+                <h1 data-testid="team-page-title">{member ? member.fullName : <Skeleton variant='text' width={300} sx={{ fontSize: '3rem ' }} />}</h1>
+                {member && (member.id == authContext.getCurrentUserId()) && <Link to='/payment'><Button variant='outlined'>Log Payment</Button></Link>}
+            </Box>
             <List>
-                {fines && fines.map(fine => (
+                {fines ? fines.map(fine => (
                     <Fragment key={fine.id}>
                         <ListItem sx={{
                             padding: '1.2rem 0'
                         }}>
-                            {fine.reason}
+                            For {fine.reason}
                         </ListItem>
                         <Divider />
                     </Fragment>
-                ))}
+                )) :
+                    <>
+                        <Skeleton variant='text' sx={{ fontSize: '2rem', display: 'inline-block', width: '100%', marginBottom: '1rem ' }} />
+                        <Skeleton variant='text' sx={{ fontSize: '2rem', display: 'inline-block', width: '100%', marginBottom: '1rem ' }} />
+                        <Skeleton variant='text' sx={{ fontSize: '2rem', display: 'inline-block', width: '100%', marginBottom: '1rem ' }} />
+                    </>
+                }
             </List>
         </div>
     )

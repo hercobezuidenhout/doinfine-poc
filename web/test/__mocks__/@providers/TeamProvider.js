@@ -2,9 +2,9 @@ import React, { createContext, useContext } from 'react'
 import { teams } from '../../../src/__mocks__/backend'
 
 export const TeamContext = createContext({
-    id: undefined,
-    name: undefined,
-    members: []
+    id: teams[0].id,
+    name: teams[0].name,
+    members: teams[0].members
 })
 
 export const TeamProvider = ({ children }) => {

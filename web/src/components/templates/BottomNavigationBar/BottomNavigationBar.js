@@ -4,11 +4,12 @@ import { Add } from "@mui/icons-material";
 import { AppBar, Toolbar } from "@mui/material";
 import { useTeamContext } from "@providers/TeamProvider";
 import React, { useEffect, useState } from "react"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useSearchParams } from "react-router-dom"
 
 export const BottomNavigationBar = () => {
     const location = useLocation()
     const team = useTeamContext()
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const [pathname, setPathname] = useState(location.pathname)
 
@@ -17,16 +18,16 @@ export const BottomNavigationBar = () => {
     }, [location])
 
     const renderToolbar = () => {
-        if (pathname.includes('/team')) return <TeamFilterBar />
-        if (pathname === '/leaderboard') return <CompanyFilterBar />
+        if (pathname === '/team') return <TeamFilterBar />
+        if (pathname === '/leaderboard') return <CompanyFilterBar setActiveTab={(tab) => setSearchParams({ tab: tab })} />
     }
 
     return (
         <AppBar position="fixed" sx={{ top: 'auto', bottom: '0px' }}>
             {renderToolbar()}
             <Toolbar data-testid="primary-bar" sx={{ justifyContent: 'space-between' }}>
-                {team && <Link to={`/team/${team.id}`}>TEAM</Link>}
-                <Link to='/add'>
+                <Link to={`/team`}>TEAM</Link>
+                <Link to='/fine'>
                     <Add sx={{
                         position: 'absolute',
                         zIndex: 1,
@@ -36,7 +37,7 @@ export const BottomNavigationBar = () => {
                         margin: '0 auto'
                     }} />
                 </Link>
-                <Link data-testid="link-company" to='/leaderboard'>COMPANY</Link>
+                <Link to='/leaderboard'>LEADERBOARD</Link>
             </Toolbar>
         </AppBar>
     )

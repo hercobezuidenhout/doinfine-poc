@@ -1,8 +1,4 @@
-name: Deploy Web App to Azure
-
-env:
-  APP_LOCATION: "/web" 
-  APP_ARTIFACT_LOCATION: "public" 
+name: Deploy Web App to Firebase
 
 on:
   push:
@@ -11,20 +7,24 @@ on:
     paths:
       - web/**
       - .github/workflows/**
+  
+defaults:
+  run:
+    working-directory: web
 
 jobs:
-  build_and_deploy:
+  build_and_preview:
     runs-on: ubuntu-latest
-    name: Build and Deploy
     steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: true
+      - uses: actions/checkout@v2
 
-      - name: Build And Deploy
-        uses: Azure/static-web-apps-deploy@1a947af9992250f3bc2e68ad0754c0b0c11566c9
+      - run: npm install --legacy-peer-deps
+      - run: npm run build
+
+      - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APP_TOKEN }}
-          action: "upload"
-          app_location: ${{ env.APP_LOCATION }}
-          app_artifact_location: ${{ env.APP_ARTIFACT_LOCATION }} 
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOIN_FINE }}'
+          projectId: doin-fine
+          entryPoint: web
+          channelId: live

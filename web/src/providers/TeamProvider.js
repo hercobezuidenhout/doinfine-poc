@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from "react"
 import { useLocation, useParams } from "react-router-dom"
 import axios from "axios"
 import { useTeamService } from "@services/team-service"
+import { useUserContext } from "./UserProvider"
 
 export const TeamContext = createContext({
     id: undefined,
@@ -11,15 +12,17 @@ export const TeamContext = createContext({
 
 export const TeamProvider = ({ children }) => {
     const [team, setTeam] = useState()
-    const { id } = useParams()
-    const location = useLocation()
-
     const teamService = useTeamService()
+    const userContext = useUserContext()
 
     const fetchTeam = async () => {
-        if (!location.pathname.includes('/team')) return
-        const team = await teamService.fetchById(id)
-        
+        var user = await userContext.getCurrentUser()
+
+        if (!user) return
+        var teamId = user.teams[0]
+
+        const team = await teamService.fetchById(teamId)
+
         if (!team) return
 
         setTeam(team)
@@ -27,7 +30,7 @@ export const TeamProvider = ({ children }) => {
 
     useEffect(() => {
         fetchTeam()
-    }, [id])
+    }, [userContext])
 
     return (
         <TeamContext.Provider value={team}>

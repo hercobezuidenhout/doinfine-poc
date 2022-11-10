@@ -1,24 +1,32 @@
 {
-  "name": "corporate",
+  "name": "teamlunch",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Herco Bezuidenhout",
   "license": "MIT",
   "scripts": {
-    "build": "webpack",
-    "start": "webpack-dev-server",
+    "build": "webpack --config webpack.prod.js",
+    "start": "webpack serve --config webpack.dev.js",
     "test": "jest --env=jsdom",
     "test:e2e": "npx playwright test"
   },
   "dependencies": {
+    "@azure/msal-browser": "^2.28.1",
+    "@azure/msal-react": "^1.4.5",
+    "@date-io/dayjs": "^2.16.0",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
+    "@microsoft/signalr": "^6.0.8",
     "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.8.6",
+    "@mui/x-date-pickers": "^5.0.4",
     "@testing-library/jest-dom": "^5.16.4",
     "axios": "^0.27.2",
+    "dayjs": "^1.11.5",
+    "firebase": "^9.13.0",
     "node-sass": "^7.0.0",
     "normalize.css": "^8.0.1",
+    "notistack": "^2.0.5",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-modal": "^3.14.4",
@@ -45,6 +53,7 @@
     "babel-plugin-react-scoped-css": "^1.1.1",
     "babel-plugin-transform-class-properties": "6.24.1",
     "css-loader": "^6.5.1",
+    "dotenv-webpack": "^8.0.0",
     "faker": "^6.6.6",
     "html-webpack-plugin": "^5.5.0",
     "jest": "^28.1.2",
@@ -52,6 +61,8 @@
     "react-test-renderer": "^18.2.0",
     "scoped-css-loader": "^1.0.0",
     "style-loader": "^3.3.1",
-    "webpack-cli": "^4.9.1"
+    "webpack-cli": "^4.9.1",
+    "webpack-pwa-manifest": "^4.3.0",
+    "workbox-webpack-plugin": "^6.5.4"
   }
 }

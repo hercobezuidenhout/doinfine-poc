@@ -1,15 +1,14 @@
-const { fines } = require("../../src/__mocks__/backend")
+const { EXAMPLE_USER_ID, EXAMPLE_USERNAME, EXAMPLE_FULLNAME, EXAMPLE_TEAM_NAME, EXAMPLE_REASON } = require('@tests/constants')
+const { fines } = require('../../src/__mocks__/backend')
 
 module.exports = {
     get: jest.fn(url => {
-        if (url == '/team/1') return Promise.resolve({
+        if (url == '/teams/1') return Promise.resolve({
             data: {
                 id: 1,
-                name: 'Example Team',
+                name: EXAMPLE_TEAM_NAME,
                 members: [
-                    { id: 1, username: 'billy', firstName: 'Billy', lastName: 'Anderson', email: 'billy@example.com' },
-                    { id: 2, username: 'steve', firstName: 'Steve', lastName: 'Wack', email: 'steve@example.com' },
-                    { id: 3, username: 'andrew', firstName: 'Andrew', lastName: 'Pickle', email: 'andrew@example.com' }
+                    { id: EXAMPLE_USER_ID, fullName: 'Billy Anderson' }
                 ]
             }
         })
@@ -18,6 +17,58 @@ module.exports = {
             data: {
                 fines: fines.filter(fine => fine.id == 1)
             }
+        })
+
+        if (url == '/leaderboard/users') return Promise.resolve({
+            data: {
+                items: [
+                    { title: 'Billy Anderson', fines: 10 },
+                    { title: 'Billy Anderson', fines: 9 },
+                    { title: 'Billy Anderson', fines: 8 },
+                    { title: 'Billy Anderson', fines: 7 },
+                    { title: 'Billy Anderson', fines: 6 },
+                    { title: 'Billy Anderson', fines: 5 },
+                ]
+            }
+        })
+
+        if (url == '/leaderboard/teams') return Promise.resolve({
+            data: {
+                items: [
+                    { title: 'Core', fines: 10 },
+                    { title: 'Marketing', fines: 9 }
+                ]
+            }
+        })
+
+        if (url == `/users/${EXAMPLE_USER_ID}`) return Promise.resolve({
+            data: {
+                id: EXAMPLE_USER_ID,
+                username: EXAMPLE_USERNAME,
+                fullName: EXAMPLE_FULLNAME,
+                teams: [1]
+            }
+        })
+
+        if (url == `/fine-requests/1`) return Promise.resolve({
+            data: {
+                id: EXAMPLE_USER_ID,
+                fullName: EXAMPLE_FULLNAME,
+                reason: EXAMPLE_REASON
+            }
+        })
+
+        if (url == '/fine-requests/0') return Promise.resolve(
+            {
+                data: 'Fine request with ID: 0',
+                status: 404,
+                statusText: 'Not Found'
+            }
+        )
+    }),
+    post: jest.fn(url => {
+        if (url == '/payment-requests') return Promise.resolve({
+            id: 1
         })
     })
 }

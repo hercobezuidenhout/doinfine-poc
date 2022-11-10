@@ -5,7 +5,7 @@ import { createContext } from "react"
 export const lightPalette = ({
     primary: {
         light: red[200],
-        main: red[500],
+        main: '#E03E3E',
         dark: '#E03E3E'
     },
     secondary: {
@@ -28,7 +28,7 @@ export const lightPalette = ({
 export const darkPallete = ({
     primary: {
         light: red[400],
-        main: '#594141',
+        main: '#E03E3E',
         dark: '#FF7369'
     },
     secondary: {
@@ -71,12 +71,13 @@ export const corporateTheme = (mode) => createTheme({
         },
         h6: {
             fontSize: '0.8rem',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            textTransform: 'uppercase'
         }
     }
 })
 
 export const CorporateContext = createContext({
     mode: 'light',
-    setMode: () => {}
+    setMode: () => { }
 })

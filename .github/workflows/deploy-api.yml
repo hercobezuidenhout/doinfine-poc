@@ -2,10 +2,10 @@ name: Build and deploy .NET API
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
 
-    paths:
-      - api/**
+    # paths:
+    #   - api/**
     
 defaults:
   run:
@@ -32,7 +32,7 @@ jobs:
   deploy: 
     runs-on: ubuntu-latest
     
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
 
     steps:
     - name: Publish

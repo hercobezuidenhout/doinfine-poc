@@ -17,9 +17,9 @@ public static class AddFineRequestResponse
     {
         private readonly DataContext _db;
         private readonly INotificationService _notificationService;
-        private readonly EmailService _emailService;
+        private readonly IEmailService _emailService;
 
-        public Handler(DataContext db, INotificationService notificationService, EmailService emailService)
+        public Handler(DataContext db, INotificationService notificationService, IEmailService emailService)
         {
             _db = db;
             _notificationService = notificationService;

@@ -1,11 +1,10 @@
 ﻿using sib_api_v3_sdk.Api;
-using sib_api_v3_sdk.Client;
 using sib_api_v3_sdk.Model;
-using TeamLunch.Data.Entities;
+using TeamLunch.Contracts;
 
 namespace TeamLunch.Services;
 
-public class EmailService
+public class EmailService : IEmailService
 {
     public void SendFineRequestEmailToTeam(int requestId, string userBeingFined, string reason, long segmentId)
     {

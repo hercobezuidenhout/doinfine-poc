@@ -1,13 +1,13 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using MauticNetClient;
 using Moq;
 using NUnit.Framework;
 using TeamLunch.Commands;
 using TeamLunch.Contracts;
 using TeamLunch.Data.Entities;
 using TeamLunch.Models;
+using TeamLunch.Services;
 
 namespace TeamLunch.Tests.Commands;
 
@@ -32,10 +32,10 @@ public class NewPaymentRequestTests : TestDataContextBase
             Constants.EXAMPLE_TEAM_ID);
 
         var stubNotificationsService = new Mock<INotificationService>();
-        var stubMauticClient = new Mock<MauticClient>();
+        var stubEmailService = new Mock<IEmailService>();
 
         // Act
-        var mockQuery = new NewPaymentRequest.Handler(_stubContext, stubNotificationsService.Object, stubMauticClient.Object);
+        var mockQuery = new NewPaymentRequest.Handler(_stubContext, stubNotificationsService.Object, stubEmailService.Object);
         var response = await mockQuery.Handle(request, tcs.Token);
 
         // Assert
@@ -54,10 +54,10 @@ public class NewPaymentRequestTests : TestDataContextBase
             Constants.EXAMPLE_TEAM_ID);
 
         var mockNotificationsService = new Mock<INotificationService>();
-        var stubMauticClient = new Mock<MauticClient>();
+        var stubEmailService = new Mock<IEmailService>();
 
         // Act
-        var mockQuery = new NewPaymentRequest.Handler(_stubContext, mockNotificationsService.Object, stubMauticClient.Object);
+        var mockQuery = new NewPaymentRequest.Handler(_stubContext, mockNotificationsService.Object, stubEmailService.Object);
         var response = await mockQuery.Handle(command, tcs.Token);
 
         // Assert

@@ -1,6 +1,4 @@
-using MauticNetClient;
-using MauticNetClient.Commands.Emails;
-using MauticNetClient.Models;
+
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TeamLunch.Contracts;

@@ -2,7 +2,7 @@ name: Build and deploy .NET API
 
 on:
   push:
-    branches: [ "main", "develop"]
+    branches: [ "main" ]
 
     paths:
       - api/**

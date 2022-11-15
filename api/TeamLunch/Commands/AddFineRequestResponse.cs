@@ -1,6 +1,3 @@
-using MauticNetClient;
-using MauticNetClient.Commands.Emails;
-using MauticNetClient.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TeamLunch.Contracts;
@@ -70,7 +67,7 @@ public static class AddFineRequestResponse
                     }, team);
 
                     _emailService.SendFineApprovedEmailToTeam(fineRequest.Id, userBeingFined, fineRequest.Reason, team.SegmentId);
-                    
+
                     return new Response(fineRequestResponse.Id, fine.Id);
                 }
                 else

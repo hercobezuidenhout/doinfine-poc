@@ -9,7 +9,6 @@ using Microsoft.OpenApi.Models;
 using TeamLunch.Hubs;
 using TeamLunch.Contracts;
 using TeamLunch.Services;
-using MauticNetClient.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 using TeamLunch.Extensions;

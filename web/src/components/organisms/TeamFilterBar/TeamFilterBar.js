@@ -35,6 +35,7 @@ export const TeamFilterBar = () => {
     }
 
     const initials = (fullName) => {
+        if (!fullName) return;
         const name = fullName.split(' ')
         const initials = name.shift().charAt(0) + name.pop().charAt(0)
         return initials.toUpperCase()

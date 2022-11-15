@@ -70,5 +70,10 @@ module.exports = {
         if (url == '/payment-requests') return Promise.resolve({
             id: 1
         })
+    }),
+    put: jest.fn(url => {
+        if (url == '/fine-requests') return Promise.resolve({
+            status: 200
+        })
     })
 }

@@ -17,14 +17,6 @@ describe('LinkListItem', () => {
         expect(link.attributes.getNamedItem('href').value).toBe(EXAMPLE_LINK)
     })
 
-    it('renders with badge if count value is passed in', () => {
-        renderWithRouter(<LinkListItem label={EXAMPLE_TITLE} link={EXAMPLE_LINK} count={1} />)
-
-        const badge = screen.getByTestId('count-badge')
-
-        expect(badge).toBeInTheDocument()
-    })
-
     it('handles a custom click event when passed through', async () => {
         const customClickHandler = jest.fn();
 

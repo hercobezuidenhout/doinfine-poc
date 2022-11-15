@@ -6,7 +6,7 @@ on:
 
     paths:
       - api/**
-      - .github/workflows/**
+      
 env:
   AZURE_WEBAPP_NAME: dev-api-team-lunch    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: './api/TeamLunch'      # set this to the path to your web app project, defaults to the repository root

@@ -17,16 +17,4 @@ describe('useFineRequestService', () => {
 
         expect(fineRequest).rejects.toThrowError("Fine request with ID: 0")
     })
-
-    it('updates request with desired response', async () => {
-        const requestResponse = {
-            id: 1,
-            approved: true
-        }
-
-        const { result } = renderHook(() => useFineRequestService())
-        const fineRequest = result.current.update(requestResponse)
-
-        expect(fineRequest).not.toThrow()
-    })
 })

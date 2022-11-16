@@ -38,7 +38,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './public/index.html',
-            favicon: './src/assets/favicon.png'
+            favicon: './src/assets/favicon.svg'
         }),
         new WorkboxPlugin.GenerateSW({
             clientsClaim: true,

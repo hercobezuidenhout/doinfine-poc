@@ -46,7 +46,7 @@ module.exports = {
             maximumFileSizeToCacheInBytes: 20 * 1024 * 1024
         }),
         new WebpackPwaManifest({
-            name: 'TeamLunch',
+            name: 'DoinFine',
             description: 'Keep your team accountable!',
             background_color: '#f44336',
             icons: [

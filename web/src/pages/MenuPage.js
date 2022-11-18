@@ -60,6 +60,12 @@ export const MenuPage = () => {
                 <LinkListItem label="View active requests" handleLinkClick={() => toggleDrawer()} />
                 <LinkListItem label="Log payment" link="/payment" />
             </OptionsBox>
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'end'
+            }}>
+                <Typography variant='caption'>v{require('../../package.json').version}</Typography>
+            </Box>
         </Container>
         <SuccessDialog open={isPasswordResetSuccess} title='Password Reset Link Sent' text='A link to reset your password has been sent to your email.' handleDone={() => setIsPasswordResetSuccess(false)} />
         <Drawer

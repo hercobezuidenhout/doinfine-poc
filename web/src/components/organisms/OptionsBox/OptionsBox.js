@@ -4,7 +4,7 @@ import React from 'react'
 export const OptionsBox = ({ label, children }) => {
     return (
         <Box sx={{
-            padding: '1rem',
+            padding: '1rem 0',
         }}>
             <Typography variant='h4'>{label}</Typography>
             <List>

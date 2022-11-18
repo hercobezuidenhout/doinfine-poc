@@ -1,4 +1,4 @@
-import { Box, Button, Divider, List, ListItem, Skeleton } from '@mui/material'
+import { Box, Button, Divider, List, ListItem, Skeleton, Typography } from '@mui/material'
 import { useAuthContext } from '@providers/AuthProvider'
 import { useTeamContext } from '@providers/TeamProvider'
 import { useFineService } from '@services/fine-service'
@@ -46,6 +46,31 @@ export const TeamPage = () => {
         }
     }, [searchParams, teamContext])
 
+    const renderFines = () => {
+        return fines.length > 0 ? fines.map(fine => (
+            <Fragment key={fine.id}>
+                <ListItem sx={{
+                    padding: '1.2rem 0'
+                }}>
+                    For {fine.reason}
+                </ListItem>
+                <Divider />
+            </Fragment>
+        )) : (
+            <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-around',
+                padding: '10rem 0'
+            }}>
+                <Box sx={{ textAlign: 'center ' }}>
+                    <Typography variant='h1'>🎉</Typography>
+                    <Typography variant='body1'>No fines to show</Typography>
+                </Box>
+            </Box>
+        )
+    }
+
     return (
         <div>
             <Box sx={{
@@ -57,23 +82,17 @@ export const TeamPage = () => {
                 {member && (member.id == authContext.getCurrentUserId()) && <Link to='/payment'><Button variant='outlined'>Log Payment</Button></Link>}
             </Box>
             <List>
-                {fines ? fines.map(fine => (
-                    <Fragment key={fine.id}>
-                        <ListItem sx={{
-                            padding: '1.2rem 0'
-                        }}>
-                            For {fine.reason}
-                        </ListItem>
-                        <Divider />
-                    </Fragment>
-                )) :
-                    <>
-                        <Skeleton variant='text' sx={{ fontSize: '2rem', display: 'inline-block', width: '100%', marginBottom: '1rem ' }} />
-                        <Skeleton variant='text' sx={{ fontSize: '2rem', display: 'inline-block', width: '100%', marginBottom: '1rem ' }} />
-                        <Skeleton variant='text' sx={{ fontSize: '2rem', display: 'inline-block', width: '100%', marginBottom: '1rem ' }} />
-                    </>
+                {fines
+                    ? renderFines()
+                    : (
+                        <>
+                            <Skeleton variant='text' sx={{ fontSize: '2rem', display: 'inline-block', width: '100%', marginBottom: '1rem ' }} />
+                            <Skeleton variant='text' sx={{ fontSize: '2rem', display: 'inline-block', width: '100%', marginBottom: '1rem ' }} />
+                            <Skeleton variant='text' sx={{ fontSize: '2rem', display: 'inline-block', width: '100%', marginBottom: '1rem ' }} />
+                        </>
+                    )
                 }
             </List>
-        </div>
+        </div >
     )
 }

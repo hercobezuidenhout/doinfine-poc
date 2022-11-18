@@ -1,8 +1,11 @@
 # CHANGELOG
 
 ## [Unreleased]
-### Removed
+### Added
+- Display app version at bottom of menu.
+- A placeholder when a user does not have any fines.
 
+### Removed
 - <LinkListItem /> test to test for <Link /> role since it is not relevant anymore.
 
 ### Changed

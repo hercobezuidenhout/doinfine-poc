@@ -32,9 +32,9 @@ namespace TeamLunch
             var connectionString = new NpgsqlConnectionStringBuilder()
             {
                 SslMode = SslMode.Disable,
-                Host = "172.17.0.1",
+                Host = "127.0.0.1",
                 Username = "postgres",
-                Password = "DKan]V8S_<Rl:=ad",
+                Password = "herco1999",
                 Database = "doinfine-db"
             };
             connectionString.Pooling = true;

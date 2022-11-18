@@ -1,4 +1,4 @@
-import { Box, CssBaseline, ThemeProvider } from '@mui/material';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { AuthProvider } from '@providers/AuthProvider';
 import { NotificationsProvider } from '@providers/NotificationsProvider';
 import { RouterProvider } from '@providers/RouterProvider';
@@ -28,6 +28,9 @@ if (!process.env.DEVELOPMENT) {
         });
     }
 }
+
+const packageJson = require('../package.json')
+console.log(packageJson.version)
 
 const app = initializeApp({
     apiKey: "AIzaSyAR_1Yfan_Ru-09BRPmqnSXjNwAk6rvfss",

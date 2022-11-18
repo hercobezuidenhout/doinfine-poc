@@ -3,7 +3,8 @@
 ## Unreleased
 
 ### Improvements
-- Updated logo and favicon
+- Updated logo and favicon.
+- Update `<LinkListItem />` to be clickable everywhere and not just on the icon.
 
 ## v0.1.1 <font size=1>`10/11/2022`</font>
 

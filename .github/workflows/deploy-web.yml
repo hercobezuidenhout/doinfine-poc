@@ -2,7 +2,7 @@ name: Deploy Web App to Firebase
 
 on:
   push:
-    branches: [ "main", "develop"]
+    branches: [ "main", "develop", "feature/**" ]
 
     paths:
       - web/**
@@ -21,6 +21,11 @@ jobs:
       - run: npm run build
       - run: npm run test
 
+deploy: 
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'

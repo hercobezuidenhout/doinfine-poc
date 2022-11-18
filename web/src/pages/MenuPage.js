@@ -2,7 +2,7 @@ import { ActionBar } from '@components/atoms'
 import { LinkListItem, SuccessDialog } from '@components/molecules'
 import { OptionsBox } from '@components/organisms'
 import { ChevronRight } from '@mui/icons-material'
-import { Box, Drawer, IconButton, List, ListItem, SwipeableDrawer, Typography } from '@mui/material'
+import { Box, Container, Drawer, IconButton, List, ListItem, ListItemButton, SwipeableDrawer, Typography } from '@mui/material'
 import { useAuthContext } from '@providers/AuthProvider'
 import { useNotificationsContext } from '@providers/NotificationsProvider'
 import { useFineRequestService } from '@services/fine-request-service'
@@ -19,7 +19,7 @@ export const MenuPage = () => {
     const [activeFineRequests, setActiveFineRequests] = useState([])
     const [activePaymentRequests, setActivePaymentRequests] = useState([])
     const [drawerOpen, setDrawerOpen] = useState(false);
-    const [isPasswordResetSuccess, setIsPasswordResetSuccess] = useState()
+    const [isPasswordResetSuccess, setIsPasswordResetSuccess] = useState(false)
 
     const toggleDrawer = () => {
         setDrawerOpen(prevDrawerOpen => !prevDrawerOpen)
@@ -51,14 +51,16 @@ export const MenuPage = () => {
 
     return <div>
         <ActionBar title="Menu" link="/team" />
-        <OptionsBox label="Account">
-            <LinkListItem label="Reset Password" handleLinkClick={handleResetPasswordClick} />
-            <LinkListItem label="Sign Out" handleLinkClick={() => authContext.signOut()} />
-        </OptionsBox>
-        <OptionsBox label="Manage Fines">
-            <LinkListItem label="View active requests" handleLinkClick={() => toggleDrawer()} />
-            <LinkListItem label="Log payment" link="/payment" />
-        </OptionsBox>
+        <Container>
+            <OptionsBox label="Account">
+                <LinkListItem label="Reset Password" handleLinkClick={handleResetPasswordClick} />
+                <LinkListItem label="Sign Out" handleLinkClick={() => authContext.signOut()} />
+            </OptionsBox>
+            <OptionsBox label="Manage Fines">
+                <LinkListItem label="View active requests" handleLinkClick={() => toggleDrawer()} />
+                <LinkListItem label="Log payment" link="/payment" />
+            </OptionsBox>
+        </Container>
         <SuccessDialog open={isPasswordResetSuccess} title='Password Reset Link Sent' text='A link to reset your password has been sent to your email.' handleDone={() => setIsPasswordResetSuccess(false)} />
         <Drawer
             anchor='bottom'
@@ -66,40 +68,43 @@ export const MenuPage = () => {
             onClose={() => toggleDrawer()}>
             <List>
                 {activeFineRequests.map((request, index) => (
-                    <ListItem sx={{
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                    }} key={index}>
-                        <Box sx={{
-                            display: 'flex',
+                    <Link to={`/fine-requests/${request.id}`}>
+                        <ListItemButton sx={{
+                            justifyContent: 'space-between',
                             alignItems: 'center'
-                        }}>
-                            <Typography variant='p'>{`Fine for ${request.fullName}`}</Typography>
-                        </Box>
-                        <Link to={`/fine-requests/${request.id}`}>
+                        }} key={index}>
+                            <Box sx={{
+                                display: 'flex',
+                                alignItems: 'center'
+                            }}>
+                                <Typography variant='p'>{`Fine for ${request.fullName}`}</Typography>
+                            </Box>
+
                             <IconButton>
                                 <ChevronRight />
                             </IconButton>
-                        </Link>
-                    </ListItem>
+                        </ListItemButton>
+                    </Link>
                 ))}
                 {activePaymentRequests.map((request, index) => (
-                    <ListItem sx={{
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                    }} key={index}>
-                        <Box sx={{
-                            display: 'flex',
+                    <Link to={`/payment-requests/${request.id}`}>
+                        <ListItemButton sx={{
+                            justifyContent: 'space-between',
                             alignItems: 'center'
-                        }}>
-                            <Typography variant='p'>{`Payment request for ${request.fullName}`}</Typography>
-                        </Box>
-                        <Link to={`/payment-requests/${request.id}`}>
+                        }} key={index}>
+                            <Box sx={{
+                                display: 'flex',
+                                alignItems: 'center'
+                            }}>
+                                <Typography variant='p'>{`Payment request for ${request.fullName}`}</Typography>
+                            </Box>
+
                             <IconButton>
                                 <ChevronRight />
                             </IconButton>
-                        </Link>
-                    </ListItem>
+
+                        </ListItemButton>
+                    </Link>
                 ))}
                 {!activeFineRequests.length && !activePaymentRequests.length &&
                     <Box sx={{

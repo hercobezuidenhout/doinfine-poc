@@ -11,9 +11,9 @@ on:
 
 jobs:
   build_and_test:
-    working-directory: web
     runs-on: ubuntu-latest
     steps:
+    working-directory: web
       - uses: actions/checkout@v2
 
       - run: npm install --legacy-peer-deps

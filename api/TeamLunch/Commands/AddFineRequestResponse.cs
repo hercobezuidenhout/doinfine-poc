@@ -32,6 +32,9 @@ public static class AddFineRequestResponse
 
             if (userHasResponded) throw new FineRequestNotFoundException("User has already responded this request.");
 
+            var fineRequest = _db.FineRequests.Where(x => x.Id == request.requestId).Include(x => x.Responses).First();
+            if ((request.userId == fineRequest.Finer) || (request.userId == fineRequest.Finee)) throw new FineRequestNotFoundException("User is either the finer or the finee.");
+
             var fineRequestResponse = new FineRequestResponse
             {
                 FineRequestId = request.requestId,
@@ -41,9 +44,8 @@ public static class AddFineRequestResponse
 
             _db.FineRequestResponses.Add(fineRequestResponse);
 
-            var fineRequest = _db.FineRequests.Where(x => x.Id == request.requestId).Include(x => x.Responses).First();
             var team = _db.Teams.Where(x => x.Id == fineRequest.TeamId).Include(x => x.Users).First();
-            var hasAllResponses = fineRequest.Responses.Count() >= team.Users.Count() - 1;
+            var hasAllResponses = fineRequest.Responses.Count() >= team.Users.Count() - 2;
             var isApproved = fineRequest.Responses.Where(x => x.Approved).Count() > fineRequest.Responses.Where(x => !x.Approved).Count();
             var userBeingFined = team.Users.Where(x => x.Id == fineRequest.Finee).Select(x => $"{x.FirstName} {x.LastName}").First();
 

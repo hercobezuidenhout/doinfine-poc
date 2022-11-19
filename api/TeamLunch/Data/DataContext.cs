@@ -46,7 +46,9 @@ public class DataContext : DbContext
     {
         builder.Entity<User>().HasData(
             new User { Id = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad", FirstName = "Billy", LastName = "Anderson" },
-            new User { Id = "dd760d11-91ed-4a32-9810-683f7df14239", FirstName = "Steve", LastName = "Walkman" }
+            new User { Id = "dd760d11-91ed-4a32-9810-683f7df14239", FirstName = "Steve", LastName = "Walkman" },
+            new User { Id = "dd760d11-91ed-4a32-9810-683f7df14210", FirstName = "Andrew", LastName = "Milk" },
+            new User { Id = "dd760d11-91ed-4a32-9810-683f7df14212", FirstName = "Amy", LastName = "Whine" }
         );
 
         builder.Entity<Fine>().HasData(
@@ -64,11 +66,11 @@ public class DataContext : DbContext
         );
 
         builder.Entity<FineRequest>().HasData(
-            new FineRequest { Id = 1, TeamId = 1, Finer = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad", Finee = "dd760d11-91ed-4a32-9810-683f7df14239", Reason = "not caring enough about water" },
-            new FineRequest { Id = 2, TeamId = 1, Finer = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad", Finee = "dd760d11-91ed-4a32-9810-683f7df14239", Reason = "not caring enough about dogs" },
-            new FineRequest { Id = 3, TeamId = 1, Finer = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad", Finee = "dd760d11-91ed-4a32-9810-683f7df14239", Reason = "not caring enough about something else" },
-            new FineRequest { Id = 4, TeamId = 1, Finer = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad", Finee = "dd760d11-91ed-4a32-9810-683f7df14239", Reason = "not caring enough about something else" },
-            new FineRequest { Id = 5, TeamId = 1, Finer = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad", Finee = "dd760d11-91ed-4a32-9810-683f7df14239", Reason = "not caring enough about something else" }
+            new FineRequest { Id = 1, TeamId = 1, Finer = "dd760d11-91ed-4a32-9810-683f7df14212", Finee = "dd760d11-91ed-4a32-9810-683f7df14239", Reason = "not caring enough about water" },
+            new FineRequest { Id = 2, TeamId = 1, Finer = "dd760d11-91ed-4a32-9810-683f7df14212", Finee = "dd760d11-91ed-4a32-9810-683f7df14239", Reason = "not caring enough about dogs" },
+            new FineRequest { Id = 3, TeamId = 1, Finer = "dd760d11-91ed-4a32-9810-683f7df14212", Finee = "dd760d11-91ed-4a32-9810-683f7df14239", Reason = "not caring enough about something else" },
+            new FineRequest { Id = 4, TeamId = 1, Finer = "dd760d11-91ed-4a32-9810-683f7df14212", Finee = "dd760d11-91ed-4a32-9810-683f7df14239", Reason = "not caring enough about something else" },
+            new FineRequest { Id = 5, TeamId = 1, Finer = "dd760d11-91ed-4a32-9810-683f7df14212", Finee = "dd760d11-91ed-4a32-9810-683f7df14239", Reason = "not caring enough about something else" }
         );
 
         builder.Entity<FineRequestResponse>().HasData(

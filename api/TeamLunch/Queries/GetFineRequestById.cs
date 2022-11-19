@@ -25,6 +25,7 @@ public static class GetFineRequestById
                 var fineRequest = _db.FineRequests
                     .Where(x => x.Id == request.id)
                     .Where(x => !x.Responses.Any(r => r.UserId == request.userId && r.FineRequestId == request.id))
+                    .Where(x => !((x.Finer == request.userId) || (x.Finee == request.userId)))
                     .First();
 
                 var finer = _db.Users.Where(x => x.Id == fineRequest.Finer).Select(x => $"{x.FirstName} {x.LastName}").First();

@@ -20,6 +20,7 @@ public static class GetActiveFineRequests
         {
             var requests = _db.FineRequests
                 .Where(x => !x.Responses.Where(r => r.UserId == request.userId).Any())
+                .Where(x => !((x.Finee == request.userId) || (x.Finer == request.userId)))
                 .Select(x => new Response(
                     x.Id,
                     _db.Users.Where(u => u.Id == x.Finer).Select(u => $"{u.FirstName} {u.LastName}").First(),

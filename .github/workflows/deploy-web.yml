@@ -13,9 +13,9 @@ jobs:
   build_and_test:
     runs-on: ubuntu-latest
     steps:
-    working-directory: web
       - uses: actions/checkout@v2
 
+      - run: cd web
       - run: npm install --legacy-peer-deps
       - run: npm run build
       - run: npm run test

@@ -14,20 +14,7 @@ import './index.css';
 import { CorporateContext, corporateTheme } from './theme';
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
-
-if (!process.env.DEVELOPMENT) {
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/service-worker.js')
-                .then(registration => {
-                    console.log('SW registered', registration);
-                })
-                .catch(error => {
-                    console.log('SW registration failed: ', error);
-                });
-        });
-    }
-}
+import { WebNotificationsProvider } from '@providers/WebNotificationsProvider';
 
 const packageJson = require('../package.json')
 console.log(packageJson.version)
@@ -55,6 +42,20 @@ const Corporate = () => {
     }, [mode]);
 
     useEffect(() => {
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('SW registered', registration);
+                    })
+                    .catch(error => {
+                        console.log('SW registration failed: ', error);
+                    });
+            });
+        }
+    }, [])
+
+    useEffect(() => {
         const localStorageMode = localStorage.getItem('mode');
         if (localStorageMode) setMode(localStorageMode);
     }, []);
@@ -64,18 +65,22 @@ const Corporate = () => {
             <BrowserRouter>
                 <ThemeProvider theme={theme}>
                     <ErrorBoundary>
+
                         <CssBaseline />
                         <AuthProvider>
                             <UserProvider>
                                 <TeamProvider>
                                     <SnackbarProvider>
-                                        <NotificationsProvider>
-                                            <RouterProvider />
-                                        </NotificationsProvider>
+                                        <WebNotificationsProvider>
+                                            <NotificationsProvider>
+                                                <RouterProvider />
+                                            </NotificationsProvider>
+                                        </WebNotificationsProvider>
                                     </SnackbarProvider>
                                 </TeamProvider>
                             </UserProvider>
                         </AuthProvider>
+
                     </ErrorBoundary>
                 </ThemeProvider>
             </BrowserRouter>

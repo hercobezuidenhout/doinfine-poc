@@ -17,6 +17,7 @@ export const MenuPage = () => {
     const fineRequestService = useFineRequestService()
     const paymentRequestService = usePaymentRequestService()
     const teamContext = useTeamContext()
+    const notificationContext = useNotificationsContext()
 
     const [activeFineRequests, setActiveFineRequests] = useState([])
     const [activePaymentRequests, setActivePaymentRequests] = useState([])
@@ -52,6 +53,12 @@ export const MenuPage = () => {
         fetchActivePaymentRequests();
     }, [nofiticiationsContext])
 
+    const testNotification = () => {
+        if (!notificationContext) return
+
+        notificationContext.createNotification('Test Notification', 'This is a test notification', 'https://doinfine.app/leaderboard')
+    }
+
     return <div>
         <ActionBar title="Menu" link="/team" />
         <Container>
@@ -63,6 +70,12 @@ export const MenuPage = () => {
                 <LinkListItem label="View active requests" handleLinkClick={() => toggleDrawer()} />
                 <LinkListItem label="Log payment" link="/payment" />
             </OptionsBox>
+            {authContext && authContext.getCurrentEmail() == 'billy@example.com' && (
+                <OptionsBox label="Developer">
+                    <LinkListItem label="Test Notifications" handleLinkClick={() => testNotification()} />
+                </OptionsBox>
+            )
+            }
             <Box sx={{
                 display: 'flex',
                 justifyContent: 'end'

@@ -11,6 +11,8 @@
 ### Changed
 - Updated logo and favicon.
 - Update `<LinkListItem />` to be clickable everywhere and not just on the icon.
+- Updated fine request logic to only accept responding team responses.
+- Removed anonymousness from the fine request logic.
 
 ## v0.1.1 <font size=1>`10/11/2022`</font>
 

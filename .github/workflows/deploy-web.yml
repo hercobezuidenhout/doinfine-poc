@@ -8,20 +8,19 @@ on:
       - web/**
       - .github/workflows/deploy-web.yml
 
+defaults:
+  run:
+    working-directory: web
 
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - run: npm install --legacy-peer-deps
-        working-directory: web
-
       - run: npm run build
-        working-directory: web
-
       - run: npm run test
-        working-directory: web
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -29,17 +28,17 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOIN_FINE }}'
           projectId: doin-fine
 
-  preview:
-    needs: build_and_test
-    if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOIN_FINE }}'
-          projectId: doin-fine
+  # preview:
+  #   needs: build_and_test
+  #   if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: FirebaseExtended/action-hosting-deploy@v0
+  #       with:
+  #         repoToken: '${{ secrets.GITHUB_TOKEN }}'
+  #         firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOIN_FINE }}'
+  #         projectId: doin-fine
 
   # deploy_to_dev: 
   #   needs: build_and_test
@@ -55,16 +54,16 @@ jobs:
   #         entryPoint: web
   #         channelId: dev
 
-  deploy_to_prod: 
-    needs: build_and_test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+  # deploy_to_prod: 
+  #   needs: build_and_test
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/main'
 
-    steps:
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOIN_FINE }}'
-          projectId: doin-fine
-          entryPoint: web
-          channelId: live
+  #   steps:
+  #     - uses: FirebaseExtended/action-hosting-deploy@v0
+  #       with:
+  #         repoToken: '${{ secrets.GITHUB_TOKEN }}'
+  #         firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOIN_FINE }}'
+  #         projectId: doin-fine
+  #         entryPoint: web
+  #         channelId: live

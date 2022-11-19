@@ -2,7 +2,7 @@ name: Deploy Web App to Firebase
 
 on:
   push:
-    branches: [ "main", "develop", "feature/**" ]
+    branches: [ "main", "develop", "feature/**", "bugfix/**" ]
 
     paths:
       - web/**

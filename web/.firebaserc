@@ -1,5 +1,15 @@
 {
   "projects": {
     "default": "doin-fine"
-  }
+  },
+  "targets": {
+    "doin-fine": {
+      "hosting": {
+        "develop": [
+          "develop-doin-fine"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }

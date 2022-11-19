@@ -23,6 +23,12 @@ jobs:
       - run: npm run test
         working-directory: web
 
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOIN_FINE }}'
+          projectId: doin-fine
+
   preview:
     needs: build_and_test
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
@@ -35,19 +41,19 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOIN_FINE }}'
           projectId: doin-fine
 
-  deploy_to_dev: 
-    needs: build_and_test
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/develop'
+  # deploy_to_dev: 
+  #   needs: build_and_test
+  #   runs-on: ubuntu-latest
+  #   if: github.ref == 'refs/heads/develop'
 
-    steps:
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOIN_FINE }}'
-          projectId: doin-fine
-          entryPoint: web
-          channelId: dev
+  #   steps:
+  #     - uses: FirebaseExtended/action-hosting-deploy@v0
+  #       with:
+  #         repoToken: '${{ secrets.GITHUB_TOKEN }}'
+  #         firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOIN_FINE }}'
+  #         projectId: doin-fine
+  #         entryPoint: web
+  #         channelId: dev
 
   deploy_to_prod: 
     needs: build_and_test

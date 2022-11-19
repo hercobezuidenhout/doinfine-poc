@@ -5,6 +5,7 @@ import { ChevronRight } from '@mui/icons-material'
 import { Box, Container, Drawer, IconButton, List, ListItem, ListItemButton, SwipeableDrawer, Typography } from '@mui/material'
 import { useAuthContext } from '@providers/AuthProvider'
 import { useNotificationsContext } from '@providers/NotificationsProvider'
+import { useTeamContext } from '@providers/TeamProvider'
 import { useFineRequestService } from '@services/fine-request-service'
 import { usePaymentRequestService } from '@services/payment-request-service'
 import React, { useEffect, useState } from 'react'
@@ -15,6 +16,7 @@ export const MenuPage = () => {
     const authContext = useAuthContext()
     const fineRequestService = useFineRequestService()
     const paymentRequestService = usePaymentRequestService()
+    const teamContext = useTeamContext()
 
     const [activeFineRequests, setActiveFineRequests] = useState([])
     const [activePaymentRequests, setActivePaymentRequests] = useState([])
@@ -26,7 +28,8 @@ export const MenuPage = () => {
     };
 
     const fetchActiveFineRequests = async () => {
-        const requests = await fineRequestService.fetchAll();
+        if (!teamContext) return
+        const requests = await fineRequestService.fetchAll(teamContext.id);
         if (!requests) return
 
         setActiveFineRequests(requests)

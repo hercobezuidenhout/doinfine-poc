@@ -22,6 +22,7 @@ public static class GetActiveFineRequests
                 .Where(x => !x.Responses.Where(r => r.UserId == request.userId).Any())
                 .Select(x => new Response(
                     x.Id,
+                    _db.Users.Where(u => u.Id == x.Finer).Select(u => $"{u.FirstName} {u.LastName}").First(),
                     _db.Users.Where(u => u.Id == x.Finee).Select(u => $"{u.FirstName} {u.LastName}").First(),
                     x.Reason
                 ))
@@ -31,5 +32,5 @@ public static class GetActiveFineRequests
         }
     }
 
-    public record Response(int id, string fullName, string reason);
+    public record Response(int id, string finer, string finee, string reason);
 }

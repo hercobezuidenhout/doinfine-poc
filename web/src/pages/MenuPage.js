@@ -83,7 +83,7 @@ export const MenuPage = () => {
                                 display: 'flex',
                                 alignItems: 'center'
                             }}>
-                                <Typography variant='p'>{`Fine for ${request.fullName}`}</Typography>
+                                <Typography variant='p'>{`Fine for ${request.finee}`}</Typography>
                             </Box>
 
                             <IconButton>

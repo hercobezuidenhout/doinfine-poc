@@ -60,7 +60,7 @@ export const FineRequestPage = () => {
                     <Box sx={{
                         width: '60%',
                     }}>
-                        <Typography variant='h2'>Someone wants to fine <b>{fineRequest.fullName}</b> for <b>{fineRequest.reason}</b>.</Typography>
+                        <Typography variant='h2'>{fineRequest.finer} wants to fine <b>{fineRequest.finee}</b> for <b>{fineRequest.reason}</b>.</Typography>
                         <Box sx={{
                             marginTop: '2rem'
                         }}>

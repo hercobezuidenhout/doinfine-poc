@@ -7,13 +7,11 @@ on:
     paths:
       - web/**
       - .github/workflows/deploy-web.yml
-  
-defaults:
-  run:
-    working-directory: web
+
 
 jobs:
   build_and_test:
+    working-directory: web
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -43,6 +41,7 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOIN_FINE }}'
           projectId: doin-fine
+          entryPoint: web
           channelId: dev
 
   deploy_to_prod: 

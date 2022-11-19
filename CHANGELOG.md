@@ -4,6 +4,8 @@
 ### Added
 - Display app version at bottom of menu.
 - A placeholder when a user does not have any fines.
+- Deployment step to deploy to preview if on pull request
+- Web notifications
 
 ### Removed
 - <LinkListItem /> test to test for <Link /> role since it is not relevant anymore.

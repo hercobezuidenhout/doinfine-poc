@@ -33,7 +33,20 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOIN_FINE }}'
           projectId: doin-fine
 
-  deploy: 
+  deploy_to_dev: 
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOIN_FINE }}'
+          projectId: doin-fine
+          entryPoint: web
+          channelId: dev
+
+  deploy_to_prod: 
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
 

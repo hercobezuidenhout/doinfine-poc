@@ -39,11 +39,23 @@ public class FineRequestsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(int teamId)
     {
         var userId = ExtractUserId();
-        var response = await mediator.Send(new GetActiveFineRequests.Query(userId));
-        return Ok(response);
+        try
+        {
+            var response = await mediator.Send(new GetActiveFineRequests.Query(userId, teamId));
+            return Ok(response);
+        }
+        catch (UnauthorizedAccessException exception)
+        {
+            return Unauthorized(exception.Message);
+        }
+        catch (InvalidOperationException exception)
+        {
+            return Ok("The server has failed.");
+        }
+
     }
 
     [HttpGet("{id}")]

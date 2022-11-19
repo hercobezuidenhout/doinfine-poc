@@ -14,6 +14,10 @@
 - Updated fine request logic to only accept responding team responses.
 - Removed anonymousness from the fine request logic.
 
+
+### Fixed
+- Bug that returned requests for all teams. Now, viewing active requests on Menu will only render requests relevant to the user's team.
+
 ## v0.1.1 <font size=1>`10/11/2022`</font>
 
 ### Fixed

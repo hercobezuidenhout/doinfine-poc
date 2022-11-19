@@ -33,6 +33,21 @@ const analytics = getAnalytics(app);
 
 axios.defaults.baseURL = process.env.DEVELOPMENT ? 'https://localhost:5001' : 'https://api.doinfine.app';
 
+if (!process.env.DEVELOPMENT) {
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(registration => {
+                    console.log('SW registered', registration);
+                })
+                .catch(error => {
+                    console.log('SW registration failed: ', error);
+                });
+        });
+    }
+}
+
+
 const Corporate = () => {
     const [mode, setMode] = useState('light');
     const [theme, setTheme] = useState(corporateTheme(mode));
@@ -40,20 +55,6 @@ const Corporate = () => {
     useEffect(() => {
         setTheme(corporateTheme(mode));
     }, [mode]);
-
-    useEffect(() => {
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then(registration => {
-                        console.log('SW registered', registration);
-                    })
-                    .catch(error => {
-                        console.log('SW registration failed: ', error);
-                    });
-            });
-        }
-    }, [])
 
     useEffect(() => {
         const localStorageMode = localStorage.getItem('mode');

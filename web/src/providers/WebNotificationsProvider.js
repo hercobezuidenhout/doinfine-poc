@@ -44,7 +44,10 @@ export const WebNotificationsProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        if (!('Notification' in window)) return
+        if (!('Notification' in window)) {
+            alert('Your device does not accept notifications')
+            return
+        }
 
         checkNotificationsPermissions()
     }, [notificationsPermission])

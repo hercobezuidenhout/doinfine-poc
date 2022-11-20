@@ -6,7 +6,7 @@ on:
 
     paths:
       - web/**
-      - .github/workflows/**
+      - .github/workflows/deploy-web.yml
   
 defaults:
   run:

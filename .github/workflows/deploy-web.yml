@@ -21,6 +21,7 @@ jobs:
       - run: npm install --legacy-peer-deps
       - run: npm run build
 
+      if: github.ref == 'refs/heads/main'
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'

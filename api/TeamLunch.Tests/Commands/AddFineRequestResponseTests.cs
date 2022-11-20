@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MauticNetClient;
 using Moq;
 using NUnit.Framework;
 using TeamLunch.Commands;
@@ -28,10 +27,10 @@ public class AddFineRequestResponseTests : TestDataContextBase
         // Arrange
         var tcs = new CancellationTokenSource(1000);
         var stubNotificationsService = new Mock<INotificationService>();
-        var stubMauticClient = new Mock<MauticClient>();
+        var stubEmailService = new Mock<IEmailService>();
 
         // Act
-        var mockQuery = new AddFineRequestResponse.Handler(_stubContext, stubNotificationsService.Object, stubMauticClient.Object);
+        var mockQuery = new AddFineRequestResponse.Handler(_stubContext, stubNotificationsService.Object, stubEmailService.Object);
         var response = await mockQuery.Handle(new AddFineRequestResponse.Command(1, Constants.EXAMPLE_USER_ID, true), tcs.Token);
 
         // Assert
@@ -44,10 +43,10 @@ public class AddFineRequestResponseTests : TestDataContextBase
         // Arrange
         var tcs = new CancellationTokenSource(1000);
         var stubNotificationsService = new Mock<INotificationService>();
-        var stubMauticClient = new Mock<MauticClient>();
+        var stubEmailService = new Mock<IEmailService>();
 
         // Act
-        var mockQuery = new AddFineRequestResponse.Handler(_stubContext, stubNotificationsService.Object, stubMauticClient.Object);
+        var mockQuery = new AddFineRequestResponse.Handler(_stubContext, stubNotificationsService.Object, stubEmailService.Object);
         var response = await mockQuery.Handle(new AddFineRequestResponse.Command(2, Constants.EXAMPLE_USER_ID, true), tcs.Token);
 
         // Assert
@@ -60,10 +59,10 @@ public class AddFineRequestResponseTests : TestDataContextBase
         // Arrange
         var tcs = new CancellationTokenSource(1000);
         var stubNotificationsService = new Mock<INotificationService>();
-        var stubMauticClient = new Mock<MauticClient>();
+        var stubEmailService = new Mock<IEmailService>();
 
         // Act
-        var mockQuery = new AddFineRequestResponse.Handler(_stubContext, stubNotificationsService.Object, stubMauticClient.Object);
+        var mockQuery = new AddFineRequestResponse.Handler(_stubContext, stubNotificationsService.Object, stubEmailService.Object);
         var response = await mockQuery.Handle(new AddFineRequestResponse.Command(3, Constants.EXAMPLE_USER_ID, true), tcs.Token);
 
         // Assert
@@ -76,10 +75,10 @@ public class AddFineRequestResponseTests : TestDataContextBase
         // Arrange
         var tcs = new CancellationTokenSource(1000);
         var stubNotificationsService = new Mock<INotificationService>();
-        var stubMauticClient = new Mock<MauticClient>();
+        var stubEmailService = new Mock<IEmailService>();
 
         // Act
-        var mockQuery = new AddFineRequestResponse.Handler(_stubContext, stubNotificationsService.Object, stubMauticClient.Object);
+        var mockQuery = new AddFineRequestResponse.Handler(_stubContext, stubNotificationsService.Object, stubEmailService.Object);
         var response = await mockQuery.Handle(new AddFineRequestResponse.Command(4, Constants.EXAMPLE_USER_ID, false), tcs.Token);
 
         // Assert
@@ -92,10 +91,10 @@ public class AddFineRequestResponseTests : TestDataContextBase
         // Arrange
         var tcs = new CancellationTokenSource(1000);
         var stubNotificationsService = new Mock<INotificationService>();
-        var stubMauticClient = new Mock<MauticClient>();
+        var stubEmailService = new Mock<IEmailService>();
 
         // Act
-        var mockQuery = new AddFineRequestResponse.Handler(_stubContext, stubNotificationsService.Object, stubMauticClient.Object);
+        var mockQuery = new AddFineRequestResponse.Handler(_stubContext, stubNotificationsService.Object, stubEmailService.Object);
 
         // Assert   
         Assert.ThrowsAsync<FineRequestNotFoundException>(async delegate

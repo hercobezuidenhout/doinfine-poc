@@ -38,7 +38,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './public/index.html',
-            favicon: './src/assets/favicon.png'
+            favicon: './src/assets/favicon.svg'
         }),
         new WorkboxPlugin.GenerateSW({
             clientsClaim: true,
@@ -46,7 +46,7 @@ module.exports = {
             maximumFileSizeToCacheInBytes: 20 * 1024 * 1024
         }),
         new WebpackPwaManifest({
-            name: 'TeamLunch',
+            name: 'DoinFine',
             description: 'Keep your team accountable!',
             background_color: '#f44336',
             icons: [

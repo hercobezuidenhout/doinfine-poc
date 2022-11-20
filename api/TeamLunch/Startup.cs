@@ -9,9 +9,9 @@ using Microsoft.OpenApi.Models;
 using TeamLunch.Hubs;
 using TeamLunch.Contracts;
 using TeamLunch.Services;
-using MauticNetClient.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
+using TeamLunch.Extensions;
 
 namespace TeamLunch
 {
@@ -32,9 +32,9 @@ namespace TeamLunch
             var connectionString = new NpgsqlConnectionStringBuilder()
             {
                 SslMode = SslMode.Disable,
-                Host = "172.17.0.1",
+                Host = "127.0.0.1",
                 Username = "postgres",
-                Password = "DKan]V8S_<Rl:=ad",
+                Password = "herco1999",
                 Database = "doinfine-db"
             };
             connectionString.Pooling = true;
@@ -60,7 +60,6 @@ namespace TeamLunch
 
             services.AddControllers();
             services.AddEndpointsApiExplorer();
-            services.AddMauticNetClient("http://m.thinwood.co/api/");
 
             services.AddMediatR(Assembly.GetExecutingAssembly());
 
@@ -83,7 +82,7 @@ namespace TeamLunch
 
             services.AddSignalR();
             services.AddScoped<INotificationService, NotificationService>();
-            services.AddScoped<EmailService>();
+            services.AddEmailService();
         }
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
@@ -102,6 +101,8 @@ namespace TeamLunch
                 endpoints.MapControllers();
                 endpoints.MapHub<NotificationsHub>("/hubs/notifications");
             });
+
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         }
     }
 }

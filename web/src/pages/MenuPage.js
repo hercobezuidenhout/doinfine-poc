@@ -2,9 +2,10 @@ import { ActionBar } from '@components/atoms'
 import { LinkListItem, SuccessDialog } from '@components/molecules'
 import { OptionsBox } from '@components/organisms'
 import { ChevronRight } from '@mui/icons-material'
-import { Box, Drawer, IconButton, List, ListItem, SwipeableDrawer, Typography } from '@mui/material'
+import { Box, Container, Drawer, IconButton, List, ListItem, ListItemButton, SwipeableDrawer, Typography } from '@mui/material'
 import { useAuthContext } from '@providers/AuthProvider'
 import { useNotificationsContext } from '@providers/NotificationsProvider'
+import { useTeamContext } from '@providers/TeamProvider'
 import { useFineRequestService } from '@services/fine-request-service'
 import { usePaymentRequestService } from '@services/payment-request-service'
 import React, { useEffect, useState } from 'react'
@@ -15,18 +16,21 @@ export const MenuPage = () => {
     const authContext = useAuthContext()
     const fineRequestService = useFineRequestService()
     const paymentRequestService = usePaymentRequestService()
+    const teamContext = useTeamContext()
+    const notificationContext = useNotificationsContext()
 
     const [activeFineRequests, setActiveFineRequests] = useState([])
     const [activePaymentRequests, setActivePaymentRequests] = useState([])
     const [drawerOpen, setDrawerOpen] = useState(false);
-    const [isPasswordResetSuccess, setIsPasswordResetSuccess] = useState()
+    const [isPasswordResetSuccess, setIsPasswordResetSuccess] = useState(false)
 
     const toggleDrawer = () => {
         setDrawerOpen(prevDrawerOpen => !prevDrawerOpen)
     };
 
     const fetchActiveFineRequests = async () => {
-        const requests = await fineRequestService.fetchAll();
+        if (!teamContext) return
+        const requests = await fineRequestService.fetchAll(teamContext.id);
         if (!requests) return
 
         setActiveFineRequests(requests)
@@ -49,16 +53,36 @@ export const MenuPage = () => {
         fetchActivePaymentRequests();
     }, [nofiticiationsContext])
 
+    const testNotification = () => {
+        if (!notificationContext) return
+
+        notificationContext.createNotification('Test Notification', 'This is a test notification', 'https://doinfine.app/leaderboard')
+    }
+
     return <div>
         <ActionBar title="Menu" link="/team" />
-        <OptionsBox label="Account">
-            <LinkListItem label="Reset Password" handleLinkClick={handleResetPasswordClick} />
-            <LinkListItem label="Sign Out" handleLinkClick={() => authContext.signOut()} />
-        </OptionsBox>
-        <OptionsBox label="Manage Fines">
-            <LinkListItem label="View active requests" handleLinkClick={() => toggleDrawer()} />
-            <LinkListItem label="Log payment" link="/payment" />
-        </OptionsBox>
+        <Container>
+            <OptionsBox label="Account">
+                <LinkListItem label="Reset Password" handleLinkClick={handleResetPasswordClick} />
+                <LinkListItem label="Sign Out" handleLinkClick={() => authContext.signOut()} />
+            </OptionsBox>
+            <OptionsBox label="Manage Fines">
+                <LinkListItem label="View active requests" handleLinkClick={() => toggleDrawer()} />
+                <LinkListItem label="Log payment" link="/payment" />
+            </OptionsBox>
+            {authContext && authContext.getCurrentEmail() == 'billy@example.com' && (
+                <OptionsBox label="Developer">
+                    <LinkListItem label="Test Notifications" handleLinkClick={() => testNotification()} />
+                </OptionsBox>
+            )
+            }
+            <Box sx={{
+                display: 'flex',
+                justifyContent: 'end'
+            }}>
+                <Typography variant='caption'>v{require('../../package.json').version}</Typography>
+            </Box>
+        </Container>
         <SuccessDialog open={isPasswordResetSuccess} title='Password Reset Link Sent' text='A link to reset your password has been sent to your email.' handleDone={() => setIsPasswordResetSuccess(false)} />
         <Drawer
             anchor='bottom'
@@ -66,40 +90,43 @@ export const MenuPage = () => {
             onClose={() => toggleDrawer()}>
             <List>
                 {activeFineRequests.map((request, index) => (
-                    <ListItem sx={{
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                    }} key={index}>
-                        <Box sx={{
-                            display: 'flex',
+                    <Link to={`/fine-requests/${request.id}`}>
+                        <ListItemButton sx={{
+                            justifyContent: 'space-between',
                             alignItems: 'center'
-                        }}>
-                            <Typography variant='p'>{`Fine for ${request.fullName}`}</Typography>
-                        </Box>
-                        <Link to={`/fine-requests/${request.id}`}>
+                        }} key={index}>
+                            <Box sx={{
+                                display: 'flex',
+                                alignItems: 'center'
+                            }}>
+                                <Typography variant='p'>{`Fine for ${request.finee}`}</Typography>
+                            </Box>
+
                             <IconButton>
                                 <ChevronRight />
                             </IconButton>
-                        </Link>
-                    </ListItem>
+                        </ListItemButton>
+                    </Link>
                 ))}
                 {activePaymentRequests.map((request, index) => (
-                    <ListItem sx={{
-                        justifyContent: 'space-between',
-                        alignItems: 'center'
-                    }} key={index}>
-                        <Box sx={{
-                            display: 'flex',
+                    <Link to={`/payment-requests/${request.id}`}>
+                        <ListItemButton sx={{
+                            justifyContent: 'space-between',
                             alignItems: 'center'
-                        }}>
-                            <Typography variant='p'>{`Payment request for ${request.fullName}`}</Typography>
-                        </Box>
-                        <Link to={`/payment-requests/${request.id}`}>
+                        }} key={index}>
+                            <Box sx={{
+                                display: 'flex',
+                                alignItems: 'center'
+                            }}>
+                                <Typography variant='p'>{`Payment request for ${request.fullName}`}</Typography>
+                            </Box>
+
                             <IconButton>
                                 <ChevronRight />
                             </IconButton>
-                        </Link>
-                    </ListItem>
+
+                        </ListItemButton>
+                    </Link>
                 ))}
                 {!activeFineRequests.length && !activePaymentRequests.length &&
                     <Box sx={{

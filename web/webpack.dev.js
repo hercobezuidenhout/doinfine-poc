@@ -1,6 +1,4 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const WebpackPwaManifest = require('webpack-pwa-manifest')
-const WorkboxPlugin = require('workbox-webpack-plugin')
 const Dotenv = require('dotenv-webpack')
 const path = require('path')
 const pathToPublic = path.join(__dirname, 'public')
@@ -38,7 +36,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './public/index.html',
-            favicon: './src/assets/favicon.png'
+            favicon: './src/assets/favicon.svg'
         }),
         new Dotenv()
     ],

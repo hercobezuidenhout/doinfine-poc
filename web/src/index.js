@@ -1,4 +1,4 @@
-import { Box, CssBaseline, ThemeProvider } from '@mui/material';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 import { AuthProvider } from '@providers/AuthProvider';
 import { NotificationsProvider } from '@providers/NotificationsProvider';
 import { RouterProvider } from '@providers/RouterProvider';
@@ -14,6 +14,24 @@ import './index.css';
 import { CorporateContext, corporateTheme } from './theme';
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
+import { WebNotificationsProvider } from '@providers/WebNotificationsProvider';
+
+const packageJson = require('../package.json')
+console.log(packageJson.version)
+
+const app = initializeApp({
+    apiKey: "AIzaSyAR_1Yfan_Ru-09BRPmqnSXjNwAk6rvfss",
+    authDomain: "doin-fine.firebaseapp.com",
+    projectId: "doin-fine",
+    storageBucket: "doin-fine.appspot.com",
+    messagingSenderId: "852724502631",
+    appId: "1:852724502631:web:429d35119d234cdb5004c2",
+    measurementId: "G-45SECZFJMV"
+});
+
+const analytics = getAnalytics(app);
+
+axios.defaults.baseURL = process.env.DEVELOPMENT ? 'https://localhost:5001' : 'https://api.doinfine.app';
 
 if (!process.env.DEVELOPMENT) {
     if ('serviceWorker' in navigator) {
@@ -29,19 +47,6 @@ if (!process.env.DEVELOPMENT) {
     }
 }
 
-const app = initializeApp({
-    apiKey: "AIzaSyAR_1Yfan_Ru-09BRPmqnSXjNwAk6rvfss",
-    authDomain: "doin-fine.firebaseapp.com",
-    projectId: "doin-fine",
-    storageBucket: "doin-fine.appspot.com",
-    messagingSenderId: "852724502631",
-    appId: "1:852724502631:web:429d35119d234cdb5004c2",
-    measurementId: "G-45SECZFJMV"
-});
-
-const analytics = getAnalytics(app);
-
-axios.defaults.baseURL = process.env.DEVELOPMENT ? 'https://localhost:5001' : 'https://api.doinfine.app';
 
 const Corporate = () => {
     const [mode, setMode] = useState('light');
@@ -61,18 +66,22 @@ const Corporate = () => {
             <BrowserRouter>
                 <ThemeProvider theme={theme}>
                     <ErrorBoundary>
+
                         <CssBaseline />
                         <AuthProvider>
                             <UserProvider>
                                 <TeamProvider>
                                     <SnackbarProvider>
-                                        <NotificationsProvider>
-                                            <RouterProvider />
-                                        </NotificationsProvider>
+                                        <WebNotificationsProvider>
+                                            <NotificationsProvider>
+                                                <RouterProvider />
+                                            </NotificationsProvider>
+                                        </WebNotificationsProvider>
                                     </SnackbarProvider>
                                 </TeamProvider>
                             </UserProvider>
                         </AuthProvider>
+
                     </ErrorBoundary>
                 </ThemeProvider>
             </BrowserRouter>

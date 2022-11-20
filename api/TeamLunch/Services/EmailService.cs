@@ -1,17 +1,11 @@
 ﻿using sib_api_v3_sdk.Api;
-using sib_api_v3_sdk.Client;
 using sib_api_v3_sdk.Model;
-using TeamLunch.Data.Entities;
+using TeamLunch.Contracts;
 
 namespace TeamLunch.Services;
 
-public class EmailService
+public class EmailService : IEmailService
 {
-    public EmailService()
-    {
-        Configuration.Default.ApiKey.Add("api-key", "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");
-    }
-
     public void SendFineRequestEmailToTeam(int requestId, string userBeingFined, string reason, long segmentId)
     {
         var campaigns = new EmailCampaignsApi();

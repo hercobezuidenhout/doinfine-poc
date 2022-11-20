@@ -1,22 +1,22 @@
 import React from 'react'
-import { render, renderWithProviders, screen } from '@tests/base'
+import { render, renderWithProviders, renderWithRouter, screen } from '@tests/base'
 import { DEFAULT_TITLE, EXAMPLE_TITLE } from '@tests/constants'
 import { MenuBar } from '@components/molecules'
 import userEvent from '@testing-library/user-event'
 
 describe('MenuBar', () => {
     it('renders title correctly', () => {
-        render(<MenuBar title={EXAMPLE_TITLE} />)
+        renderWithRouter(<MenuBar title={EXAMPLE_TITLE} />)
         expect(screen.getByTestId('menubar-title').innerHTML).toBe(EXAMPLE_TITLE)
     })
 
     it('renders a default title if no title is given', () => {
-        render(<MenuBar />)
+        renderWithRouter(<MenuBar />)
         expect(screen.getByTestId('menubar-title').innerHTML).toBe(DEFAULT_TITLE)
     })
 
     it('renders with MenuIcon', () => {
-        render(<MenuBar />)
+        renderWithRouter(<MenuBar />)
         expect(screen.getAllByTestId('menubar-icon')).not.toBeNull()
     })
 

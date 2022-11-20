@@ -60,7 +60,7 @@ export const FineRequestPage = () => {
                     <Box sx={{
                         width: '60%',
                     }}>
-                        <Typography variant='h2'>Someone wants to fine <b>{fineRequest.fullName}</b> for <b>{fineRequest.reason}</b>.</Typography>
+                        <Typography variant='h2'>{fineRequest.finer} wants to fine <b>{fineRequest.finee}</b> for <b>{fineRequest.reason}</b>.</Typography>
                         <Box sx={{
                             marginTop: '2rem'
                         }}>
@@ -73,14 +73,20 @@ export const FineRequestPage = () => {
                 )}
                 {notFound && (
                     <Box sx={{
-                        textAlign: 'center',
-                        width: '50%',
+                        width: '30%',
                         margin: 'auto',
                         marginTop: '2rem'
                     }}>
                         <Typography sx={{
-                            marginBottom: '2rem'
-                        }}>It seems like the request does not exist or you have already responded to it.</Typography>
+                            marginBottom: '2rem',
+                            textAlign: 'center'
+                        }} variant='h2'>Request Not Found</Typography>
+                        <Typography sx={{
+                            marginBottom: '2rem',
+                            textAlign: 'center'
+                        }}>
+                            You have either already responded to the fine request or you are the finer or finee.
+                        </Typography>
                         <Link to='/team'>
                             <Button>Back Home</Button>
                         </Link>

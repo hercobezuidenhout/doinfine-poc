@@ -2,24 +2,18 @@ name: Build and deploy .NET API
 
 on:
   push:
-    branches: [ "main", "develop"]
+    branches: [ "main", "develop", "feature/**", "bugfix/**" ]
 
     paths:
       - api/**
-      - .github/workflows/**
-env:
-  AZURE_WEBAPP_NAME: dev-api-team-lunch    # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: './api/TeamLunch'      # set this to the path to your web app project, defaults to the repository root
-  DOTNET_VERSION: '6.0.x'           # set this to the dot net version to use
-
+    
 defaults:
   run:
     working-directory: api
 
 jobs:
-  build:
-
-    runs-on: windows-latest
+  build_and_test:
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -29,24 +23,21 @@ jobs:
       with:
         dotnet-version: 6.0.x
 
-    # - name: Restore dependencies
-    #   run: dotnet restore
+    - name: Restore dependencies
+      run: dotnet restore
 
+    - name: Test
+      run: dotnet test
+
+  deploy: 
+    runs-on: ubuntu-latest
+    
+    if: github.ref == 'refs/heads/main'
+
+    steps:
     - name: Publish
       run: dotnet publish -c Release
       working-directory: api/TeamLunch
-
-    # - name: Test
-    #   run: dotnet test
-
-    # - name: Install EF Tool
-    #   run: |
-    #       dotnet new tool-manifest
-    #       dotnet tool install dotnet-ef
-      
-    # - name: Update Database
-    #   run: dotnet ef database update
-    #   working-directory: api/TeamLunch    
 
     - name: 'Setup Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v0'

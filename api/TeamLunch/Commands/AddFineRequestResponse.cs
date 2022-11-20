@@ -1,6 +1,3 @@
-using MauticNetClient;
-using MauticNetClient.Commands.Emails;
-using MauticNetClient.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TeamLunch.Contracts;
@@ -20,9 +17,9 @@ public static class AddFineRequestResponse
     {
         private readonly DataContext _db;
         private readonly INotificationService _notificationService;
-        private readonly EmailService _emailService;
+        private readonly IEmailService _emailService;
 
-        public Handler(DataContext db, INotificationService notificationService, EmailService emailService)
+        public Handler(DataContext db, INotificationService notificationService, IEmailService emailService)
         {
             _db = db;
             _notificationService = notificationService;
@@ -35,6 +32,9 @@ public static class AddFineRequestResponse
 
             if (userHasResponded) throw new FineRequestNotFoundException("User has already responded this request.");
 
+            var fineRequest = _db.FineRequests.Where(x => x.Id == request.requestId).Include(x => x.Responses).First();
+            if ((request.userId == fineRequest.Finer) || (request.userId == fineRequest.Finee)) throw new FineRequestNotFoundException("User is either the finer or the finee.");
+
             var fineRequestResponse = new FineRequestResponse
             {
                 FineRequestId = request.requestId,
@@ -44,9 +44,8 @@ public static class AddFineRequestResponse
 
             _db.FineRequestResponses.Add(fineRequestResponse);
 
-            var fineRequest = _db.FineRequests.Where(x => x.Id == request.requestId).Include(x => x.Responses).First();
             var team = _db.Teams.Where(x => x.Id == fineRequest.TeamId).Include(x => x.Users).First();
-            var hasAllResponses = fineRequest.Responses.Count() >= team.Users.Count() - 1;
+            var hasAllResponses = fineRequest.Responses.Count() >= team.Users.Count() - 2;
             var isApproved = fineRequest.Responses.Where(x => x.Approved).Count() > fineRequest.Responses.Where(x => !x.Approved).Count();
             var userBeingFined = team.Users.Where(x => x.Id == fineRequest.Finee).Select(x => $"{x.FirstName} {x.LastName}").First();
 
@@ -70,7 +69,7 @@ public static class AddFineRequestResponse
                     }, team);
 
                     _emailService.SendFineApprovedEmailToTeam(fineRequest.Id, userBeingFined, fineRequest.Reason, team.SegmentId);
-                    
+
                     return new Response(fineRequestResponse.Id, fine.Id);
                 }
                 else

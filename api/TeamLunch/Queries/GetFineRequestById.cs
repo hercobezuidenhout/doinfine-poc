@@ -25,10 +25,12 @@ public static class GetFineRequestById
                 var fineRequest = _db.FineRequests
                     .Where(x => x.Id == request.id)
                     .Where(x => !x.Responses.Any(r => r.UserId == request.userId && r.FineRequestId == request.id))
+                    .Where(x => !((x.Finer == request.userId) || (x.Finee == request.userId)))
                     .First();
 
-                var userFullName = _db.Users.Where(x => x.Id == fineRequest.Finee).Select(x => $"{x.FirstName} {x.LastName}").First();
-                return new Response(fineRequest.Id, userFullName, fineRequest.Reason);
+                var finer = _db.Users.Where(x => x.Id == fineRequest.Finer).Select(x => $"{x.FirstName} {x.LastName}").First();
+                var finee = _db.Users.Where(x => x.Id == fineRequest.Finee).Select(x => $"{x.FirstName} {x.LastName}").First();
+                return new Response(fineRequest.Id, finer, finee, fineRequest.Reason);
             }
             catch (InvalidOperationException exception)
             {
@@ -37,5 +39,5 @@ public static class GetFineRequestById
         }
     }
 
-    public record Response(int id, string fullName, string reason);
+    public record Response(int id, string finer, string finee, string reason);
 }

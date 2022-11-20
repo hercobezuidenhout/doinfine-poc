@@ -9,8 +9,6 @@ import { useWebNotificationsContext } from './WebNotificationsProvider'
 
 var hubsUrlBase = process.env.DEVELOPMENT ? 'https://localhost:5001' : 'https://api.doinfine.app'
 
-var connection = new signalr.HubConnectionBuilder().withUrl(`${hubsUrlBase}/hubs/notifications`).build()
-
 export const NotificationsContext = createContext({
     nofiticiations: [],
     readNotification: (id) => { },
@@ -18,6 +16,7 @@ export const NotificationsContext = createContext({
 })
 
 export const NotificationsProvider = ({ children }) => {
+    const [connection, setConnection] = useState()
     const [connectionReady, setConnectionReady] = useState(false)
     const [notifications, setNotifications] = useState([])
     const { enqueueSnackbar, closeSnackbar } = useSnackbar()
@@ -48,45 +47,52 @@ export const NotificationsProvider = ({ children }) => {
         }
     }
 
-    useEffect(() => {
-        if (!connectionReady) return
+    const handleReceiveNotification = async (data) => {
+        setNotifications(prevNotifications => [...prevNotifications, data])
 
-        connection.on('ReceiveNofication', async data => {
-            setNotifications(prevNotifications => [...prevNotifications, data])
-
-            const action = snackbarId => (
-                <>
-                    <Button onClick={() => navigate(data.link)}>
-                        View
-                    </Button>
-                </>
-            )
+        const action = snackbarId => (
+            <>
+                <Button onClick={() => navigate(data.link)}>
+                    View
+                </Button>
+            </>
+        )
 
 
-            if (data.link) {
-                enqueueSnackbar(data.title, {
-                    action,
-                    anchorOrigin: { horizontal: 'center', vertical: 'bottom' }
-                })
-            } else {
-                enqueueSnackbar(data.title, {
-                    anchorOrigin: { horizontal: 'center', vertical: 'bottom' }
-                })
-            }
+        if (data.link) {
+            enqueueSnackbar(data.title, {
+                action,
+                anchorOrigin: { horizontal: 'center', vertical: 'bottom' }
+            })
+        } else {
+            enqueueSnackbar(data.title, {
+                anchorOrigin: { horizontal: 'center', vertical: 'bottom' }
+            })
+        }
 
-            webNotificationsContext.createNotification(data.title, data.description, data.link)
-        })
-
-    }, [connectionReady])
+        webNotificationsContext.createNotification(data.title, data.description, data.link)
+    }
 
     useEffect(() => {
+        const newConnection = new signalr.HubConnectionBuilder().withUrl(`${hubsUrlBase}/hubs/notifications`).build()
+        setConnection(newConnection)
+        fetchNotifications()
+    }, [])
+
+    useEffect(() => {
+        if (!connection) return
         if (connection.state !== 'Disconnected') return
         connection.start()
             .then(() => {
                 setConnectionReady(true)
             })
             .catch(error => console.error(error))
-    }, [])
+    }, [connection])
+
+    useEffect(() => {
+        if (!connectionReady) return
+        connection.on('ReceiveNofication', handleReceiveNotification)
+    }, [connectionReady])
 
     useEffect(() => {
         if (!connectionReady) return
@@ -100,7 +106,6 @@ export const NotificationsProvider = ({ children }) => {
 
 
     useEffect(() => {
-        fetchNotifications()
     }, [])
 
     return (

@@ -22,7 +22,6 @@ export const TeamProvider = ({ children }) => {
         var teamId = user.teams[0]
 
         const team = await teamService.fetchById(teamId)
-
         if (!team) return
 
         setTeam(team)

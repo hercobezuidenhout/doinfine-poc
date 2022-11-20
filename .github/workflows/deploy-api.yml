@@ -29,22 +29,19 @@ jobs:
     - name: Test
       run: dotnet test
 
-  deploy: 
-    runs-on: ubuntu-latest
-    
-    if: github.ref == 'refs/heads/main'
-
-    steps:
     - name: Publish
       run: dotnet publish -c Release
+      if: github.ref == 'refs/heads/main'
       working-directory: api/TeamLunch
 
     - name: 'Setup Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v0'
+      if: github.ref == 'refs/heads/main'
       with:
         project_id: doin-fine
         service_account_key: '${{ secrets.GCP_SA_KEY }}' 
 
     - name: Deploy to App Engine
       run: gcloud app deploy .\bin\Release\net6.0\publish\app.yaml --version v1
+      if: github.ref == 'refs/heads/main'
       working-directory: api/TeamLunch

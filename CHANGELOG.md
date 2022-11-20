@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## [Unreleased]
+## v0.2.0 <font size=1>`20/11/2022`</font>
 ### Added
 - Display app version at bottom of menu.
 - A placeholder when a user does not have any fines.

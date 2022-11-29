@@ -1,4 +1,4 @@
-name: Deploy Web App to Firebase
+name: Deploy Web App to Test Environment
 
 on:
   push:
@@ -30,7 +30,7 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOIN_FINE }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOINFINE_TEST }}'
           projectId: doinfine-test
           entryPoint: web
           channelId: live

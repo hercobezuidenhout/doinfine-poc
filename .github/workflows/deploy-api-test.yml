@@ -1,0 +1,48 @@
+name: Build and deploy .NET API to Test Environment
+
+on:
+  push:
+    branches: [ "feature/**" ]
+
+    paths:
+      - api/**
+      - .github/workflows/deploy-api-test.yml
+    
+defaults:
+  run:
+    working-directory: api
+
+env:
+  DF_ENVIRONMENT: Test
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Test
+      run: dotnet test
+
+    - name: Publish
+      run: dotnet publish -c Release
+      working-directory: api/TeamLunch
+
+    - name: 'Setup Cloud SDK'
+      uses: 'google-github-actions/setup-gcloud@v0'
+      with:
+        project_id: doinfine-test
+        service_account_key: '${{ secrets.GCP_SA_KEY_TEST }}' 
+
+    - name: Deploy to App Engine
+      run: gcloud app deploy ./bin/Release/net6.0/publish/app.yaml --version v1
+      working-directory: api/TeamLunch

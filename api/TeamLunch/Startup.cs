@@ -73,7 +73,7 @@ namespace TeamLunch
                 options.AddPolicy(name: AllowLocalhost, policy =>
                 {
                     policy
-                        .WithOrigins("http://localhost:3000", "https://doinfine.app")
+                        .WithOrigins("http://localhost:3000", "https://doinfine.app", "https://test.doinfine.app", "https://doinfine-test.web.app")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();

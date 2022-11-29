@@ -19,6 +19,13 @@ jobs:
       - uses: actions/checkout@v2
 
       - run: npm install --legacy-peer-deps
+
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo DF_ENVIRONMENT=Test >> .env
+          cat .env
+          
       - run: npm run build
 
       - name: Install Firebase Tools

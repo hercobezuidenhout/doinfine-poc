@@ -33,6 +33,11 @@ jobs:
     - name: Test
       run: dotnet test
 
+    - name: Transform app.yaml
+      run: |
+        echo env_variables: >> app.yaml
+        echo '\tDF_ENVIRONMENT=Test' >> app.yaml
+
     - name: Publish
       run: dotnet publish -c Release
       working-directory: api/TeamLunch

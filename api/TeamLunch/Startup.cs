@@ -87,6 +87,12 @@ namespace TeamLunch
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
         {
+
+            if (Environment.GetEnvironmentVariable("DF_ENVIRONMENT") != "Production")
+            {
+                context.Database.EnsureCreated();
+            }
+
             app.UseRouting();
 
             app.UseHttpsRedirection();

@@ -15,21 +15,6 @@ public class GetFineRequestsTests : TestDataContextBase
     }
 
     [Test]
-    public async Task Handler_GivenLoggedInUser_ShouldReturnRequests()
-    {
-        // Arrange
-        var tcs = new CancellationTokenSource(1000);
-
-        // Act
-        var mockQuery = new GetActiveFineRequests.Handler(_stubContext);
-        var response = await mockQuery.Handle(new GetActiveFineRequests.Query(Constants.EXAMPLE_USER_ID, Constants.EXAMPLE_TEAM_ID), tcs.Token);
-
-        // Assert
-        var hasItems = response.Count > 0;
-        Assert.True(hasItems);
-    }
-
-    [Test]
     public async Task Handler_GivenLoggedInUser_ReturnsRequestsWhichUserHasNotRespondedTo()
     {
         // Arrange

@@ -15,34 +15,34 @@ import { CorporateContext, corporateTheme } from './theme';
 import { initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import { WebNotificationsProvider } from '@providers/WebNotificationsProvider';
+import { firebaseConfig, isDevelopment, isProd, isTest } from './config';
 
-const packageJson = require('../package.json')
-console.log(packageJson.version)
 
-const app = initializeApp({
-    apiKey: "AIzaSyAR_1Yfan_Ru-09BRPmqnSXjNwAk6rvfss",
-    authDomain: "doin-fine.firebaseapp.com",
-    projectId: "doin-fine",
-    storageBucket: "doin-fine.appspot.com",
-    messagingSenderId: "852724502631",
-    appId: "1:852724502631:web:429d35119d234cdb5004c2",
-    measurementId: "G-45SECZFJMV"
-});
+
+const firebase = isDevelopment()
+    ? firebaseConfig.test
+    : (
+        isTest()
+            ? firebaseConfig.test
+            : firebaseConfig.prod
+    );
+
+const app = initializeApp(firebase);
 
 const analytics = getAnalytics(app);
 
-axios.defaults.baseURL = process.env.DEVELOPMENT ? 'https://localhost:5001' : 'https://api.doinfine.app';
+axios.defaults.baseURL = isDevelopment()
+    ? 'https://localhost:5001'
+    : (
+        isTest()
+            ? 'https://test.api.doinfine.app'
+            : 'https://api.doinfine.app'
+    )
 
-if (!process.env.DEVELOPMENT) {
+if (!isDevelopment()) {
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/service-worker.js')
-                .then(registration => {
-                    console.log('SW registered', registration);
-                })
-                .catch(error => {
-                    console.log('SW registration failed: ', error);
-                });
         });
     }
 }

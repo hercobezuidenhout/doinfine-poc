@@ -39,50 +39,53 @@ public class DataContext : DbContext
             .HasForeignKey(un => un.NotificationId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        SeedData(builder);
+        if (Environment.GetEnvironmentVariable("DF_ENVIRONMENT") != "Production")
+        {
+            SeedData(builder);
+        }
     }
 
     private void SeedData(ModelBuilder builder)
     {
         builder.Entity<User>().HasData(
-            new User { Id = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad", FirstName = "Billy", LastName = "Anderson" },
-            new User { Id = "dd760d11-91ed-4a32-9810-683f7df14239", FirstName = "Steve", LastName = "Walkman" },
-            new User { Id = "dd760d11-91ed-4a32-9810-683f7df14210", FirstName = "Andrew", LastName = "Milk" },
-            new User { Id = "dd760d11-91ed-4a32-9810-683f7df14212", FirstName = "Amy", LastName = "Whine" }
+            new User { Id = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2", FirstName = "Billy", LastName = "Anderson" },
+            new User { Id = "rHB5wC8hajM1PvyoMplClDlworj1", FirstName = "Steve", LastName = "Drew" },
+            new User { Id = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", FirstName = "Herco", LastName = "Bezuidenhout" }
         );
 
         builder.Entity<Fine>().HasData(
-            new Fine { Id = 1, Reason = "For showing up late to a meeting.", UserId = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad" },
-            new Fine { Id = 2, Reason = "For leaving a dirty pull request.", UserId = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad" },
-            new Fine { Id = 3, Reason = "For wearing a Manchester United shirt.", UserId = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad" },
-            new Fine { Id = 4, Reason = "For pushing a secret into remote.", UserId = "dd760d11-91ed-4a32-9810-683f7df14239" },
-            new Fine { Id = 5, Reason = "For not using the team's virtual background.", UserId = "dd760d11-91ed-4a32-9810-683f7df14239" },
-            new Fine { Id = 6, Reason = "For leaving without completing the pull request.", UserId = "dd760d11-91ed-4a32-9810-683f7df14239" },
-            new Fine { Id = 7, Reason = "For loving coffee way too much.", UserId = "dd760d11-91ed-4a32-9810-683f7df14239" }
+            new Fine { Id = 1, Reason = "For showing up late to a meeting.", UserId = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2" },
+            new Fine { Id = 2, Reason = "For leaving a dirty pull request.", UserId = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2" },
+            new Fine { Id = 3, Reason = "For wearing a Manchester United shirt.", UserId = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2" },
+            new Fine { Id = 4, Reason = "For pushing a secret into remote.", UserId = "rHB5wC8hajM1PvyoMplClDlworj1" },
+            new Fine { Id = 5, Reason = "For not using the team's virtual background.", UserId = "rHB5wC8hajM1PvyoMplClDlworj1" },
+            new Fine { Id = 6, Reason = "For leaving without completing the pull request.", UserId = "rHB5wC8hajM1PvyoMplClDlworj1" },
+            new Fine { Id = 7, Reason = "For loving coffee way too much.", UserId = "rHB5wC8hajM1PvyoMplClDlworj1" }
         );
 
         builder.Entity<Team>().HasData(
-            new Team { Id = 1, Name = "Core", SegmentId = 1 }
+            new Team { Id = 1, Name = "Core", SegmentId = 6 }
         );
 
         builder.Entity<FineRequest>().HasData(
-            new FineRequest { Id = 1, TeamId = 1, Finer = "dd760d11-91ed-4a32-9810-683f7df14212", Finee = "dd760d11-91ed-4a32-9810-683f7df14239", Reason = "not caring enough about water" },
-            new FineRequest { Id = 2, TeamId = 1, Finer = "dd760d11-91ed-4a32-9810-683f7df14212", Finee = "dd760d11-91ed-4a32-9810-683f7df14239", Reason = "not caring enough about dogs" },
-            new FineRequest { Id = 3, TeamId = 1, Finer = "dd760d11-91ed-4a32-9810-683f7df14212", Finee = "dd760d11-91ed-4a32-9810-683f7df14239", Reason = "not caring enough about something else" },
-            new FineRequest { Id = 4, TeamId = 1, Finer = "dd760d11-91ed-4a32-9810-683f7df14212", Finee = "dd760d11-91ed-4a32-9810-683f7df14239", Reason = "not caring enough about something else" },
-            new FineRequest { Id = 5, TeamId = 1, Finer = "dd760d11-91ed-4a32-9810-683f7df14212", Finee = "dd760d11-91ed-4a32-9810-683f7df14239", Reason = "not caring enough about something else" }
+            new FineRequest { Id = 1, TeamId = 1, Finer = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about water" },
+            new FineRequest { Id = 2, TeamId = 1, Finer = "rHB5wC8hajM1PvyoMplClDlworj1", Finee = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", Reason = "not caring enough about dogs" },
+            new FineRequest { Id = 3, TeamId = 1, Finer = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about something else" },
+            new FineRequest { Id = 4, TeamId = 1, Finer = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about something else" },
+            new FineRequest { Id = 5, TeamId = 1, Finer = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about something else" }
         );
 
         builder.Entity<FineRequestResponse>().HasData(
-            new FineRequestResponse { Id = 1, FineRequestId = 5, UserId = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad", Approved = true }
+            new FineRequestResponse { Id = 1, FineRequestId = 5, UserId = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2", Approved = true }
         );
 
         builder.Entity<Team>()
             .HasMany(team => team.Users)
             .WithMany(user => user.Teams)
             .UsingEntity(joined => joined.HasData(
-                new { TeamsId = 1, UsersId = "3e64b61f-ce47-4f30-8d4e-4de4869a07ad" },
-                new { TeamsId = 1, UsersId = "dd760d11-91ed-4a32-9810-683f7df14239" }
+                new { TeamsId = 1, UsersId = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2" },
+                new { TeamsId = 1, UsersId = "rHB5wC8hajM1PvyoMplClDlworj1" },
+                new { TeamsId = 1, UsersId = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2" }
             ));
     }
 }

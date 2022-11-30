@@ -40,7 +40,7 @@ axios.defaults.baseURL = isDevelopment()
             : 'https://api.doinfine.app'
     )
 
-if (!process.env.DEVELOPMENT) {
+if (!isDevelopment()) {
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/service-worker.js')

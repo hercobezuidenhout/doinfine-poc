@@ -2,7 +2,7 @@ name: Deploy Web App to Test Environment
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "feature/**" ]
 
     paths:
       - web/**

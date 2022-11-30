@@ -1,12 +1,12 @@
-name: Build and deploy .NET API
+name: Build and deploy .NET API to Production
 
 on:
   push:
-    branches: [ "main", "develop", "feature/**", "bugfix/**" ]
+    branches: [ "main", "develop" ]
 
     paths:
       - api/**
-      - .github/workflows/deploy-api.yml
+      - .github/workflows/deploy-api-prod.yml
     
 defaults:
   run:

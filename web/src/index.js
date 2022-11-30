@@ -36,7 +36,7 @@ axios.defaults.baseURL = isDevelopment()
     ? 'https://localhost:5001'
     : (
         isTest()
-            ? 'https://api.doinfine.app'
+            ? 'https://test.api.doinfine.app'
             : 'https://api.doinfine.app'
     )
 

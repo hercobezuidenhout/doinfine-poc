@@ -2,7 +2,7 @@ name: Build and deploy .NET API to Production
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main" ]
 
     paths:
       - api/**
@@ -29,6 +29,11 @@ jobs:
 
     - name: Test
       run: dotnet test
+
+    - name: Transform app.yaml
+      run: |
+        echo env_variables: >> app.yaml
+        echo '\tDF_ENVIRONMENT=Production' >> app.yaml
 
     - name: Publish
       if: github.ref == 'refs/heads/main'

@@ -2,7 +2,7 @@ name: Deploy Web App to Test Environment
 
 on:
   push:
-    branches: [ "feature/**" ]
+    branches: [ "develop", "feature/**" ]
 
     paths:
       - web/**
@@ -13,12 +13,13 @@ defaults:
     working-directory: web
 
 jobs:
-  build_and_preview:
+  'Build, Test and Deploy':
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - run: npm install --legacy-peer-deps
+      - name: Install NPM packages
+        run: npm install --legacy-peer-deps
 
       - name: 'Create env file'
         run: |
@@ -26,9 +27,14 @@ jobs:
           echo DF_ENVIRONMENT=Test >> .env
           cat .env
           
-      - run: npm run build
+      - name: Build
+        run: npm run build
 
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Test
+        run: npm run test
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOINFINE_TEST }}'

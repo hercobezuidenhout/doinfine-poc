@@ -6,8 +6,15 @@ import { Button } from '@mui/material'
 import { useNotificationService } from '@services/notification-service'
 import { useTeamContext } from './TeamProvider'
 import { useWebNotificationsContext } from './WebNotificationsProvider'
+import { isDevelopment, isTest, isProd } from '../config'
 
-var hubsUrlBase = process.env.DEVELOPMENT ? 'https://localhost:5001' : 'https://api.doinfine.app'
+const hubsUrlBase = isDevelopment()
+    ? 'https://localhost:5001'
+    : (
+        isTest()
+            ? 'https://test.api.doinfine.app'
+            : 'https://api.doinfine.app'
+    )
 
 export const NotificationsContext = createContext({
     nofiticiations: [],

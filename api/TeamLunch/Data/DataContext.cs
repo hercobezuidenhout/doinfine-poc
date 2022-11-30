@@ -61,7 +61,7 @@ public class DataContext : DbContext
         );
 
         builder.Entity<Team>().HasData(
-            new Team { Id = 1, Name = "Core", SegmentId = 1 }
+            new Team { Id = 1, Name = "Core", SegmentId = 6 }
         );
 
         builder.Entity<FineRequest>().HasData(

@@ -30,8 +30,8 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    # - name: Test
-    #   run: dotnet test
+    - name: Test
+      run: dotnet test
 
     - name: Transform app.yaml
       run: |

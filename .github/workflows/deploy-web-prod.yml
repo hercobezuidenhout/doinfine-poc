@@ -35,7 +35,7 @@ jobs:
         run: npm run test
 
       - name: Deploy to Firebase Hosting
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+        uses: FirebaseExtended/action-hosting-deploy@v0
         if: github.ref == 'refs/heads/main'
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'

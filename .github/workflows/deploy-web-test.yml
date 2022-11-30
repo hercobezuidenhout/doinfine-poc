@@ -13,7 +13,7 @@ defaults:
     working-directory: web
 
 jobs:
-  'Build, Test and Deploy':
+  Build_Test_And_Deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

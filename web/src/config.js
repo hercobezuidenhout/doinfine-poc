@@ -1,6 +1,6 @@
 export const isDevelopment = () => process.env.DF_ENVIRONMENT == 'Development'
 export const isTest = () => process.env.DF_ENVIRONMENT == 'Test'
-export const isProd = () => process.env.DF_ENVIRONMENT == 'Prod'
+export const isProd = () => process.env.DF_ENVIRONMENT == 'Production'
 
 
 export const firebaseConfig = {

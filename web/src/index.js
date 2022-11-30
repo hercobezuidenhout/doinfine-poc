@@ -28,7 +28,6 @@ const firebase = isDevelopment()
     );
 
 const app = initializeApp(firebase);
-console.log(firebase)
 
 const analytics = getAnalytics(app);
 
@@ -44,12 +43,6 @@ if (!isDevelopment()) {
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/service-worker.js')
-                .then(registration => {
-                    console.log('SW registered', registration);
-                })
-                .catch(error => {
-                    console.log('SW registration failed: ', error);
-                });
         });
     }
 }

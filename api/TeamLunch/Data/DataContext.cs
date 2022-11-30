@@ -39,7 +39,10 @@ public class DataContext : DbContext
             .HasForeignKey(un => un.NotificationId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        SeedData(builder);
+        if (Environment.GetEnvironmentVariable("DF_ENVIRONMENT") != "Production")
+        {
+            SeedData(builder);
+        }
     }
 
     private void SeedData(ModelBuilder builder)
@@ -65,11 +68,11 @@ public class DataContext : DbContext
         );
 
         builder.Entity<FineRequest>().HasData(
-            new FineRequest { Id = 1, TeamId = 1, Finer = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about water" },
-            new FineRequest { Id = 2, TeamId = 1, Finer = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about dogs" },
-            new FineRequest { Id = 3, TeamId = 1, Finer = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about something else" },
-            new FineRequest { Id = 4, TeamId = 1, Finer = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about something else" },
-            new FineRequest { Id = 5, TeamId = 1, Finer = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about something else" }
+            new FineRequest { Id = 1, TeamId = 1, Finer = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about water" },
+            new FineRequest { Id = 2, TeamId = 1, Finer = "rHB5wC8hajM1PvyoMplClDlworj1", Finee = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", Reason = "not caring enough about dogs" },
+            new FineRequest { Id = 3, TeamId = 1, Finer = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about something else" },
+            new FineRequest { Id = 4, TeamId = 1, Finer = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about something else" },
+            new FineRequest { Id = 5, TeamId = 1, Finer = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about something else" }
         );
 
         builder.Entity<FineRequestResponse>().HasData(

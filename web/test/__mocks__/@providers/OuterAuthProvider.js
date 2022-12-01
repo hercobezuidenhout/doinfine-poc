@@ -1,14 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { users } from '../../../src/__mocks__/backend'
 
-export const AuthContext = createContext({
+export const OuterAuthContext = createContext({
     userId: undefined,
     getCurrentUser: () => { },
     getAccessToken: () => { }
 })
 
 
-export const AuthProvider = ({ children }) => {
+export const OuterAuthProvider = ({ children }) => {
 
     const [account, setAccount] = useState()
 
@@ -23,15 +23,15 @@ export const AuthProvider = ({ children }) => {
     const getCurrentUser = () => users.find(user => user.id == 1)
 
     return (
-        <AuthContext.Provider value={{
+        <OuterAuthContext.Provider value={{
             userId: 1,
             getCurrentUser: getCurrentUser,
             getAccessToken: getAccessToken
         }}>
             {account && children}
 
-        </AuthContext.Provider>
+        </OuterAuthContext.Provider>
     )
 }
 
-export const useOuterAuthContext = () => useContext(AuthContext)
+export const useOuterAuthContext = () => useContext(OuterAuthContext)

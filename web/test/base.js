@@ -5,16 +5,16 @@ import { render, screen } from "@testing-library/react";
 import { corporateTheme } from "../src/theme";
 
 import '@testing-library/jest-dom'
-import { AuthProvider } from "@providers/OuterAuthProvider";
+import { AuthProvider, OuterAuthProvider } from "@providers/OuterAuthProvider";
 import { BrowserRouter } from "react-router-dom";
 
 
 const AllProviders = ({ children }) => (
     <ThemeProvider theme={corporateTheme('light')}>
         <BrowserRouter>
-            <AuthProvider>
+            <OuterAuthProvider>
                 {children}
-            </AuthProvider>
+            </OuterAuthProvider>
         </BrowserRouter>
     </ThemeProvider>
 )

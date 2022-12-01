@@ -5,18 +5,18 @@ import { useTeamService } from "@services/team-service"
 import { useUserContext } from "./UserProvider"
 
 export const TeamContext = createContext({
-    id: undefined,
-    name: undefined,
+    id: 1,
+    name: 'Example',
     members: []
 })
 
 export const TeamProvider = ({ children }) => {
     const [team, setTeam] = useState()
     const teamService = useTeamService()
-    const userContext = useUserContext()
+    const { getCurrentUser } = useUserContext()
 
     const fetchTeam = async () => {
-        var user = await userContext.getCurrentUser()
+        var user = await getCurrentUser()
 
         if (!user) return
         var teamId = user.teams[0]
@@ -29,11 +29,11 @@ export const TeamProvider = ({ children }) => {
 
     useEffect(() => {
         fetchTeam()
-    }, [userContext])
+    }, [getCurrentUser])
 
     return (
         <TeamContext.Provider value={team}>
-            {children}
+            {team && children}
         </TeamContext.Provider>
     )
 }

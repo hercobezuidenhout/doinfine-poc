@@ -1,26 +1,24 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { LoginPage } from '@pages/LoginPage'
 import { browserLocalPersistence, getAuth, sendPasswordResetEmail, setPersistence, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { LandingPage } from '@pages/LandingPage'
+import { useNavigate } from 'react-router-dom'
 
-export const AuthContext = createContext({
-    getCurrentUserId: () => { },
-    getAccessToken: () => { },
-    editProfile: () => { },
+export const OuterAuthContext = createContext({
     resetPassword: (email) => { },
     signOut: () => { },
     signIn: (email, password) => { },
-    getCurrentEmail: () => { }
+    getCurrentUser: () => { },
+    getAccessToken: () => { }
 })
 
-export const AuthProvider = ({ children }) => {
+export const OuterAuthProvider = ({ children }) => {
     let auth = getAuth()
+    const navigate = useNavigate()
     const [currentUser, setCurrentUser] = useState()
 
-    const getCurrentUserId = () => currentUser.uid
-    const getAccessToken = () => currentUser.accessToken
-    const getCurrentEmail = () => currentUser.email
+    const getCurrentUser = () => currentUser
 
-    const editProfile = () => { }
     const resetPassword = async (email) => {
         return await sendPasswordResetEmail(auth, email)
     }
@@ -36,22 +34,28 @@ export const AuthProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        auth.onAuthStateChanged(user => setCurrentUser(user))
+        auth.onAuthStateChanged(user => {
+            setCurrentUser(user)
+
+            if (user) {
+                navigate('/')
+            } else {
+                navigate('/login')
+            }
+        })
     }, [])
 
     return (
-        <AuthContext.Provider value={{
-            getCurrentUserId: getCurrentUserId,
-            getAccessToken: getAccessToken,
-            editProfile: editProfile,
+        <OuterAuthContext.Provider value={{
+            getCurrentUser: getCurrentUser,
+            getAccessToken: () => getCurrentUser().accessToken,
             resetPassword: resetPassword,
             signOut: logout,
             signIn: signIn,
-            getCurrentEmail: getCurrentEmail
         }}>
-            {currentUser ? children : <LoginPage />}
-        </AuthContext.Provider>
+            {children}
+        </OuterAuthContext.Provider>
     )
 }
 
-export const useAuthContext = () => useContext(AuthContext)
+export const useOuterAuthContext = () => useContext(OuterAuthContext)

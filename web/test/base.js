@@ -5,7 +5,7 @@ import { render, screen } from "@testing-library/react";
 import { corporateTheme } from "../src/theme";
 
 import '@testing-library/jest-dom'
-import { AuthProvider } from "@providers/AuthProvider";
+import { AuthProvider } from "@providers/OuterAuthProvider";
 import { BrowserRouter } from "react-router-dom";
 
 

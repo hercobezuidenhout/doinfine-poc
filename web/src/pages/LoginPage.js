@@ -1,10 +1,10 @@
 import { SuccessDialog } from '@components/molecules'
 import { Box, Button, OutlinedInput, TextField, Typography } from '@mui/material'
-import { useAuthContext } from '@providers/AuthProvider'
+import { useOuterAuthContext } from '@providers/OuterAuthProvider'
 import React, { useState } from 'react'
 
 export const LoginPage = () => {
-    const authContext = useAuthContext()
+    const authContext = useOuterAuthContext()
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -27,6 +27,7 @@ export const LoginPage = () => {
         if (!authContext) return
         const response = await authContext.signIn(email, password)
         if (!response) alert('Wrong username or password.')
+        console.log(response)
     }
 
     const resetPassword = async () => {

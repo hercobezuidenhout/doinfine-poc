@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { useAuthContext } from '@providers/AuthProvider'
+import { useOuterAuthContext } from '@providers/OuterAuthProvider'
 import { useUserService } from '@services/user-service';
 
 export const UserContext = createContext({
@@ -7,18 +7,18 @@ export const UserContext = createContext({
 })
 
 export const UserProvider = ({ children }) => {
-    const authContext = useAuthContext()
+    const authContext = useOuterAuthContext()
     const userService = useUserService()
 
     const [currentUser, setCurrentUser] = useState()
 
     const fetchUser = async () => {
         if (!authContext) return
-
-        const user = await userService.fetchById(authContext.getCurrentUserId())
+        const authUser = authContext.getCurrentUser()
+        const user = await userService.fetchById(authUser.uid)
         if (!user) return
 
-        setCurrentUser(user)
+        setCurrentUser({ ...user, email: authUser.email })
     }
 
     useEffect(() => {

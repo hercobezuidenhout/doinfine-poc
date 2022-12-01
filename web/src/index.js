@@ -1,5 +1,5 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { AuthProvider } from '@providers/AuthProvider';
+import { AuthProvider, OuterAuthProvider } from '@providers/OuterAuthProvider';
 import { NotificationsProvider } from '@providers/NotificationsProvider';
 import { RouterProvider } from '@providers/RouterProvider';
 import { TeamProvider } from '@providers/TeamProvider';
@@ -66,22 +66,10 @@ const Corporate = () => {
             <BrowserRouter>
                 <ThemeProvider theme={theme}>
                     <ErrorBoundary>
-
                         <CssBaseline />
-                        <AuthProvider>
-                            <UserProvider>
-                                <TeamProvider>
-                                    <SnackbarProvider>
-                                        <WebNotificationsProvider>
-                                            <NotificationsProvider>
-                                                <RouterProvider />
-                                            </NotificationsProvider>
-                                        </WebNotificationsProvider>
-                                    </SnackbarProvider>
-                                </TeamProvider>
-                            </UserProvider>
-                        </AuthProvider>
-
+                        <OuterAuthProvider>
+                            <RouterProvider />
+                        </OuterAuthProvider>
                     </ErrorBoundary>
                 </ThemeProvider>
             </BrowserRouter>

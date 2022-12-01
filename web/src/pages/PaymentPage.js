@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom'
 const DATE_FORMAT = 'DD/MM/YYYY'
 
 export const PaymentPage = () => {
-    const teamContext = useTeamContext()
+    const { id: teamId } = useTeamContext()
     const paymentRequestService = usePaymentRequestService();
     const navigate = useNavigate()
 
@@ -32,11 +32,10 @@ export const PaymentPage = () => {
     }
 
     const confirmSubmit = async () => {
-        if (!teamContext) return
         setLoading(true)
 
         const paymentRequest = {
-            teamId: teamContext.id,
+            teamId: teamId,
             dateOfPayment: dayjs(dateOfPayment).format(DATE_FORMAT),
             action: paymentMethod
         }

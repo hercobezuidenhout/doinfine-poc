@@ -5,24 +5,22 @@ import { Avatar, Toolbar, Typography } from "@mui/material"
 import { useTeamContext } from "@providers/TeamProvider"
 
 export const TeamFilterBar = () => {
-    const team = useTeamContext()
+    const { id: teamId, members } = useTeamContext()
 
     const [searchParams, setSearchParams] = useSearchParams()
     const [active, setActive] = useState()
 
     const setActiveMember = () => {
-        if (!team) return
         const id = searchParams.get('member')
-        setActive(team.members.filter(member => member.id == id)[0])
+        setActive(members.filter(member => member.id == id)[0])
     }
 
     useEffect(() => {
-        if (!team) return
-        setActive(team.members[0])
+        setActive(members[0])
         setSearchParams({
-            member: team.members[0].id
+            member: members[0].id
         })
-    }, [team])
+    }, [teamId])
 
     useEffect(() => {
         setActiveMember()
@@ -45,7 +43,7 @@ export const TeamFilterBar = () => {
         <Toolbar data-testid="team-filter-bar" sx={{
             overflowX: 'auto'
         }}>
-            {team && team.members.map(member => (
+            {members && members.map(member => (
                 active && member.id === active.id
                     ? (
                         <ActiveAvatar key={member.id} alt={member.name} src={member.avatar}>

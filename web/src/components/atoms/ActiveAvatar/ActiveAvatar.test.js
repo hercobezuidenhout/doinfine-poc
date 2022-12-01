@@ -1,5 +1,5 @@
 import React from 'react'
-import { renderWithDarkTheme, renderWithLightTheme, renderWithProviders, screen } from "@tests/base"
+import { renderWithDarkTheme, renderWithLightTheme, screen } from "@tests/base"
 import { ActiveAvatar } from '@components/atoms'
 import { red } from '@mui/material/colors'
 

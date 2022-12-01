@@ -1,13 +1,13 @@
 import { Box, Button, Divider, List, ListItem, Skeleton, Typography } from '@mui/material'
-import { useAuthContext } from '@providers/AuthProvider'
 import { useTeamContext } from '@providers/TeamProvider'
+import { useUserContext } from '@providers/UserProvider'
 import { useFineService } from '@services/fine-service'
 import React, { useEffect, useState, Fragment } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 
 export const TeamPage = () => {
-    const teamContext = useTeamContext()
-    const authContext = useAuthContext()
+    const { id, members, name } = useTeamContext()
+    const { getCurrentUser } = useUserContext()
 
     const [searchParams] = useSearchParams()
     const fineService = useFineService()
@@ -28,23 +28,19 @@ export const TeamPage = () => {
     }, [member])
 
     useEffect(() => {
-        if (!teamContext) return
-
         if (searchParams.get('member')) {
-            const teamMember = teamContext.members.filter(x => x.id == searchParams.get('member'))[0]
+            const teamMember = members.filter(x => x.id == searchParams.get('member'))[0]
             setMember(teamMember)
         } else {
             let teamMember = undefined
 
-            if (!authContext) return
-
-            const filteredMembers = teamContext.members.filter(x => x.id == authContext.getCurrentUserId())
+            const filteredMembers = members.filter(x => x.id == getCurrentUser().id)
             teamMember = filteredMembers[0]
 
             setMember(teamMember)
             searchParams.set('member', teamMember.id)
         }
-    }, [searchParams, teamContext])
+    }, [searchParams])
 
     const renderFines = () => {
         return fines.length > 0 ? fines.map(fine => (
@@ -79,7 +75,7 @@ export const TeamPage = () => {
                 alignItems: 'center'
             }}>
                 <h1 data-testid="team-page-title">{member ? member.fullName : <Skeleton variant='text' width={300} sx={{ fontSize: '3rem ' }} />}</h1>
-                {member && (member.id == authContext.getCurrentUserId()) && <Link to='/payment'><Button variant='outlined'>Log Payment</Button></Link>}
+                {member && (member.id == getCurrentUser().id) && <Link to='/payment'><Button variant='outlined'>Log Payment</Button></Link>}
             </Box>
             <List>
                 {fines

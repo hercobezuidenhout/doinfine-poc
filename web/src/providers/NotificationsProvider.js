@@ -29,7 +29,7 @@ export const NotificationsProvider = ({ children }) => {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar()
     const navigate = useNavigate()
     const notificationService = useNotificationService()
-    const teamContext = useTeamContext()
+    const { id: teamId } = useTeamContext()
     const webNotificationsContext = useWebNotificationsContext()
 
     const fetchNotifications = async () => {
@@ -89,6 +89,7 @@ export const NotificationsProvider = ({ children }) => {
     useEffect(() => {
         if (!connection) return
         if (connection.state !== 'Disconnected') return
+
         connection.start()
             .then(() => {
                 setConnectionReady(true)
@@ -103,17 +104,13 @@ export const NotificationsProvider = ({ children }) => {
 
     useEffect(() => {
         if (!connectionReady) return
-        if (!teamContext) return
 
-        const roomName = teamContext.id.toString()
+        const roomName = teamId.toString()
         connection.invoke('JoinRoom', roomName)
             .then(() => console.info('Connected to room: ', roomName))
             .catch(error => console.log(error))
-    }, [teamContext, connectionReady])
+    }, [teamId, connectionReady])
 
-
-    useEffect(() => {
-    }, [])
 
     return (
         <NotificationsContext.Provider value={{

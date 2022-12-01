@@ -1,39 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { BottomNavigationBar } from '@components/templates';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { MenuBar } from '@components/molecules';
-import { Container } from '@mui/material';
-import { useTeamContext } from '@providers/TeamProvider';
+import { InnerAuthProvider } from '@providers/InnerAuthProvider'
+import { NotificationsProvider } from '@providers/NotificationsProvider'
+import { TeamProvider } from '@providers/TeamProvider'
+import { UserProvider } from '@providers/UserProvider'
+import { WebNotificationsProvider } from '@providers/WebNotificationsProvider'
+import { SnackbarProvider } from 'notistack'
+import React from 'react'
+import { Outlet } from 'react-router-dom'
 
-export const App = () => {
-    const [title, setTitle] = useState()
-
-    const location = useLocation()
-    const navigate = useNavigate()
-    const team = useTeamContext()
-
-    useEffect(() => {
-        const pathname = location.pathname
-
-        switch (pathname) {
-            case '/team':
-                team ? setTitle(team.name) : setTitle('Team')
-                break;
-            case '/leaderboard':
-                setTitle('Leaderboard')
-                break;
-            default:
-                navigate('/team')
-        }
-    }, [location])
-
-    return (
-        <div data-testid="app">
-            <MenuBar title={title} />
-            <Container>
-                <Outlet />
-            </Container>
-            <BottomNavigationBar />
-        </div>
-    )
-}
+export const App = () => (
+    <InnerAuthProvider>
+        <UserProvider>
+            <TeamProvider>
+                <SnackbarProvider>
+                    <WebNotificationsProvider>
+                        <NotificationsProvider>
+                            <Outlet />
+                        </NotificationsProvider>
+                    </WebNotificationsProvider>
+                </SnackbarProvider>
+            </TeamProvider>
+        </UserProvider>
+    </InnerAuthProvider>
+)

@@ -2,14 +2,11 @@ import { CompanyFilterBar } from "@components/molecules";
 import { TeamFilterBar } from "@components/organisms";
 import { Add } from "@mui/icons-material";
 import { AppBar, Toolbar } from "@mui/material";
-import { useTeamContext } from "@providers/TeamProvider";
 import React, { useEffect, useState } from "react"
-import { Link, useLocation, useSearchParams } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 
 export const BottomNavigationBar = () => {
     const location = useLocation()
-    const team = useTeamContext()
-    const [searchParams, setSearchParams] = useSearchParams()
 
     const [pathname, setPathname] = useState(location.pathname)
 

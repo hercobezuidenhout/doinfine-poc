@@ -1,8 +1,8 @@
-import { useAuthContext } from "@providers/AuthProvider"
+import { useOuterAuthContext } from "@providers/OuterAuthProvider"
 import axios from "axios"
 
 export const useFineRequestService = () => {
-    const authContext = useAuthContext()
+    const authContext = useOuterAuthContext()
 
     const fetchAll = async (teamId) => {
         const response = await axios.get(`/fine-requests?teamId=${teamId}`, {

@@ -3,9 +3,10 @@ import { LinkListItem, SuccessDialog } from '@components/molecules'
 import { OptionsBox } from '@components/organisms'
 import { ChevronRight } from '@mui/icons-material'
 import { Box, Container, Drawer, IconButton, List, ListItem, ListItemButton, SwipeableDrawer, Typography } from '@mui/material'
-import { useAuthContext } from '@providers/AuthProvider'
+import { useOuterAuthContext } from '@providers/OuterAuthProvider'
 import { useNotificationsContext } from '@providers/NotificationsProvider'
 import { useTeamContext } from '@providers/TeamProvider'
+import { useUserContext } from '@providers/UserProvider'
 import { useFineRequestService } from '@services/fine-request-service'
 import { usePaymentRequestService } from '@services/payment-request-service'
 import React, { useEffect, useState } from 'react'
@@ -13,10 +14,11 @@ import { Link } from 'react-router-dom'
 
 export const MenuPage = () => {
     const nofiticiationsContext = useNotificationsContext()
-    const authContext = useAuthContext()
+    const { resetPassword, signOut } = useOuterAuthContext()
+    const { getCurrentUser } = useUserContext()
     const fineRequestService = useFineRequestService()
     const paymentRequestService = usePaymentRequestService()
-    const teamContext = useTeamContext()
+    const { id: teamId } = useTeamContext()
     const notificationContext = useNotificationsContext()
 
     const [activeFineRequests, setActiveFineRequests] = useState([])
@@ -29,8 +31,7 @@ export const MenuPage = () => {
     };
 
     const fetchActiveFineRequests = async () => {
-        if (!teamContext) return
-        const requests = await fineRequestService.fetchAll(teamContext.id);
+        const requests = await fineRequestService.fetchAll(teamId);
         if (!requests) return
 
         setActiveFineRequests(requests)
@@ -44,7 +45,7 @@ export const MenuPage = () => {
     }
 
     const handleResetPasswordClick = async () => {
-        await authContext.resetPassword(authContext.getCurrentEmail())
+        await resetPassword(getCurrentUser().email)
         setIsPasswordResetSuccess(true)
     }
 
@@ -53,29 +54,18 @@ export const MenuPage = () => {
         fetchActivePaymentRequests();
     }, [nofiticiationsContext])
 
-    const testNotification = () => {
-        if (!notificationContext) return
-
-        notificationContext.createNotification('Test Notification', 'This is a test notification', 'https://doinfine.app/leaderboard')
-    }
-
     return <div>
         <ActionBar title="Menu" link="/team" />
         <Container>
-            <OptionsBox label="Account">
+            {getCurrentUser() && <OptionsBox label={getCurrentUser().email}>
                 <LinkListItem label="Reset Password" handleLinkClick={handleResetPasswordClick} />
-                <LinkListItem label="Sign Out" handleLinkClick={() => authContext.signOut()} />
+                <LinkListItem label="Sign Out" handleLinkClick={() => signOut()} />
             </OptionsBox>
+            }
             <OptionsBox label="Manage Fines">
                 <LinkListItem label="View active requests" handleLinkClick={() => toggleDrawer()} />
                 <LinkListItem label="Log payment" link="/payment" />
             </OptionsBox>
-            {authContext && authContext.getCurrentEmail() == 'billy@example.com' && (
-                <OptionsBox label="Developer">
-                    <LinkListItem label="Test Notifications" handleLinkClick={() => testNotification()} />
-                </OptionsBox>
-            )
-            }
             <Box sx={{
                 display: 'flex',
                 justifyContent: 'end'

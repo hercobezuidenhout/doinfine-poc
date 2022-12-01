@@ -43,17 +43,19 @@ namespace TeamLunch
 
         public void ConfigureServices(IServiceCollection services)
         {
+
+            var projectId = Environment.GetEnvironmentVariable("DF_ENVIRONMENT") == "Production" ? "doin-fine" : "doinfine-test";
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    options.Authority = "https://securetoken.google.com/doin-fine";
+                    options.Authority = $"https://securetoken.google.com/{projectId}";
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
-                        ValidIssuer = "https://securetoken.google.com/doin-fine",
+                        ValidIssuer = $"https://securetoken.google.com/{projectId}",
                         ValidateAudience = true,
-                        ValidAudience = "doin-fine",
+                        ValidAudience = projectId,
                         ValidateLifetime = true
                     };
                 });
@@ -65,7 +67,14 @@ namespace TeamLunch
 
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseNpgsql(NpgsqlConnectionString().ConnectionString);
+                if (Environment.GetEnvironmentVariable("DF_ENVIRONMENT") == "Production")
+                {
+                    options.UseNpgsql(NpgsqlConnectionString().ConnectionString);
+                }
+                else
+                {
+                    options.UseInMemoryDatabase("DoinFineDb");
+                }
             });
 
             services.AddCors(options =>
@@ -73,7 +82,7 @@ namespace TeamLunch
                 options.AddPolicy(name: AllowLocalhost, policy =>
                 {
                     policy
-                        .WithOrigins("http://localhost:3000", "https://doinfine.app")
+                        .WithOrigins("http://localhost:3000", "https://doinfine.app", "https://test.doinfine.app", "https://doinfine-test.web.app")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
@@ -87,6 +96,12 @@ namespace TeamLunch
 
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
         {
+
+            if (Environment.GetEnvironmentVariable("DF_ENVIRONMENT") != "Production")
+            {
+                context.Database.EnsureCreated();
+            }
+
             app.UseRouting();
 
             app.UseHttpsRedirection();

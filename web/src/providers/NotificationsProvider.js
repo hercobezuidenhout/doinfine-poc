@@ -6,8 +6,15 @@ import { Button } from '@mui/material'
 import { useNotificationService } from '@services/notification-service'
 import { useTeamContext } from './TeamProvider'
 import { useWebNotificationsContext } from './WebNotificationsProvider'
+import { isDevelopment, isTest, isProd } from '../config'
 
-var hubsUrlBase = process.env.DEVELOPMENT ? 'https://localhost:5001' : 'https://api.doinfine.app'
+const hubsUrlBase = isDevelopment()
+    ? 'https://localhost:5001'
+    : (
+        isTest()
+            ? 'https://test.api.doinfine.app'
+            : 'https://api.doinfine.app'
+    )
 
 export const NotificationsContext = createContext({
     nofiticiations: [],
@@ -22,7 +29,7 @@ export const NotificationsProvider = ({ children }) => {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar()
     const navigate = useNavigate()
     const notificationService = useNotificationService()
-    const teamContext = useTeamContext()
+    const { id: teamId } = useTeamContext()
     const webNotificationsContext = useWebNotificationsContext()
 
     const fetchNotifications = async () => {
@@ -82,6 +89,7 @@ export const NotificationsProvider = ({ children }) => {
     useEffect(() => {
         if (!connection) return
         if (connection.state !== 'Disconnected') return
+
         connection.start()
             .then(() => {
                 setConnectionReady(true)
@@ -96,17 +104,13 @@ export const NotificationsProvider = ({ children }) => {
 
     useEffect(() => {
         if (!connectionReady) return
-        if (!teamContext) return
 
-        const roomName = teamContext.id.toString()
+        const roomName = teamId.toString()
         connection.invoke('JoinRoom', roomName)
             .then(() => console.info('Connected to room: ', roomName))
             .catch(error => console.log(error))
-    }, [teamContext, connectionReady])
+    }, [teamId, connectionReady])
 
-
-    useEffect(() => {
-    }, [])
 
     return (
         <NotificationsContext.Provider value={{

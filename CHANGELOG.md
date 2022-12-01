@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## Unrelease
+### Changed
+- Added proper routing for auth state.
+
+### Fixed
+- Render bug on team page.
+
+## v0.3.0 <font size=1>`30/11/2022`</font>
+### Added
+- Added test deployment environment.
+
 ## v0.2.0 <font size=1>`20/11/2022`</font>
 ### Added
 - Display app version at bottom of menu.

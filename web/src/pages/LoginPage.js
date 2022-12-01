@@ -1,10 +1,10 @@
 import { SuccessDialog } from '@components/molecules'
 import { Box, Button, OutlinedInput, TextField, Typography } from '@mui/material'
-import { useAuthContext } from '@providers/AuthProvider'
+import { useOuterAuthContext } from '@providers/OuterAuthProvider'
 import React, { useState } from 'react'
 
 export const LoginPage = () => {
-    const authContext = useAuthContext()
+    const authContext = useOuterAuthContext()
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -26,18 +26,17 @@ export const LoginPage = () => {
     const signIn = async () => {
         if (!authContext) return
         const response = await authContext.signIn(email, password)
-        if (!response) console.log('login failed')
+        if (!response) alert('Wrong username or password.')
+        console.log(response)
     }
 
     const resetPassword = async () => {
         authContext.resetPassword(email)
             .then(response => {
-                console.log(response)
                 setDialogTitle('Reset Password Link Sent')
                 setDialogMessage('An link to reset your password has been sent to the email which you have given.')
             })
             .catch(error => {
-                console.log(error.message)
                 if (error.message.includes('user-not-found')) {
                     setDialogTitle('User Not Found')
                     setDialogMessage('No account with given email exists. Try signing up or contact support@doinfine.app for help.')

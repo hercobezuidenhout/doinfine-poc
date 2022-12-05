@@ -9,6 +9,7 @@ export const BottomNavigationBar = () => {
     const location = useLocation()
 
     const [pathname, setPathname] = useState(location.pathname)
+    const [searchParams, setSearchParams] = useSearchParams()
 
     useEffect(() => {
         setPathname(location.pathname)

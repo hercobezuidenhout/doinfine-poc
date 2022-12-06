@@ -3,6 +3,7 @@
 ## Unrelease
 ### Changed
 - Added proper routing for auth state.
+- Only one workflow for api build and deployment.
 
 ### Fixed
 - Render bug on team page.

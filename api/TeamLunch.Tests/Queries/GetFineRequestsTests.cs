@@ -25,7 +25,7 @@ public class GetFineRequestsTests : TestDataContextBase
         var response = await mockQuery.Handle(new GetActiveFineRequests.Query(Constants.EXAMPLE_USER_ID, Constants.EXAMPLE_TEAM_ID), tcs.Token);
 
         // Assert
-        var hasCorrectAmountOfItems = response.Count == 4;
+        var hasCorrectAmountOfItems = response.Count == 3;
         Assert.True(hasCorrectAmountOfItems);
     }
 }

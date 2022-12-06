@@ -36,7 +36,7 @@ jobs:
     - name: Transform app.yaml
       working-directory: api/TeamLunch
       run: |
-        echo 'env_variables:'' >> app.yaml
+        echo 'env_variables:' >> app.yaml
         echo '\tASPNETCORE_ENVIRONMENT: Development' >> app.yaml
         cat app.yaml
 

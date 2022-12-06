@@ -49,7 +49,7 @@ jobs:
     #if: github.ref == 'refs/heads/develop'
 
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Download Artifact
       uses: actions/download-artifact@v3
@@ -61,7 +61,6 @@ jobs:
         cat app.yaml
 
     - name: Transform app.yaml
-      working-directory: api/TeamLunch
       run: |
         echo '' >> app.yaml
         echo 'env_variables:' >> app.yaml
@@ -76,4 +75,3 @@ jobs:
 
     - name: Deploy to App Engine
       run: gcloud app deploy app.yaml --version v1
-      working-directory: api/TeamLunch

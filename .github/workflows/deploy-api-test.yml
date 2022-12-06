@@ -46,7 +46,7 @@ jobs:
   deploy_to_test:
     name: Deploy to test
     needs: build_and_test
-    #if: github.ref == 'refs/heads/develop'
+    if: github.ref == 'refs/heads/develop'
 
     runs-on: ubuntu-latest
 

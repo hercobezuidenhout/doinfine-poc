@@ -10,10 +10,7 @@ on:
     
 defaults:
   run:
-    working-directory: api
-
-env:
-  DF_ENVIRONMENT: Test
+    working-directory: api/TeamLunch
 
 jobs:
   build_and_test:
@@ -37,16 +34,13 @@ jobs:
       uses: golang-enthusiast/app-yaml-env-compiler@v1.0
       env:
         ASPNETCORE_ENVIRONMENT: Development
-      working-directory: api/TeamLunch
 
     - name: Print app.yaml
-      working-directory: api/TeamLunch
       run: cat app.yaml
 
     - name: Publish
       #if: github.ref == 'refs/heads/develop'
       run: dotnet publish -c Release
-      working-directory: api/TeamLunch
 
     - name: 'Setup Cloud SDK'
       uses: 'google-github-actions/setup-gcloud@v0'
@@ -58,4 +52,3 @@ jobs:
     - name: Deploy to App Engine
       #if: github.ref == 'refs/heads/develop'
       run: gcloud app deploy ./bin/Release/net6.0/publish/app.yaml --version v1
-      working-directory: api/TeamLunch

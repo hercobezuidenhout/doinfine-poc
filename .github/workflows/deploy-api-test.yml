@@ -34,10 +34,10 @@ jobs:
     #   run: dotnet test
 
     - name: Transform app.yaml
-      working-directory: api/TeamLunch
       uses: golang-enthusiast/app-yaml-env-compiler@v1.0
       env:
         ASPNETCORE_ENVIRONMENT: Development
+      working-directory: api/TeamLunch
 
     - name: Print app.yaml
       working-directory: api/TeamLunch

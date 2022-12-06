@@ -33,6 +33,10 @@ jobs:
     - name: Test
       run: dotnet test
 
+    - name: Publish
+      working-directory: api/TeamLunch
+      run: dotnet publish -c Release
+
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with: 
@@ -44,8 +48,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-
     - name: Download Artifact
       uses: actions/download-artifact@v3
       with:
@@ -61,10 +63,6 @@ jobs:
     #     echo 'env_variables:' >> app.yaml
     #     echo '  ASPNETCORE_ENVIRONMENT: Development' >> app.yaml
     #     cat app.yaml
-
-    # - name: Publish
-    #   working-directory: api/TeamLunch
-    #   run: dotnet publish -c Release
 
     # - name: Publish
     #   if: github.ref == 'refs/heads/develop'

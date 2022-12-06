@@ -34,11 +34,12 @@ jobs:
     #   run: dotnet test
 
     - name: Transform app.yaml
+      working-directory: api/TeamLunch
       run: |
         echo env_variables: >> app.yaml
         echo '\tASPNETCORE_ENVIRONMENT: Development' >> app.yaml
         cat app.yaml
-        
+
     # - name: Publish
     #   #if: github.ref == 'refs/heads/develop'
     #   run: dotnet publish -c Release

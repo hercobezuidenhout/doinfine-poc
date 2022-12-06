@@ -56,7 +56,7 @@ jobs:
         name: api-artifact
 
     - name: Print app.yaml
-      run: cat ./api/TeamLunch/bin/Release/net6.0/publish/app.yaml
+      run: ls .
 
     # - name: Transform app.yaml
     #   working-directory: api/TeamLunch

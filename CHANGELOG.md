@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Unrelease
+## v0.4.0
 ### Changed
 - Added proper routing for auth state.
 - Only one workflow for api build and deployment.

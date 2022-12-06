@@ -3,12 +3,13 @@ import { TeamFilterBar } from "@components/organisms";
 import { Add } from "@mui/icons-material";
 import { AppBar, Toolbar } from "@mui/material";
 import React, { useEffect, useState } from "react"
-import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation, useSearchParams } from "react-router-dom"
 
 export const BottomNavigationBar = () => {
     const location = useLocation()
 
     const [pathname, setPathname] = useState(location.pathname)
+    const [searchParams, setSearchParams] = useSearchParams()
 
     useEffect(() => {
         setPathname(location.pathname)

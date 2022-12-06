@@ -1,11 +1,13 @@
 # CHANGELOG
 
-## Unrelease
+## v0.4.0
 ### Changed
 - Added proper routing for auth state.
+- Only one workflow for api build and deployment.
 
 ### Fixed
 - Render bug on team page.
+- Update deployment environments to properly set the `ASPNETCORE_ENVIRONMENT` variable.
 
 ## v0.3.0 <font size=1>`30/11/2022`</font>
 ### Added

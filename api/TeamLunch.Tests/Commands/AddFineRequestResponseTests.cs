@@ -31,7 +31,7 @@ public class AddFineRequestResponseTests : TestDataContextBase
 
         // Act
         var mockQuery = new AddFineRequestResponse.Handler(_stubContext, stubNotificationsService.Object, stubEmailService.Object);
-        var response = await mockQuery.Handle(new AddFineRequestResponse.Command(1, Constants.EXAMPLE_USER_ID, true), tcs.Token);
+        var response = await mockQuery.Handle(new AddFineRequestResponse.Command(1, "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", true), tcs.Token);
 
         // Assert
         Assert.NotNull(response.id);

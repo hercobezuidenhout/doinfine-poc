@@ -44,7 +44,7 @@ namespace TeamLunch
         public void ConfigureServices(IServiceCollection services)
         {
 
-            var projectId = Environment.GetEnvironmentVariable("DF_ENVIRONMENT") == "Production" ? "doin-fine" : "doinfine-test";
+            var projectId = HostingEnvironment.IsDevelopment() ? "doinfine-test" : "doin-fine";
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -67,14 +67,14 @@ namespace TeamLunch
 
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseNpgsql(NpgsqlConnectionString().ConnectionString);
-                // if (Environment.GetEnvironmentVariable("DF_ENVIRONMENT") == "Production")
-                // {
-                // }
-                // else
-                // {
-                //     options.UseInMemoryDatabase("DoinFineDb");
-                // }
+                if (HostingEnvironment.IsDevelopment())
+                {
+                    options.UseInMemoryDatabase("DoinFineDb");
+                }
+                else
+                {
+                    options.UseNpgsql(NpgsqlConnectionString().ConnectionString);
+                }
             });
 
             services.AddCors(options =>
@@ -97,10 +97,10 @@ namespace TeamLunch
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
         {
 
-            // if (Environment.GetEnvironmentVariable("DF_ENVIRONMENT") != "Production")
-            // {
-            //     context.Database.EnsureCreated();
-            // }
+            if (HostingEnvironment.IsDevelopment())
+            {
+                context.Database.EnsureCreated();
+            }
 
             app.UseRouting();
 

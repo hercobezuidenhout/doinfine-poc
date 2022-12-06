@@ -54,9 +54,9 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: api-artifact
-
-    - name: Print app.yaml
-      run: ls .
+ 
+    - name: List files downloaded
+      run: ls
 
     # - name: Transform app.yaml
     #   working-directory: api/TeamLunch

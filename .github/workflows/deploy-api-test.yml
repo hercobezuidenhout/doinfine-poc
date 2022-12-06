@@ -51,10 +51,10 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: api-artifact
- 
-    - name: List files downloaded
-      shell: bash
-      run: ls
+
+    - name: Echo app.yaml
+      run: |
+        cat app.yaml
 
     # - name: Transform app.yaml
     #   working-directory: api/TeamLunch

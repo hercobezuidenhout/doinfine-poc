@@ -35,10 +35,13 @@ jobs:
 
     - name: Transform app.yaml
       working-directory: api/TeamLunch
-      run: |
-        printf '\nenv_variables:' >> app.yaml
-        printf '\n\tASPNETCORE_ENVIRONMENT: Development' >> app.yaml
-        cat app.yaml
+      uses: golang-enthusiast/app-yaml-env-compiler@v1.0
+      env:
+        ASPNETCORE_ENVIRONMENT: Development
+
+    - name: Print app.yaml
+      working-directory: api/TeamLunch
+      run: cat app.yaml
 
     - name: Publish
       #if: github.ref == 'refs/heads/develop'

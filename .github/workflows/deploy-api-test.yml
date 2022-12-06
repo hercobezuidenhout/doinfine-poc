@@ -17,6 +17,7 @@ env:
 
 jobs:
   build_and_test:
+    name: Build & Test API
     runs-on: ubuntu-latest
 
     steps:
@@ -44,6 +45,7 @@ jobs:
         path: ./api/TeamLunch/bin/Release/net6.0/publish
 
   deploy_to_test:
+    name: Deploy to test
     needs: build_and_test
     runs-on: ubuntu-latest
 
@@ -53,8 +55,8 @@ jobs:
       with:
         name: api-artifact
 
-    # - name: Print app.yaml
-    #   run: cat ./api/TeamLunch/bin/Release/net6.0/publish/app.yaml
+    - name: Print app.yaml
+      run: cat ./api/TeamLunch/bin/Release/net6.0/publish/app.yaml
 
     # - name: Transform app.yaml
     #   working-directory: api/TeamLunch

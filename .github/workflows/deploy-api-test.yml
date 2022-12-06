@@ -12,9 +12,6 @@ defaults:
   run:
     working-directory: api
 
-env:
-  DF_ENVIRONMENT: Test
-
 jobs:
   build_and_test:
     name: Build & Test API
@@ -56,8 +53,8 @@ jobs:
         name: api-artifact
  
     - name: List files downloaded
-      run: |
-        ls
+      shell: bash
+      run: ls
 
     # - name: Transform app.yaml
     #   working-directory: api/TeamLunch

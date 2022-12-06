@@ -33,13 +33,13 @@ jobs:
     # - name: Test
     #   run: dotnet test
 
-    - name: Transform app.yaml
-      working-directory: api/TeamLunch
-      run: |
-        echo '' >> app.yaml
-        echo 'env_variables:' >> app.yaml
-        echo '  ASPNETCORE_ENVIRONMENT: Development' >> app.yaml
-        cat app.yaml
+    # - name: Transform app.yaml
+    #   working-directory: api/TeamLunch
+    #   run: |
+    #     echo '' >> app.yaml
+    #     echo 'env_variables:' >> app.yaml
+    #     echo '  ASPNETCORE_ENVIRONMENT: Development' >> app.yaml
+    #     cat app.yaml
 
     - name: Publish
       #if: github.ref == 'refs/heads/develop'

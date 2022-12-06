@@ -4,3 +4,4 @@ env: flex
 beta_settings:
   cloud_sql_instances: doin-fine:europe-west1:doinfine-db=tcp:5432
 
+	ASPNETCORE_ENVIRONMENT=Development

@@ -38,7 +38,7 @@ jobs:
       run: |
         echo '' >> app.yaml
         echo 'env_variables:' >> app.yaml
-        echo '  ASPNETCORE_ENVIRONMENT=Development' >> app.yaml
+        echo '  ASPNETCORE_ENVIRONMENT: Development' >> app.yaml
         cat app.yaml
 
     - name: Publish

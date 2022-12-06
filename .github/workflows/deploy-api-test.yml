@@ -36,7 +36,8 @@ jobs:
     - name: Transform app.yaml
       working-directory: api/TeamLunch
       run: |
-        echo '\nenv_variables:' >> app.yaml
+        echo '' >> app.yaml
+        echo 'env_variables:' >> app.yaml
         echo '  ASPNETCORE_ENVIRONMENT=Development' >> app.yaml
         cat app.yaml
 

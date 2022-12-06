@@ -33,18 +33,6 @@ jobs:
     - name: Test
       run: dotnet test
 
-    - name: Transform app.yaml
-      working-directory: api/TeamLunch
-      run: |
-        echo '' >> app.yaml
-        echo 'env_variables:' >> app.yaml
-        echo '  ASPNETCORE_ENVIRONMENT: Development' >> app.yaml
-        cat app.yaml
-
-    - name: Publish
-      working-directory: api/TeamLunch
-      run: dotnet publish -c Release
-
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with: 
@@ -57,11 +45,23 @@ jobs:
     steps:
     - name: Download Artifact
       uses: actions/download-artifact@v3
-        with:
-          name: api-artifact
+      with:
+        name: api-artifact
 
-    - name: Print app.yaml
-      run: cat ./api/TeamLunch/bin/Release/net6.0/publish/app.yaml
+    # - name: Print app.yaml
+    #   run: cat ./api/TeamLunch/bin/Release/net6.0/publish/app.yaml
+
+    # - name: Transform app.yaml
+    #   working-directory: api/TeamLunch
+    #   run: |
+    #     echo '' >> app.yaml
+    #     echo 'env_variables:' >> app.yaml
+    #     echo '  ASPNETCORE_ENVIRONMENT: Development' >> app.yaml
+    #     cat app.yaml
+
+    # - name: Publish
+    #   working-directory: api/TeamLunch
+    #   run: dotnet publish -c Release
 
     # - name: Publish
     #   if: github.ref == 'refs/heads/develop'

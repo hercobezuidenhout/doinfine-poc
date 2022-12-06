@@ -44,7 +44,7 @@ namespace TeamLunch
         public void ConfigureServices(IServiceCollection services)
         {
 
-            var projectId = Environment.GetEnvironmentVariable("DF_ENVIRONMENT") == "Production" ? "doin-fine" : "doinfine-test";
+            var projectId = HostingEnvironment.IsDevelopment() ? "doinfine-test" : "doin-fine";
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -67,13 +67,13 @@ namespace TeamLunch
 
             services.AddDbContext<DataContext>(options =>
             {
-                if (Environment.GetEnvironmentVariable("DF_ENVIRONMENT") == "Production")
+                if (HostingEnvironment.IsDevelopment())
                 {
-                    options.UseNpgsql(NpgsqlConnectionString().ConnectionString);
+                    options.UseInMemoryDatabase("DoinFineDb");
                 }
                 else
                 {
-                    options.UseInMemoryDatabase("DoinFineDb");
+                    options.UseNpgsql(NpgsqlConnectionString().ConnectionString);
                 }
             });
 
@@ -97,7 +97,7 @@ namespace TeamLunch
         public virtual void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
         {
 
-            if (Environment.GetEnvironmentVariable("DF_ENVIRONMENT") != "Production")
+            if (HostingEnvironment.IsDevelopment())
             {
                 context.Database.EnsureCreated();
             }

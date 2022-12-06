@@ -38,11 +38,10 @@ jobs:
       working-directory: api/TeamLunch
 
     - name: Upload artifact
-      working-directory: api/TeamLunch
       uses: actions/upload-artifact@v3
       with: 
         name: api-artifact
-        path: ./bin/Release/net6.0/publish
+        path: ./TeamLunch/bin/Release/net6.0/publish
 
   # deploy_to_test:
   #   runs-on: ubuntu-latest

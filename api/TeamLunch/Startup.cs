@@ -49,13 +49,13 @@ namespace TeamLunch
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    options.Authority = $"https://securetoken.google.com/{projectId}";
+                    options.Authority = $"https://securetoken.google.com/doin-fine";
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
-                        ValidIssuer = $"https://securetoken.google.com/{projectId}",
+                        ValidIssuer = $"https://securetoken.google.com/doin-fine",
                         ValidateAudience = true,
-                        ValidAudience = projectId,
+                        ValidAudience = "doin-fine",
                         ValidateLifetime = true
                     };
                 });

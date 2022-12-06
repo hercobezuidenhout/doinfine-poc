@@ -40,6 +40,7 @@ jobs:
         path: ./api/TeamLunch/bin/Release/net6.0/publish
 
   deploy_to_test:
+    needs: build_and_test
     runs-on: ubuntu-latest
 
     steps:

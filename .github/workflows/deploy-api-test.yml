@@ -7,15 +7,15 @@ on:
     paths:
       - api/**
       - .github/workflows/deploy-api-test.yml
+
     
-defaults:
-  run:
-    working-directory: api
 
 jobs:
   build_and_test:
     name: Build & Test API
     runs-on: ubuntu-latest
+
+    working-directory: api
 
     steps:
     - uses: actions/checkout@v3

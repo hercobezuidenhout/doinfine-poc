@@ -41,7 +41,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with: 
         name: api-artifact
-        path: ./TeamLunch/bin/Release/net6.0/publish
+        path: ./api/TeamLunch/bin/Release/net6.0/publish
 
   # deploy_to_test:
   #   runs-on: ubuntu-latest

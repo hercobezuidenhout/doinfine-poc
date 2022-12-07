@@ -38,10 +38,12 @@ jobs:
       run: dotnet publish -c Release
 
     - name: Upload artifact
+      if: github.ref != 'refs/heads/feature/**'
       uses: actions/upload-artifact@v3
       with: 
         name: api-artifact
         path: ./api/TeamLunch/bin/Release/net6.0/publish
+        retention-days: 0.5
 
   deploy_to_test:
     name: Deploy to Test Environment
@@ -76,6 +78,10 @@ jobs:
     - name: Deploy to App Engine
       run: gcloud app deploy app.yaml --version v1
 
+    - uses: geekyeggo/delete-artifact@v2
+      with:
+          name: api-artifact
+
   deploy_to_prod:
     name: Deploy to Prod Environment
     needs: build_and_test
@@ -97,3 +103,7 @@ jobs:
 
     - name: Deploy to App Engine
       run: gcloud app deploy app.yaml --version v1
+    
+    - uses: geekyeggo/delete-artifact@v2
+      with:
+          name: api-artifact

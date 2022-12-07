@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.5.0
+### Fixed
+- Fixes API authentication depending on environment.
+
 ## v0.4.0
 ### Changed
 - Added proper routing for auth state.

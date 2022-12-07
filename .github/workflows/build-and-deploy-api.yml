@@ -76,6 +76,10 @@ jobs:
     - name: Deploy to App Engine
       run: gcloud app deploy app.yaml --version v1
 
+    - uses: geekyeggo/delete-artifact@v2
+      with:
+          name: api-artifact
+
   deploy_to_prod:
     name: Deploy to Prod Environment
     needs: build_and_test
@@ -97,3 +101,7 @@ jobs:
 
     - name: Deploy to App Engine
       run: gcloud app deploy app.yaml --version v1
+    
+    - uses: geekyeggo/delete-artifact@v2
+      with:
+          name: api-artifact

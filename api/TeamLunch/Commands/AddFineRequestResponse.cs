@@ -35,7 +35,6 @@ public static class AddFineRequestResponse
 
             var fineRequest = _db.FineRequests.Where(x => x.Id == request.requestId).Include(x => x.Responses).First();
             if (fineRequest.Status == RequestStatus.Approved || fineRequest.Status == RequestStatus.Rejected) throw new FineRequestNotFoundException("The request has already been closed.");
-            // if (fineAlreadyExists) throw new FineRequestNotFoundException("User has already been fined for the request.");
 
             var team = _db.Teams.Where(x => x.Id == fineRequest.TeamId).Include(x => x.Users).First();
             if (team.Users.Count() == 4)

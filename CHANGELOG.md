@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## v0.8.0 <font size=1>`08/12/2022`</font>
+### Changed
+- Improved leaderboard experience.
+
 ## v0.7.0 <font size=1>`08/12/2022`</font>
 ### Changed
 - Requests now have statuses like Pending, Approved and Rejected.

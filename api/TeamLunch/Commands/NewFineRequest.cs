@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TeamLunch.Contracts;
 using TeamLunch.Data;
 using TeamLunch.Data.Entities;
+using TeamLunch.Enums;
 using TeamLunch.Models;
 using TeamLunch.Services;
 
@@ -35,7 +36,7 @@ public static class NewFineRequest
         public async Task<int> Handle(Command request, CancellationToken cancellationToken)
         {
 
-            var fineRequest = new FineRequest { TeamId = request.TeamId, Finer = request.UserId, Finee = request.Finee, Reason = request.Reason };
+            var fineRequest = new FineRequest { TeamId = request.TeamId, Finer = request.UserId, Finee = request.Finee, Reason = request.Reason, Status = RequestStatus.Pending };
 
             _db.Add(fineRequest);
             _db.SaveChanges();

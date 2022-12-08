@@ -1,5 +1,6 @@
 using TeamLunch.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using TeamLunch.Enums;
 
 namespace TeamLunch.Data;
 
@@ -39,10 +40,7 @@ public class DataContext : DbContext
             .HasForeignKey(un => un.NotificationId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        if (Environment.GetEnvironmentVariable("DF_ENVIRONMENT") != "Production")
-        {
-            SeedData(builder);
-        }
+        SeedData(builder);
     }
 
     private void SeedData(ModelBuilder builder)
@@ -57,7 +55,7 @@ public class DataContext : DbContext
             new Fine { Id = 1, Reason = "For showing up late to a meeting.", UserId = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2" },
             new Fine { Id = 2, Reason = "For leaving a dirty pull request.", UserId = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2" },
             new Fine { Id = 3, Reason = "For wearing a Manchester United shirt.", UserId = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2" },
-            new Fine { Id = 4, Reason = "For pushing a secret into remote.", UserId = "rHB5wC8hajM1PvyoMplClDlworj1" },
+            new Fine { Id = 4, Reason = "For not caring enough about water.", UserId = "rHB5wC8hajM1PvyoMplClDlworj1" },
             new Fine { Id = 5, Reason = "For not using the team's virtual background.", UserId = "rHB5wC8hajM1PvyoMplClDlworj1" },
             new Fine { Id = 6, Reason = "For leaving without completing the pull request.", UserId = "rHB5wC8hajM1PvyoMplClDlworj1" },
             new Fine { Id = 7, Reason = "For loving coffee way too much.", UserId = "rHB5wC8hajM1PvyoMplClDlworj1" }
@@ -68,11 +66,11 @@ public class DataContext : DbContext
         );
 
         builder.Entity<FineRequest>().HasData(
-            new FineRequest { Id = 1, TeamId = 1, Finer = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about water" },
-            new FineRequest { Id = 2, TeamId = 1, Finer = "rHB5wC8hajM1PvyoMplClDlworj1", Finee = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", Reason = "not caring enough about dogs" },
-            new FineRequest { Id = 3, TeamId = 1, Finer = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about something else" },
-            new FineRequest { Id = 4, TeamId = 1, Finer = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about something else" },
-            new FineRequest { Id = 5, TeamId = 1, Finer = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about something else" }
+            new FineRequest { Id = 1, TeamId = 1, Finer = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about water", Status = RequestStatus.Pending },
+            new FineRequest { Id = 2, TeamId = 1, Finer = "rHB5wC8hajM1PvyoMplClDlworj1", Finee = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", Reason = "not caring enough about dogs", Status = RequestStatus.Pending },
+            new FineRequest { Id = 3, TeamId = 1, Finer = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about something else", Status = RequestStatus.Pending },
+            new FineRequest { Id = 4, TeamId = 1, Finer = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about something else", Status = RequestStatus.Pending },
+            new FineRequest { Id = 5, TeamId = 1, Finer = "Lcjh1S4gKJaPbOjWB56BUs9hS5u2", Finee = "rHB5wC8hajM1PvyoMplClDlworj1", Reason = "not caring enough about something else", Status = RequestStatus.Pending }
         );
         builder.Entity<PaymentRequest>().HasData(
             new PaymentRequest { Id = 1, TeamId = 1, UserId = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2", Action = "telling a dad-joke during standup" }

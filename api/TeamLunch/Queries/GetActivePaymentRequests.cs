@@ -1,5 +1,6 @@
 using MediatR;
 using TeamLunch.Data;
+using TeamLunch.Enums;
 
 namespace TeamLunch.Queries;
 
@@ -20,6 +21,7 @@ public static class GetActivePaymentRequests
         {
             var requests = _db.PaymentRequests
                 .Where(x => !x.Responses.Where(r => r.UserId == request.userId).Any())
+                .Where(x => x.Status == RequestStatus.Pending)
                 .Select(x => new Response(
                     x.Id,
                     _db.Users.Where(u => u.Id == x.UserId).Select(u => $"{u.FirstName} {u.LastName}").First(),

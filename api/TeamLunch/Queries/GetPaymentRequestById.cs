@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TeamLunch.Data;
+using TeamLunch.Enums;
 using TeamLunch.Exceptions;
 
 namespace TeamLunch.Queries;
@@ -25,6 +26,7 @@ public static class GetPaymentRequestById
                 var paymentRequest = _db.PaymentRequests
                     .Where(x => x.Id == request.id)
                     .Where(x => !x.Responses.Where(r => (r.PaymentRequestId == request.id) && (r.UserId == request.userId)).Any())
+                    .Where(x => x.Status == RequestStatus.Pending)
                     .First();
 
                 var userFullName = _db.Users.Where(x => x.Id == paymentRequest.UserId).Select(x => $"{x.FirstName} {x.LastName}").First();

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TeamLunch.Contracts;
 using TeamLunch.Data;
 using TeamLunch.Data.Entities;
+using TeamLunch.Enums;
 using TeamLunch.Exceptions;
 using TeamLunch.Models;
 using TeamLunch.Services;
@@ -33,7 +34,18 @@ public static class AddFineRequestResponse
             if (userHasResponded) throw new FineRequestNotFoundException("User has already responded this request.");
 
             var fineRequest = _db.FineRequests.Where(x => x.Id == request.requestId).Include(x => x.Responses).First();
-            if ((request.userId == fineRequest.Finer) || (request.userId == fineRequest.Finee)) throw new FineRequestNotFoundException("User is either the finer or the finee.");
+            if (fineRequest.Status == RequestStatus.Approved || fineRequest.Status == RequestStatus.Rejected) throw new FineRequestNotFoundException("The request has already been closed.");
+
+            var team = _db.Teams.Where(x => x.Id == fineRequest.TeamId).Include(x => x.Users).First();
+            if (team.Users.Count() == 4)
+            {
+                if (request.userId == fineRequest.Finee) throw new FineRequestNotFoundException("User is either the finer or the finee.");
+            }
+            else
+            {
+                if ((request.userId == fineRequest.Finer) || (request.userId == fineRequest.Finee)) throw new FineRequestNotFoundException("User is either the finer or the finee.");
+            }
+
 
             var fineRequestResponse = new FineRequestResponse
             {
@@ -44,9 +56,9 @@ public static class AddFineRequestResponse
 
             _db.FineRequestResponses.Add(fineRequestResponse);
 
-            var team = _db.Teams.Where(x => x.Id == fineRequest.TeamId).Include(x => x.Users).First();
 
-            var hasAllResponses = team.Users.Count() > 3 ? fineRequest.Responses.Count() > 2 : fineRequest.Responses.Count() >= team.Users.Count() - 2;
+
+            var hasAllResponses = team.Users.Count() > 4 ? fineRequest.Responses.Count() > 2 : fineRequest.Responses.Count() >= team.Users.Count() - 2;
             var isApproved = fineRequest.Responses.Where(x => x.Approved).Count() > fineRequest.Responses.Where(x => !x.Approved).Count();
             var userBeingFined = team.Users.Where(x => x.Id == fineRequest.Finee).Select(x => $"{x.FirstName} {x.LastName}").First();
 
@@ -60,7 +72,14 @@ public static class AddFineRequestResponse
                         Reason = fineRequest.Reason
                     };
 
+
                     _db.Fines.Add(fine);
+                    _db.SaveChanges();
+
+                    fineRequest.Status = RequestStatus.Approved;
+                    fineRequest.FineId = fine.Id;
+
+                    _db.FineRequests.Update(fineRequest);
                     _db.SaveChanges();
 
                     _notificationService.SendNotificationToTeam(new NotificationItem
@@ -75,6 +94,11 @@ public static class AddFineRequestResponse
                 }
                 else
                 {
+                    fineRequest.Status = RequestStatus.Rejected;
+
+                    _db.FineRequests.Update(fineRequest);
+                    _db.SaveChanges();
+
                     _notificationService.SendNotificationToTeam(new NotificationItem
                     {
                         Title = $"The fine for {userBeingFined} has been rejected!",

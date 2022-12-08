@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## v0.6.0
+## v0.6.0 <font size=1>`08/12/2022`</font>
 ### Changed
 - Required responses for a fine request and payment request is only more than 2 if the team is more than 3 people.
 

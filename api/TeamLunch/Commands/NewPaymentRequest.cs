@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TeamLunch.Contracts;
 using TeamLunch.Data;
 using TeamLunch.Data.Entities;
+using TeamLunch.Enums;
 using TeamLunch.Models;
 using TeamLunch.Services;
 
@@ -32,7 +33,8 @@ public static class NewPaymentRequest
                 UserId = request.userId,
                 TeamId = request.teamId,
                 DateOfPayment = request.dateOfPayment,
-                Action = request.action
+                Action = request.action,
+                Status = RequestStatus.Pending
             };
 
             _db.PaymentRequests.Add(paymentRequest);

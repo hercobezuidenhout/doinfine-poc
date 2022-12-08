@@ -39,10 +39,7 @@ public class DataContext : DbContext
             .HasForeignKey(un => un.NotificationId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        if (Environment.GetEnvironmentVariable("DF_ENVIRONMENT") != "Production")
-        {
-            SeedData(builder);
-        }
+        SeedData(builder);
     }
 
     private void SeedData(ModelBuilder builder)
@@ -57,7 +54,7 @@ public class DataContext : DbContext
             new Fine { Id = 1, Reason = "For showing up late to a meeting.", UserId = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2" },
             new Fine { Id = 2, Reason = "For leaving a dirty pull request.", UserId = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2" },
             new Fine { Id = 3, Reason = "For wearing a Manchester United shirt.", UserId = "LtdmLyKS29dB3uNfI7qMaTYQ5pa2" },
-            new Fine { Id = 4, Reason = "For pushing a secret into remote.", UserId = "rHB5wC8hajM1PvyoMplClDlworj1" },
+            new Fine { Id = 4, Reason = "For not caring enough about water.", UserId = "rHB5wC8hajM1PvyoMplClDlworj1" },
             new Fine { Id = 5, Reason = "For not using the team's virtual background.", UserId = "rHB5wC8hajM1PvyoMplClDlworj1" },
             new Fine { Id = 6, Reason = "For leaving without completing the pull request.", UserId = "rHB5wC8hajM1PvyoMplClDlworj1" },
             new Fine { Id = 7, Reason = "For loving coffee way too much.", UserId = "rHB5wC8hajM1PvyoMplClDlworj1" }

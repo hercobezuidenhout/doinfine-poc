@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TeamLunch.Data;
@@ -11,9 +12,10 @@ using TeamLunch.Data;
 namespace TeamLunch.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20221208090115_AddFineRequestFields")]
+    partial class AddFineRequestFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,12 +176,6 @@ namespace TeamLunch.Migrations
 
                     b.Property<DateTime>("DateOfPayment")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<int?>("PaymentId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("Status")
-                        .HasColumnType("integer");
 
                     b.Property<int>("TeamId")
                         .HasColumnType("integer");

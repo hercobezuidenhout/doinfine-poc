@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TeamLunch.Contracts;
 using TeamLunch.Data;
 using TeamLunch.Data.Entities;
+using TeamLunch.Enums;
 using TeamLunch.Exceptions;
 using TeamLunch.Models;
 using TeamLunch.Services;
@@ -42,8 +43,12 @@ public static class AddPaymentRequestResponse
             _db.PaymentRequestResponses.Add(paymentRequestResponse);
 
             var paymentRequest = _db.PaymentRequests.Where(x => x.Id == request.requestId).Include(x => x.Responses).First();
+
+            if (paymentRequest.Status != RequestStatus.Pending) throw new PaymentRequestNotFoundException("The request has already been closed.");
+
             var team = _db.Teams.Where(x => x.Id == paymentRequest.TeamId).Include(x => x.Users).First();
-            var hasAllResponses = team.Users.Count() > 3 ? paymentRequest.Responses.Count() > 2 : paymentRequest.Responses.Count() >= team.Users.Count() - 1;
+
+            var hasAllResponses = team.Users.Count() > 3 ? paymentRequest.Responses.Count() > 1 : paymentRequest.Responses.Count() >= team.Users.Count() - 1;
             var isApproved = paymentRequest.Responses.Where(x => x.Approved).Count() > paymentRequest.Responses.Where(x => !x.Approved).Count();
             var userPaying = team.Users.Where(x => x.Id == paymentRequest.UserId).Select(x => $"{x.FirstName} {x.LastName}").First();
 
@@ -67,6 +72,11 @@ public static class AddPaymentRequestResponse
                     fine.Paid = true;
                     _db.SaveChanges();
 
+                    paymentRequest.Status = RequestStatus.Approved;
+                    paymentRequest.PaymentId = payment.Id;
+
+                    _db.PaymentRequests.Update(paymentRequest);
+                    _db.SaveChanges();
 
                     _notificationService.SendNotificationToTeam(new NotificationItem
                     {
@@ -80,6 +90,10 @@ public static class AddPaymentRequestResponse
                 }
                 else
                 {
+                    paymentRequest.Status = RequestStatus.Rejected;
+
+                    _db.PaymentRequests.Update(paymentRequest);
+
                     _notificationService.SendNotificationToTeam(new NotificationItem
                     {
                         Title = $"The payment request by {userPaying} has been rejected!",

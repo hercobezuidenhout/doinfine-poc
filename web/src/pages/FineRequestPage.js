@@ -1,4 +1,5 @@
 import { ActionBar } from '@components/atoms'
+import { SuccessDialog } from '@components/molecules'
 import { Box, Button, Modal, Typography } from '@mui/material'
 import { useFineRequestService } from '@services/fine-request-service'
 import React, { useEffect, useState } from 'react'
@@ -11,6 +12,7 @@ export const FineRequestPage = () => {
 
     const [notFound, setNotFound] = useState()
     const [fineRequest, setFineRequest] = useState()
+    const [isOpenDialog, setIsOpenDialog] = useState(false)
 
     const fetchFineRequest = async () => {
         if (!id) return
@@ -25,12 +27,16 @@ export const FineRequestPage = () => {
     }
 
     const approveFineRequest = async () => {
-        const response = await fineRequestService.update({
+        fineRequestService.update({
             requestId: fineRequest.id,
             approved: true
         })
-
-        navigate('/')
+            .then(response => {
+                navigate('/')
+            })
+            .catch(error => {
+                setIsOpenDialog(true)
+            })
     }
 
     const declineFineRequest = async () => {
@@ -39,6 +45,11 @@ export const FineRequestPage = () => {
             approved: false
         })
 
+        navigate('/')
+    }
+
+    const handleDialogClose = () => {
+        setIsOpenDialog(false)
         navigate('/')
     }
 
@@ -93,6 +104,7 @@ export const FineRequestPage = () => {
                     </Box>
                 )}
             </Box>
+            <SuccessDialog open={isOpenDialog} handleDone={() => handleDialogClose()} title='Oops!' text='You have either already responded to the request or the request has been approved/rejected.' />
         </Box >
     )
 }

@@ -1,5 +1,5 @@
 import { LeaderboardItem } from '@components/atoms'
-import { List, Skeleton } from '@mui/material'
+import { Box, List, Skeleton, Typography } from '@mui/material'
 import { useLeaderboardService } from '@services'
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
@@ -52,6 +52,19 @@ export const LeaderboardPage = () => {
                         <Skeleton variant='text' sx={{ fontSize: '2rem', display: 'inline-block', width: '100%', marginBottom: '1rem ' }} />
                         <Skeleton variant='text' sx={{ fontSize: '2rem', display: 'inline-block', width: '100%', marginBottom: '1rem ' }} />
                     </>
+                )}
+                {items && items.length == 0 && (
+                    <Box sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-around',
+                        padding: '10rem 0'
+                    }}>
+                        <Box sx={{ textAlign: 'center ' }}>
+                            <Typography variant='h1'>🎉</Typography>
+                            <Typography variant='body1'>No fines to show</Typography>
+                        </Box>
+                    </Box>
                 )}
             </List>
         </div>

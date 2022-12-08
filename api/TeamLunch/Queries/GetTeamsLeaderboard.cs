@@ -31,6 +31,8 @@ public static class GetTeamsLeaderboard
                 Title = teamWithUsers.Name,
                 Fines = teamWithUsers.Users.Sum(user => user.Fines.Count())
             })
+            .Where(x => x.Fines > 0)
+            .OrderByDescending(item => item.Fines)
             .ToList();
 
             return new Response(leaderboard);

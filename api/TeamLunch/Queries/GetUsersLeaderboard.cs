@@ -26,6 +26,7 @@ public static class GetUsersLeaderboard
                     Title = $"{user.FirstName} {user.LastName}",
                     Fines = user.Fines.Count
                 })
+                .Where(x => x.Fines > 0)
                 .OrderByDescending(item => item.Fines)
                 .Take(10)
                 .ToList();

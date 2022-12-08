@@ -43,7 +43,7 @@ public static class AddPaymentRequestResponse
 
             var paymentRequest = _db.PaymentRequests.Where(x => x.Id == request.requestId).Include(x => x.Responses).First();
             var team = _db.Teams.Where(x => x.Id == paymentRequest.TeamId).Include(x => x.Users).First();
-            var hasAllResponses = paymentRequest.Responses.Count() >= team.Users.Count() - 1;
+            var hasAllResponses = team.Users.Count() > 3 ? paymentRequest.Responses.Count() > 2 : paymentRequest.Responses.Count() >= team.Users.Count() - 1;
             var isApproved = paymentRequest.Responses.Where(x => x.Approved).Count() > paymentRequest.Responses.Where(x => !x.Approved).Count();
             var userPaying = team.Users.Where(x => x.Id == paymentRequest.UserId).Select(x => $"{x.FirstName} {x.LastName}").First();
 

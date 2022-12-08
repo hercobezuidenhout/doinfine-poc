@@ -45,7 +45,8 @@ public static class AddFineRequestResponse
             _db.FineRequestResponses.Add(fineRequestResponse);
 
             var team = _db.Teams.Where(x => x.Id == fineRequest.TeamId).Include(x => x.Users).First();
-            var hasAllResponses = fineRequest.Responses.Count() >= team.Users.Count() - 2;
+
+            var hasAllResponses = team.Users.Count() > 3 ? fineRequest.Responses.Count() >= team.Users.Count() - 2 : fineRequest.Responses.Count() > 2;
             var isApproved = fineRequest.Responses.Where(x => x.Approved).Count() > fineRequest.Responses.Where(x => !x.Approved).Count();
             var userBeingFined = team.Users.Where(x => x.Id == fineRequest.Finee).Select(x => $"{x.FirstName} {x.LastName}").First();
 

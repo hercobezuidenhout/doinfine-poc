@@ -4,6 +4,7 @@ import { extractTokenFromHeader } from "../middleware/auth.middleware";
 import { validateToken } from "../services/auth.service";
 import { getFineRequest } from "../queries/get-fine-request.query";
 import { createFineRequest } from "../commands/create-fine-request.command";
+import { addFineRequestResponse } from "../commands/add-fine-request-response.command";
 
 const FineRequestsRouter = Router()
 
@@ -52,6 +53,24 @@ FineRequestsRouter.post('/', async (req, res) => {
     })
 
     res.status(200).send(id)
+})
+
+FineRequestsRouter.put('/', async (req, res) => {
+    const { requestId, approved } = req.body
+    const idToken = extractTokenFromHeader(req.headers.authorization)
+    const { uid } = await validateToken(idToken)
+
+    const fineRequestResponse = {
+        requestId: requestId,
+        approved: approved,
+        userId: uid
+    }
+
+    const data = await addFineRequestResponse(fineRequestResponse)
+
+    if (!data) res.status(404).send()
+
+    res.status(200).send(data)
 })
 
 export default FineRequestsRouter

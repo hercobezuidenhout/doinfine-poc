@@ -1,5 +1,6 @@
 import * as functions from "firebase-functions"
 import * as express from 'express'
+import * as cors from 'cors'
 import admin from "firebase-admin"
 import UsersRouter from "./routes/users.route"
 import authMiddleware from "./middleware/auth.middleware"
@@ -9,6 +10,8 @@ import FineRequestsRouter from "./routes/fine-requests.route"
 import LeaderboardRouter from "./routes/leaderboard.route"
 
 const app = express()
+app.use(cors({ origin: '*' }))
+
 admin.initializeApp();
 
 app.use(authMiddleware({

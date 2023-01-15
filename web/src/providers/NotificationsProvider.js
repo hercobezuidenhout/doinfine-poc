@@ -81,12 +81,6 @@ export const NotificationsProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        const newConnection = new signalr.HubConnectionBuilder().withUrl(`${hubsUrlBase}/hubs/notifications`).build()
-        setConnection(newConnection)
-        fetchNotifications()
-    }, [])
-
-    useEffect(() => {
         if (!connection) return
         if (connection.state !== 'Disconnected') return
 
@@ -114,9 +108,9 @@ export const NotificationsProvider = ({ children }) => {
 
     return (
         <NotificationsContext.Provider value={{
-            nofiticiations: notifications,
-            readNotification: readNotification,
-            readAll: readAll
+            nofiticiations: [],
+            readNotification: () => true,
+            readAll: () => true
         }}>
             <SnackbarProvider>
                 {children}

@@ -18,7 +18,7 @@ export const TeamPage = () => {
         if (!member) return
         setFines(undefined)
 
-        const userFines = await fineService.fetchById(member.id)
+        const userFines = member.fines
 
         setFines(userFines)
     }
@@ -43,8 +43,8 @@ export const TeamPage = () => {
     }, [searchParams])
 
     const renderFines = () => {
-        return fines.length > 0 ? fines.map(fine => (
-            <Fragment key={fine.id}>
+        return fines.length > 0 ? fines.map((fine, index) => (
+            <Fragment key={index}>
                 <ListItem sx={{
                     padding: '1.2rem 0'
                 }}>

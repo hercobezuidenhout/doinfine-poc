@@ -12,9 +12,8 @@ export const useLeaderboardService = () => {
         })
 
         if (!response.data) return []
-        if (!response.data.items) return []
 
-        return response.data.items
+        return response.data
     }
 
     const fetchTeamsLeaderboard = async () => {
@@ -25,9 +24,8 @@ export const useLeaderboardService = () => {
         })
 
         if (!response.data) return []
-        if (!response.data.items) return []
 
-        return response.data.items
+        return response.data
     }
 
     return {

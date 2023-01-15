@@ -4,6 +4,11 @@ export const extractTokenFromHeader = (header) => header.split(' ')[1]
 
 export default (options) => {
     return (req, res, next) => {
+        if (!req.headers.authorization) {
+            res.status(401).send()
+            return
+        }
+
         const idToken = extractTokenFromHeader(req.headers.authorization)
 
         if (!idToken) {

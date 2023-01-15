@@ -32,7 +32,7 @@ const app = initializeApp(firebase);
 const analytics = getAnalytics(app);
 
 axios.defaults.baseURL = isDevelopment()
-    ? 'https://localhost:5001'
+    ? 'http://localhost:5001/doinfine-test/us-central1/api'
     : (
         isTest()
             ? 'https://test.api.doinfine.app'

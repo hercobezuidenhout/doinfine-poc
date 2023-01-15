@@ -13,7 +13,6 @@ export default (options) => {
 
         validateToken(idToken)
             .then((decodedToken) => {
-                console.log(decodedToken)
                 next()
             })
             .catch(error => {

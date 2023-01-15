@@ -12,6 +12,6 @@ export const getUserById = async (id) => {
         teams: teamsDoc.docs.map(doc => ({
             id: doc.id,
             name: doc.data().name
-        }))
+        })),
     }
 }

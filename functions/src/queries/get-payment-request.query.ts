@@ -1,12 +1,25 @@
 import { getFirestore } from "firebase-admin/firestore"
 
-export const getPaymentRequest = async (id, userId) => {
+export const getPaymentRequest = async (spaceId, id, userId) => {
     const db = getFirestore()
 
-    const userTeamsSnapshot = await db.collection('teams').where('members', 'array-contains', userId).get()
+    const userTeamsSnapshot = await db
+        .collection('spaces')
+        .doc(spaceId)
+        .collection('teams')
+        .where('members', 'array-contains', userId)
+        .get()
+
+
     const userTeams = userTeamsSnapshot.docs.map(doc => doc.id)
 
-    const paymentRequestSnapshot = await db.collection('paymentRequests').doc(id).get()
+    const paymentRequestSnapshot = await db
+        .collection('spaces')
+        .doc(spaceId)
+        .collection('paymentRequests')
+        .doc(id)
+        .get()
+
     const { status, responses, teamId } = paymentRequestSnapshot.data()
 
     if (status !== 'pending') return

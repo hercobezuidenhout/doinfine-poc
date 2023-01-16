@@ -3,12 +3,25 @@ import { sendNotificationToTopic } from "../services/notification.service"
 
 const userHasAlreadyResponded = (responses, userId) => responses.map(response => response.userId).includes(userId)
 
-export const addFineRequestResponse = async ({ requestId, approved, userId }) => {
+export const addFineRequestResponse = async ({ spaceId, requestId, approved, userId }) => {
     const db = getFirestore()
 
-    const fineRequestSnapshot = await db.collection('fineRequests').doc(requestId).get()
+    const fineRequestSnapshot = await db
+        .collection('spaces')
+        .doc(spaceId)
+        .collection('fineRequests')
+        .doc(requestId)
+        .get()
+
     const fineRequest = fineRequestSnapshot.data()
-    const teamSnapshot = await db.collection('teams').doc(fineRequest.teamId).get()
+
+    const teamSnapshot = await db
+        .collection('spaces')
+        .doc(spaceId)
+        .collection('teams')
+        .doc(fineRequest.teamId)
+        .get()
+
     const team = teamSnapshot.data()
 
     if (!fineRequest.responses) fineRequest.responses = []
@@ -41,7 +54,11 @@ export const addFineRequestResponse = async ({ requestId, approved, userId }) =>
                 paid: false
             }
 
-            const fineSnapshot = await db.collection('fines').add(fine)
+            const fineSnapshot = await db
+                .collection('spaces')
+                .doc(spaceId)
+                .collection('fines')
+                .add(fine)
 
             fineRequest.status = 'approved'
             fineRequest.fineId = fineSnapshot.id
@@ -62,7 +79,12 @@ export const addFineRequestResponse = async ({ requestId, approved, userId }) =>
         }
     }
 
-    await db.collection('fineRequests').doc(requestId).update(fineRequest)
+    await db
+        .collection('spaces')
+        .doc(spaceId)
+        .collection('fineRequests')
+        .doc(requestId)
+        .update(fineRequest)
 
     return fineRequest
 }

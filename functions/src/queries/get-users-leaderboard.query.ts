@@ -1,8 +1,9 @@
 import { getFirestore } from "firebase-admin/firestore"
 
-export const getUsersLeaderboard = async () => {
+export const getUsersLeaderboard = async (spaceId) => {
     const db = getFirestore()
     const usersSnapshot = await db.collection('users').get()
+
     const users = usersSnapshot.docs.map(doc => ({
         id: doc.id,
         fullName: doc.data().fullName,
@@ -12,6 +13,8 @@ export const getUsersLeaderboard = async () => {
     for (let userIndex = 0; userIndex < users.length; userIndex++) {
         const user = users[userIndex];
         const userFines = await db
+            .collection('spaces')
+            .doc(spaceId)
             .collection('fines')
             .where('userId', '==', user.id)
             .where('paid', '==', false)
@@ -24,5 +27,6 @@ export const getUsersLeaderboard = async () => {
         .map(user => ({
             title: user.fullName,
             fines: user.fineCount
-        })).sort((a, b) => b.fines - a.fines)
+        }))
+        .sort((a, b) => b.fines - a.fines)
 }

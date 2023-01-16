@@ -1,10 +1,15 @@
 import { getFirestore } from "firebase-admin/firestore"
 import { sendNotificationToTopic } from "../services/notification.service"
 
-export const createFineRequest = async (fineRequest) => {
+export const createFineRequest = async (spaceId, fineRequest) => {
     const db = getFirestore()
 
-    const fineRequestSnapshot = await db.collection('fineRequests').add(fineRequest)
+    const fineRequestSnapshot = await db
+        .collection('spaces')
+        .doc(spaceId)
+        .collection('fineRequests')
+        .add(fineRequest)
+
     const fineeSnapshot = await db.collection('users').doc(fineRequest.finee).get()
     const finerSnapshot = await db.collection('users').doc(fineRequest.finer).get()
 

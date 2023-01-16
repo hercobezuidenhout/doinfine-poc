@@ -7,7 +7,8 @@ export const useFineRequestService = () => {
     const fetchAll = async () => {
         const response = await axios.get(`/fine-requests?filter=active`, {
             headers: {
-                'Authorization': `Bearer ${await authContext.getAccessToken()}`
+                'Authorization': `Bearer ${await authContext.getAccessToken()}`,
+                'spaceId': 'WaQ6MMJ5CMFaZgTZ5CHu'
             }
         })
         if (response.status == 404) throw Error(response.data)
@@ -17,7 +18,8 @@ export const useFineRequestService = () => {
     const fetchById = async (id) => {
         const response = await axios.get(`/fine-requests/${id}`, {
             headers: {
-                'Authorization': `Bearer ${await authContext.getAccessToken()}`
+                'Authorization': `Bearer ${await authContext.getAccessToken()}`,
+                'spaceId': 'WaQ6MMJ5CMFaZgTZ5CHu'
             }
         })
         if (response.status == 404) throw Error(response.data)
@@ -27,7 +29,8 @@ export const useFineRequestService = () => {
     const create = async (fine) => {
         const response = await axios.post(`/fine-requests`, fine, {
             headers: {
-                'Authorization': `Bearer ${await authContext.getAccessToken()}`
+                'Authorization': `Bearer ${await authContext.getAccessToken()}`,
+                'spaceId': 'WaQ6MMJ5CMFaZgTZ5CHu'
             }
         })
 
@@ -37,7 +40,8 @@ export const useFineRequestService = () => {
     const update = async (requestResponse) => {
         const response = await axios.put('/fine-requests', requestResponse, {
             headers: {
-                'Authorization': `Bearer ${await authContext.getAccessToken()}`
+                'Authorization': `Bearer ${await authContext.getAccessToken()}`,
+                'spaceId': 'WaQ6MMJ5CMFaZgTZ5CHu'
             }
         })
 

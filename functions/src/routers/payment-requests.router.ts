@@ -9,6 +9,7 @@ import { addPaymentRequestResponse } from "../commands/add-payment-request-respo
 const PaymentRequestsRouter = Router()
 
 PaymentRequestsRouter.get('/', async (req, res) => {
+    const { spaceid } = req.headers
     const filter = req.query.filter
     const idToken = extractTokenFromHeader(req.headers.authorization)
     const { uid } = await validateToken(idToken)
@@ -18,18 +19,19 @@ PaymentRequestsRouter.get('/', async (req, res) => {
     let paymentRequests = []
 
     if (filter == 'active') {
-        paymentRequests = await getActivePaymentRequests(uid)
+        paymentRequests = await getActivePaymentRequests(spaceid, uid)
     }
 
     res.send(paymentRequests)
 })
 
 PaymentRequestsRouter.get('/:id', async (req, res) => {
+    const { spaceid } = req.headers
     const idToken = extractTokenFromHeader(req.headers.authorization)
     const { uid } = await validateToken(idToken)
     if (!uid) res.status(401).send()
 
-    const paymentRequest = await getPaymentRequest(req.params.id, uid)
+    const paymentRequest = await getPaymentRequest(spaceid, req.params.id, uid)
 
     res.send(paymentRequest)
 })
@@ -37,6 +39,7 @@ PaymentRequestsRouter.get('/:id', async (req, res) => {
 
 
 PaymentRequestsRouter.post('/', async (req, res) => {
+    const { spaceid } = req.headers
     const idToken = extractTokenFromHeader(req.headers.authorization)
     const { uid } = await validateToken(idToken)
     if (!uid) res.status(401).send()
@@ -45,6 +48,7 @@ PaymentRequestsRouter.post('/', async (req, res) => {
 
 
     const paymentRequestId = await createPaymentRequest({
+        spaceId: spaceid,
         userId: uid,
         teamId: teamId,
         action: action,
@@ -55,6 +59,7 @@ PaymentRequestsRouter.post('/', async (req, res) => {
 })
 
 PaymentRequestsRouter.put('/', async (req, res) => {
+    const { spaceid } = req.headers
     const idToken = extractTokenFromHeader(req.headers.authorization)
     const { uid } = await validateToken(idToken)
     if (!uid) res.status(401).send()
@@ -62,6 +67,7 @@ PaymentRequestsRouter.put('/', async (req, res) => {
     const { requestId, approved } = req.body
 
     const paymentRequest = await addPaymentRequestResponse({
+        spaceId: spaceid,
         requestId: requestId,
         userId: uid,
         approved: approved

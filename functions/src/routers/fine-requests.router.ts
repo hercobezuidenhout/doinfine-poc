@@ -9,6 +9,8 @@ import { addFineRequestResponse } from "../commands/add-fine-request-response.co
 const FineRequestsRouter = Router()
 
 FineRequestsRouter.get('/', async (req, res) => {
+    const { spaceid } = req.headers
+    console.log(spaceid)
     const filter = req.query.filter
     const idToken = extractTokenFromHeader(req.headers.authorization)
     const { uid } = await validateToken(idToken)
@@ -18,25 +20,27 @@ FineRequestsRouter.get('/', async (req, res) => {
     let fineRequests
 
     if (filter == 'active') {
-        fineRequests = await getActiveFineRequests(uid)
+        fineRequests = await getActiveFineRequests(spaceid, uid)
     }
 
     res.send(fineRequests)
 })
 
 FineRequestsRouter.get('/:id', async (req, res) => {
+    const { spaceid } = req.headers
     const idToken = extractTokenFromHeader(req.headers.authorization)
     const { uid } = await validateToken(idToken)
     const id = req.params.id
 
     if (!uid) res.status(401).send()
 
-    const fineRequest = await getFineRequest(id, uid)
+    const fineRequest = await getFineRequest(spaceid, id, uid)
 
     fineRequest ? res.send(fineRequest) : res.status(404).send()
 })
 
 FineRequestsRouter.post('/', async (req, res) => {
+    const { spaceid } = req.headers
     const idToken = extractTokenFromHeader(req.headers.authorization)
     const { uid } = await validateToken(idToken)
 
@@ -47,7 +51,7 @@ FineRequestsRouter.post('/', async (req, res) => {
         reason: req.body.reason
     }
 
-    const id = await createFineRequest(fineRequest).catch(error => {
+    const id = await createFineRequest(spaceid, fineRequest).catch(error => {
         console.log(error)
         res.status(400).send('Something went wrong.')
     })
@@ -56,11 +60,13 @@ FineRequestsRouter.post('/', async (req, res) => {
 })
 
 FineRequestsRouter.put('/', async (req, res) => {
+    const { spaceid } = req.headers
     const { requestId, approved } = req.body
     const idToken = extractTokenFromHeader(req.headers.authorization)
     const { uid } = await validateToken(idToken)
 
     const fineRequestResponse = {
+        spaceId: spaceid,
         requestId: requestId,
         approved: approved,
         userId: uid

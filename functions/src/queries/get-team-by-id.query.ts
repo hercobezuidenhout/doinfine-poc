@@ -2,12 +2,18 @@
 
 import { getFirestore } from "firebase-admin/firestore"
 
-export const getTeamById = async (teamId) => {
+export const getTeamById = async (spaceId, teamId) => {
     const db = getFirestore()
 
-    const snapshot = await db.collection('teams').doc(teamId).get()
+    const snapshot = await db.
+        collection('spaces')
+        .doc(spaceId)
+        .collection('teams').doc(teamId).get()
+
     const teamMembers = snapshot.data().members
     const finesSnapshot = await db
+        .collection('spaces')
+        .doc(spaceId)
         .collection('fines')
         .where('teamId', '==', teamId)
         .where('paid', '==', false)

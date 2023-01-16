@@ -1,7 +1,7 @@
 import { getFirestore } from "firebase-admin/firestore"
 import { sendNotificationToTopic } from "../services/notification.service"
 
-export const createPaymentRequest = async ({ userId, teamId, action, dateOfPayment }) => {
+export const createPaymentRequest = async ({ spaceId, userId, teamId, action, dateOfPayment }) => {
     const db = getFirestore()
 
     const paymentRequest = {
@@ -12,7 +12,11 @@ export const createPaymentRequest = async ({ userId, teamId, action, dateOfPayme
         status: 'pending'
     }
 
-    const paymentRequestSnapshot = await db.collection('paymentRequests').add(paymentRequest)
+    const paymentRequestSnapshot = await db
+        .collection('spaces')
+        .doc(spaceId)
+        .collection('paymentRequests')
+        .add(paymentRequest)
     const userMakingPaymentSnapshot = await db.collection('users').doc(userId).get()
 
     await sendNotificationToTopic({

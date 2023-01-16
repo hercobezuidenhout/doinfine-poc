@@ -7,7 +7,8 @@ export const useUserService = () => {
     const fetchById = async (id) => {
         const response = await axios.get(`/users/${id}`, {
             headers: {
-                'Authorization': `Bearer ${await authContext.getAccessToken()}`
+                'Authorization': `Bearer ${await authContext.getAccessToken()}`,
+                'spaceId': 'WaQ6MMJ5CMFaZgTZ5CHu'
             }
         })
 

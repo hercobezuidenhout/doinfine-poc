@@ -3,17 +3,29 @@ import { sendNotificationToTopic } from "../services/notification.service"
 
 const userHasAlreadyResponded = (responses, userId) => responses.map(response => response.userId).includes(userId)
 
-export const addPaymentRequestResponse = async ({ requestId, userId, approved }) => {
+export const addPaymentRequestResponse = async ({ spaceId, requestId, userId, approved }) => {
     const db = getFirestore()
 
-    const paymentRequestSnapshot = await db.collection('paymentRequests').doc(requestId).get()
+    const paymentRequestSnapshot = await db
+        .collection('spaces')
+        .doc(spaceId)
+        .collection('paymentRequests')
+        .doc(requestId)
+        .get()
+
     const paymentRequest = paymentRequestSnapshot.data()
 
     if (!paymentRequest.responses) paymentRequest.responses = []
     if (userHasAlreadyResponded(paymentRequest.responses, userId)) return
     if (paymentRequest.status !== 'pending') return
 
-    const teamSnapshot = await db.collection('teams').doc(paymentRequest.teamId).get()
+    const teamSnapshot = await db
+        .collection('spaces')
+        .doc(spaceId)
+        .collection('teams')
+        .doc(paymentRequest.teamId)
+        .get()
+
     const team = teamSnapshot.data()
 
     const userPayingSnapshot = await db.collection('users').doc(paymentRequest.userId).get()
@@ -35,11 +47,18 @@ export const addPaymentRequestResponse = async ({ requestId, userId, approved })
                 dateOfPayment: paymentRequest.dateOfPayment
             }
 
-            const paymentSnapshot = await db.collection('payments').add(payment)
+            const paymentSnapshot = await db
+                .collection('spaces')
+                .doc(spaceId)
+                .collection('payments')
+                .add(payment)
+
             paymentRequest.paymentId = paymentSnapshot.id
             paymentRequest.status = 'approved'
 
             const fineSnapshot = await db
+                .collection('spaces')
+                .doc(spaceId)
                 .collection('fines')
                 .where('teamId', '==', paymentRequest.teamId)
                 .where('paid', '==', false)
@@ -48,7 +67,12 @@ export const addPaymentRequestResponse = async ({ requestId, userId, approved })
             const fine = fineSnapshot.docs[0].data()
             fine.paid = true
 
-            await db.collection('fines').doc(fineSnapshot.docs[0].id).update(fine)
+            await db
+                .collection('spaces')
+                .doc(spaceId)
+                .collection('fines')
+                .doc(fineSnapshot.docs[0].id)
+                .update(fine)
 
             sendNotificationToTopic({
                 topic: paymentRequest.teamId,
@@ -66,7 +90,12 @@ export const addPaymentRequestResponse = async ({ requestId, userId, approved })
         }
     }
 
-    await db.collection('paymentRequests').doc(requestId).update(paymentRequest)
+    await db
+        .collection('spaces')
+        .doc(spaceId)
+        .collection('paymentRequests')
+        .doc(requestId)
+        .update(paymentRequest)
 
     return { nice: 'hi' }
 }

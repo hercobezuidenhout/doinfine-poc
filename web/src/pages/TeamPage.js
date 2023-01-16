@@ -1,7 +1,6 @@
 import { Box, Button, Divider, List, ListItem, Skeleton, Typography } from '@mui/material'
 import { useTeamContext } from '@providers/TeamProvider'
 import { useUserContext } from '@providers/UserProvider'
-import { useFineService } from '@services/fine-service'
 import React, { useEffect, useState, Fragment } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 
@@ -10,7 +9,6 @@ export const TeamPage = () => {
     const { getCurrentUser } = useUserContext()
 
     const [searchParams] = useSearchParams()
-    const fineService = useFineService()
     const [member, setMember] = useState()
     const [fines, setFines] = useState()
 

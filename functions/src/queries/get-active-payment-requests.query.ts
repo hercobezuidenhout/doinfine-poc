@@ -1,13 +1,22 @@
 import { getFirestore } from "firebase-admin/firestore";
 
-export const getActivePaymentRequests = async (userId) => {
+export const getActivePaymentRequests = async (spaceId, userId) => {
     const db = getFirestore()
 
-    const userTeamsSnapshot = await db.collection('teams').where('members', 'array-contains', userId).get()
+    const userTeamsSnapshot = await db
+        .collection('spaces')
+        .doc(spaceId)
+        .collection('teams')
+        .where('members', 'array-contains', userId)
+        .get()
 
     const userTeams = userTeamsSnapshot.docs.map(doc => doc.id)
 
-    const paymentRequestsSnapshot = await db.collection('paymentRequests').get()
+    const paymentRequestsSnapshot = await db
+        .collection('spaces')
+        .doc(spaceId)
+        .collection('paymentRequests')
+        .get()
 
     return paymentRequestsSnapshot.docs
         .filter(doc => userTeams.includes(doc.data().teamId))

@@ -1,4 +1,5 @@
 import { useNotificationService } from "@services/notification-service"
+import { useUserService } from "@services/user-service"
 import { SnackbarProvider, useSnackbar } from "notistack"
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { getNotificationsToken, onMessageListener } from "../firebase"
@@ -11,6 +12,7 @@ export const WebNotificationsContext = createContext({
 export const WebNotificationsProvider = ({ children }) => {
     const [token, setToken] = useState()
     const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+    const { addUserToken } = useUserService()
 
     useEffect(() => {
         getNotificationsToken(setToken)
@@ -22,6 +24,11 @@ export const WebNotificationsProvider = ({ children }) => {
             })
             .catch(error => console.log('failed: ', error))
     }, [])
+
+    useEffect(() => {
+        if (!token) return
+        addUserToken(token)
+    }, [token])
 
     return (
         <WebNotificationsContext.Provider value={{

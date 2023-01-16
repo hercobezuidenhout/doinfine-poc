@@ -22,8 +22,19 @@ export const useNotificationService = () => {
         return response.data
     }
 
+    const subscribe = async (topic, token = '') => {
+        const response = await axios.post(`/notifications/subscribe`, { topic: topic }, {
+            headers: {
+                'Authorization': `Bearer ${await authContext.getAccessToken()}`
+            }
+        })
+
+        return response.data
+    }
+
     return {
         fetchAll,
-        update
+        update,
+        subscribe
     }
 }

@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "doinfine-test"
+    "test": "doinfine-test",
+    "prod": "doinfine"
   }
 }

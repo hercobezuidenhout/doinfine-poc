@@ -26,10 +26,10 @@ jobs:
     - name: Build API
       run: npm run build
 
-    - name: Deploy
-      run: |
-        npm i -g firebase-tools
-        firebase deploy --token ${{ secrets.FIREBASE_FUNCTIONS_TOKEN }} --only functions
+    # - name: Deploy
+    #   run: |
+    #     npm i -g firebase-tools
+    #     firebase deploy --token ${{ secrets.FIREBASE_FUNCTIONS_TOKEN }} --only functions
 
   # deploy_to_test:
   #   name: Deploy to Test Environment

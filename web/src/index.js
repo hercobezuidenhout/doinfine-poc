@@ -61,3 +61,5 @@ const Corporate = () => {
 const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(<Corporate />);
+
+export const env = process.env

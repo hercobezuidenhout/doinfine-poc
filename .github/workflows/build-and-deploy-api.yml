@@ -26,6 +26,13 @@ jobs:
     - name: Build API
       run: npm run build
 
+    - name: deploy to production
+      uses: w9jds/firebase-action@master
+      with:
+        args: deploy --only functions
+        env:
+          GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOINFINE_TEST }}
+
   deploy_to_test:
     name: Deploy to Test Environment
     needs: build_and_test
@@ -38,9 +45,4 @@ jobs:
     - name: Install NPM dependencies
       run: npm install
 
-    - name: deploy to production
-      uses: w9jds/firebase-action@master
-      with:
-        args: deploy --only functions
-        env:
-          GCP_SA_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOINFINE_TEST }}
+    

@@ -16,8 +16,8 @@ axios.defaults.baseURL = isDevelopment()
     ? 'http://localhost:5001/doinfine-test/us-central1/api'
     : (
         isTest()
-            ? 'https://test.api.doinfine.app'
-            : 'https://api.doinfine.app'
+            ? 'https://us-central1-doinfine-test.cloudfunctions.net/api'
+            : 'https://us-central1-doinfine-test.cloudfunctions.net/api'
     )
 
 if (!isDevelopment()) {

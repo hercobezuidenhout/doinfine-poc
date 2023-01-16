@@ -1,22 +1,17 @@
 import { Router } from "express";
 import admin from 'firebase-admin';
+import { sendNotificationToTopic } from "../services/notification.service";
 
 const NotificationsRouter = Router()
 
 NotificationsRouter.post('/', async (req, res) => {
-    const message = {
-        notification: {
-            title: req.body.title,
-            body: req.body.description,
-        },
-        topic: req.body.topic
-    };
-
-    admin.messaging().send(message)
-        .then(result => {
-            res.send(result)
-        })
-        .catch(error => res.send(error))
+    const { topic, title, description } = req.body
+    await sendNotificationToTopic({
+        topic: topic,
+        title: title,
+        description: description
+    })
+    res.status(200).send()
 })
 
 NotificationsRouter.post('/subscribe', async (req, res) => {

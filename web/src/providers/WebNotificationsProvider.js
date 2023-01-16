@@ -1,5 +1,8 @@
+import { useNotificationService } from "@services/notification-service"
+import { SnackbarProvider, useSnackbar } from "notistack"
 import React, { createContext, useContext, useEffect, useState } from "react"
 import { getNotificationsToken, onMessageListener } from "../firebase"
+import { useTeamContext } from "./TeamProvider"
 
 export const WebNotificationsContext = createContext({
     createNotification: (title, body, link) => { }
@@ -7,12 +10,15 @@ export const WebNotificationsContext = createContext({
 
 export const WebNotificationsProvider = ({ children }) => {
     const [token, setToken] = useState()
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar()
 
     useEffect(() => {
         getNotificationsToken(setToken)
         onMessageListener()
             .then(payload => {
-                console.log(payload)
+                enqueueSnackbar(payload.notification.title, {
+                    anchorOrigin: { horizontal: 'center', vertical: 'bottom' }
+                })
             })
             .catch(error => console.log('failed: ', error))
     }, [])
@@ -21,7 +27,9 @@ export const WebNotificationsProvider = ({ children }) => {
         <WebNotificationsContext.Provider value={{
             createNotification: () => true
         }}>
-            {children}
+            <SnackbarProvider>
+                {children}
+            </SnackbarProvider>
         </WebNotificationsContext.Provider>
     )
 }

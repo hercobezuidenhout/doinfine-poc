@@ -4,8 +4,8 @@ import axios from "axios"
 export const useFineRequestService = () => {
     const authContext = useOuterAuthContext()
 
-    const fetchAll = async (teamId) => {
-        const response = await axios.get(`/fine-requests?teamId=${teamId}`, {
+    const fetchAll = async () => {
+        const response = await axios.get(`/fine-requests?filter=active`, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`
             }

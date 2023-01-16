@@ -5,7 +5,7 @@ export const usePaymentRequestService = () => {
     const authContext = useOuterAuthContext()
 
     const fetchAll = async () => {
-        const response = await axios.get(`/payment-requests`, {
+        const response = await axios.get(`/payment-requests?filter=active`, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`
             }

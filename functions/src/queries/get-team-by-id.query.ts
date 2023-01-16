@@ -18,8 +18,6 @@ export const getTeamById = async (teamId) => {
         reason: doc.data().reason
     }))
 
-    console.log(teamFines)
-
     let members = []
 
     for (let memberIndex = 0; memberIndex < teamMembers.length; memberIndex++) {

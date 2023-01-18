@@ -14,7 +14,7 @@ const app = initializeApp(firebase);
 const messaging = getMessaging(app);
 
 export const getNotificationsToken = (setToken) => {
-    return getToken(messaging, { vapidKey: 'BMUMU3I40oJYrYHiyw3JId-cxy0I-3IKGitRjuWJUCf2_oxGz6z4pnlSsrkNIItGtw1GqtgmZQE3o2gIXYZ8TX8' })
+    return getToken(messaging, { vapidKey: 'BOZvuH-s49a0nkxYEtW1APLHlV-NhhBzV_UiggXpidwUdFTnTWwoYBHWm4MeDNV2oGROGGUICfZLSHQidD0Qz2k' })
         .then(currentToken => {
             if (currentToken) {
                 setToken(currentToken)

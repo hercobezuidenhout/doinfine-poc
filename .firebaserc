@@ -1,6 +1,6 @@
 {
   "projects": {
     "test": "doinfine-test",
-    "prod": "doinfine"
+    "prod": "doin-fine"
   }
 }

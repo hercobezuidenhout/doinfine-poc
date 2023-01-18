@@ -3,6 +3,8 @@
 ## v0.8.0 <font size=1>`08/12/2022`</font>
 ### Changed
 - Improved leaderboard experience.
+- Migrated backend to NodeJS. 
+- Updated notifications to use Firebase Messaging instead of SignalR.  
 
 ## v0.7.0 <font size=1>`08/12/2022`</font>
 ### Changed

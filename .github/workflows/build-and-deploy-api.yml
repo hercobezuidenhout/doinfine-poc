@@ -35,10 +35,13 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Deploy
+    - name: Install NPM Dependencies
       run: |
-        npm install && npm i -g firebase-tools
-        firebase deploy --token ${{ secrets.FIREBASE_FUNCTIONS_TOKEN }} --only functions --project doinfine-test
+        npm install
+        npm i -g firebase-tools
+
+    - name: Deploy
+      run: firebase deploy --token ${{ secrets.FIREBASE_FUNCTIONS_TOKEN }} --only functions --project doinfine-test
 
 
     

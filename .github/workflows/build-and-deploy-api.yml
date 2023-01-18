@@ -49,7 +49,7 @@ jobs:
     - name: Deploy
       run: export GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcloud.json && npx firebase-tools deploy --only functions --project test --json
 
-  deploy_to_test:
+  deploy_to_prod:
     name: Deploy to Prod Environment
     needs: build_and_test
     if: github.ref == 'refs/heads/main'

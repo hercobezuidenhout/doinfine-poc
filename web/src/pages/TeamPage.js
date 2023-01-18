@@ -1,7 +1,6 @@
 import { Box, Button, Divider, List, ListItem, Skeleton, Typography } from '@mui/material'
 import { useTeamContext } from '@providers/TeamProvider'
 import { useUserContext } from '@providers/UserProvider'
-import { useFineService } from '@services/fine-service'
 import React, { useEffect, useState, Fragment } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 
@@ -10,7 +9,6 @@ export const TeamPage = () => {
     const { getCurrentUser } = useUserContext()
 
     const [searchParams] = useSearchParams()
-    const fineService = useFineService()
     const [member, setMember] = useState()
     const [fines, setFines] = useState()
 
@@ -18,7 +16,7 @@ export const TeamPage = () => {
         if (!member) return
         setFines(undefined)
 
-        const userFines = await fineService.fetchById(member.id)
+        const userFines = member.fines
 
         setFines(userFines)
     }
@@ -43,8 +41,8 @@ export const TeamPage = () => {
     }, [searchParams])
 
     const renderFines = () => {
-        return fines.length > 0 ? fines.map(fine => (
-            <Fragment key={fine.id}>
+        return fines.length > 0 ? fines.map((fine, index) => (
+            <Fragment key={index}>
                 <ListItem sx={{
                     padding: '1.2rem 0'
                 }}>

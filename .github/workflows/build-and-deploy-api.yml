@@ -37,7 +37,7 @@ jobs:
 
     - name: Deploy
       run: |
-        npm i -g firebase-tools
+        npm install && npm i -g firebase-tools
         firebase deploy --token ${{ secrets.FIREBASE_FUNCTIONS_TOKEN }} --only functions --project doinfine-test
 
 

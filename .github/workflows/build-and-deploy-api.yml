@@ -1,14 +1,12 @@
-name: Build and deploy .NET API
+name: Build and deploy api
 
 on:
   push:
     branches: [ "main", "develop", "feature/**" ]
 
     paths:
-      - api/**
+      - functions/**
       - .github/workflows/build-and-deploy-api.yml
-
-    
 
 jobs:
   build_and_test:
@@ -17,93 +15,63 @@ jobs:
 
     defaults:
       run:
-        working-directory: api
+        working-directory: functions
 
     steps:
     - uses: actions/checkout@v3
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: 6.0.x
+    - name: Install NPM dependencies
+      run: npm install
 
-    - name: Restore dependencies
-      run: dotnet restore
-
-    - name: Test
-      run: dotnet test
-
-    - name: Publish
-      working-directory: api/TeamLunch
-      run: dotnet publish -c Release
-
-    - name: Upload artifact
-      if: github.ref != 'refs/heads/feature/**'
-      uses: actions/upload-artifact@v3
-      with: 
-        name: api-artifact
-        path: ./api/TeamLunch/bin/Release/net6.0/publish
-        retention-days: 0.5
+    - name: Build API
+      run: npm run build
 
   deploy_to_test:
     name: Deploy to Test Environment
     needs: build_and_test
     if: github.ref == 'refs/heads/develop'
-
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: functions
+
     steps:
-    - name: Download Artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: api-artifact
+    - uses: actions/checkout@v3
 
-    - name: Echo app.yaml
+    - name: Install NPM Dependencies
       run: |
-        cat app.yaml
+        npm install
 
-    - name: Transform app.yaml
-      run: |
-        echo '' >> app.yaml
-        echo 'env_variables:' >> app.yaml
-        echo '  ASPNETCORE_ENVIRONMENT: Development' >> app.yaml
-        cat app.yaml
+    - name: Create SA Key
+      run: echo '${{ secrets.FIREBASE_FUNCTIONS_SERVICE_ACCOUNT_TEST }}' > $HOME/gcloud.json
 
-    - name: 'Setup Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v0'
-      with:
-        project_id: doinfine-test
-        service_account_key: '${{ secrets.GCP_SA_KEY_TEST }}' 
-
-    - name: Deploy to App Engine
-      run: gcloud app deploy app.yaml --version v1
-
-    - uses: geekyeggo/delete-artifact@v2
-      with:
-          name: api-artifact
+    - name: Deploy
+      run: export GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcloud.json && npx firebase-tools deploy --only functions --project test --json
 
   deploy_to_prod:
     name: Deploy to Prod Environment
     needs: build_and_test
     if: github.ref == 'refs/heads/main'
-
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: functions
+
     steps:
-    - name: Download Artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: api-artifact
+    - uses: actions/checkout@v3
 
-    - name: 'Setup Cloud SDK'
-      uses: 'google-github-actions/setup-gcloud@v0'
-      with:
-        project_id: doin-fine
-        service_account_key: '${{ secrets.GCP_SA_KEY }}' 
+    - name: Install NPM Dependencies
+      run: |
+        npm install
 
-    - name: Deploy to App Engine
-      run: gcloud app deploy app.yaml --version v1
+    - name: Create SA Key
+      run: echo '${{ secrets.FIREBASE_FUNCTIONS_SERVICE_ACCOUNT }}' > $HOME/gcloud.json
+
+    - name: Deploy
+      run: export GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcloud.json && npx firebase-tools deploy --only functions --project prod --json
+
+
+
     
-    - uses: geekyeggo/delete-artifact@v2
-      with:
-          name: api-artifact

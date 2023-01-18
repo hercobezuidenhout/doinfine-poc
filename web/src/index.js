@@ -1,42 +1,23 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import { AuthProvider, OuterAuthProvider } from '@providers/OuterAuthProvider';
-import { NotificationsProvider } from '@providers/NotificationsProvider';
+import { OuterAuthProvider } from '@providers/OuterAuthProvider';
 import { RouterProvider } from '@providers/RouterProvider';
-import { TeamProvider } from '@providers/TeamProvider';
-import { UserProvider } from '@providers/UserProvider';
 import axios from 'axios';
-import { SnackbarProvider } from 'notistack';
 import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { ErrorBoundary } from './ErrorBoundary';
 import './index.css';
 import { CorporateContext, corporateTheme } from './theme';
-import { initializeApp } from 'firebase/app';
-import { getAnalytics } from 'firebase/analytics';
-import { WebNotificationsProvider } from '@providers/WebNotificationsProvider';
-import { firebaseConfig, isDevelopment, isProd, isTest } from './config';
+import { isDevelopment, isTest } from './config';
+import './firebase'
 
-
-
-const firebase = isDevelopment()
-    ? firebaseConfig.test
-    : (
-        isTest()
-            ? firebaseConfig.test
-            : firebaseConfig.prod
-    );
-
-const app = initializeApp(firebase);
-
-const analytics = getAnalytics(app);
 
 axios.defaults.baseURL = isDevelopment()
-    ? 'https://localhost:5001'
+    ? 'http://localhost:5001/doinfine-test/us-central1/api'
     : (
         isTest()
-            ? 'https://test.api.doinfine.app'
-            : 'https://api.doinfine.app'
+            ? 'https://us-central1-doinfine-test.cloudfunctions.net/api'
+            : 'https://us-central1-doinfine-test.cloudfunctions.net/api'
     )
 
 if (!isDevelopment()) {
@@ -80,3 +61,5 @@ const Corporate = () => {
 const container = document.getElementById('root');
 const root = createRoot(container);
 root.render(<Corporate />);
+
+export const env = process.env

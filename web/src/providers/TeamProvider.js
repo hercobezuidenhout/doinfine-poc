@@ -3,6 +3,7 @@ import { useLocation, useParams } from "react-router-dom"
 import axios from "axios"
 import { useTeamService } from "@services/team-service"
 import { useUserContext } from "./UserProvider"
+import { useNotificationService } from "@services/notification-service"
 
 export const TeamContext = createContext({
     id: 1,
@@ -13,16 +14,19 @@ export const TeamContext = createContext({
 export const TeamProvider = ({ children }) => {
     const [team, setTeam] = useState()
     const teamService = useTeamService()
+    const notificationService = useNotificationService()
     const { getCurrentUser } = useUserContext()
 
     const fetchTeam = async () => {
         var user = await getCurrentUser()
 
         if (!user) return
-        var teamId = user.teams[0]
+        var userTeam = user.teams[0]
 
-        const team = await teamService.fetchById(teamId)
+        const team = await teamService.fetchById(userTeam.id)
         if (!team) return
+
+        await notificationService.subscribe(team.id)
 
         setTeam(team)
     }

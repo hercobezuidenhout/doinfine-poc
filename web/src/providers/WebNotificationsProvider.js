@@ -1,66 +1,42 @@
+import { useNotificationService } from "@services/notification-service"
+import { useUserService } from "@services/user-service"
+import { SnackbarProvider, useSnackbar } from "notistack"
 import React, { createContext, useContext, useEffect, useState } from "react"
-
-var baseLink = process.env.DEVELOPMENT ? 'https://localhost:3000' : 'https://doinfine.app';
+import { getNotificationsToken, onMessageListener } from "../firebase"
+import { useTeamContext } from "./TeamProvider"
 
 export const WebNotificationsContext = createContext({
     createNotification: (title, body, link) => { }
 })
 
 export const WebNotificationsProvider = ({ children }) => {
-    const [serviceWorkerRegistration, setServiceWorkerRegistration] = useState()
-    const [notificationsPermission, setNotificationsPermissions] = useState()
-
-    const checkNotificationsPermissions = async () => {
-        setNotificationsPermissions(Notification.permission)
-        if (Notification.permission == 'denied') {
-            setNotificationsPermissions(false)
-            return
-        }
-        if (Notification.permission !== 'granted') {
-            const permission = await Notification.requestPermission()
-            if (permission == 'granted') {
-                setNotificationsPermissions(true)
-                createNotification()
-            }
-        }
-        if (Notification.permission == 'granted') setNotificationsPermissions(true)
-    }
-
-    const createNotification = (title, body, link) => {
-        if (!('Notification' in window)) return
-
-        const img = '../assets/logo.png'
-        const text = body
-
-        const notification = new Notification(title || 'DoinFine Notification', {
-            body: text,
-            icon: img
-        })
-
-        notification.onclick = (event) => {
-            event.preventDefault()
-            window.open(link ? link : baseLink, '_blank')
-        }
-    }
+    const [token, setToken] = useState()
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+    const { addUserToken } = useUserService()
 
     useEffect(() => {
-        if (!('Notification' in window)) {
-            try {
-                checkNotificationsPermissions()
-            } catch (error) {
-                console.log(error)
-            }
-            return
-        }
+        getNotificationsToken(setToken)
+        onMessageListener()
+            .then(payload => {
+                enqueueSnackbar(payload.notification.title, {
+                    anchorOrigin: { horizontal: 'center', vertical: 'bottom' }
+                })
+            })
+            .catch(error => console.log('failed: ', error))
+    }, [])
 
-
-    }, [notificationsPermission])
+    useEffect(() => {
+        if (!token) return
+        addUserToken(token)
+    }, [token])
 
     return (
         <WebNotificationsContext.Provider value={{
-            createNotification: createNotification
+            createNotification: () => true
         }}>
-            {children}
+            <SnackbarProvider>
+                {children}
+            </SnackbarProvider>
         </WebNotificationsContext.Provider>
     )
 }

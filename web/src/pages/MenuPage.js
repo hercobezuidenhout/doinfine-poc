@@ -18,8 +18,6 @@ export const MenuPage = () => {
     const { getCurrentUser } = useUserContext()
     const fineRequestService = useFineRequestService()
     const paymentRequestService = usePaymentRequestService()
-    const { id: teamId } = useTeamContext()
-    const notificationContext = useNotificationsContext()
 
     const [activeFineRequests, setActiveFineRequests] = useState([])
     const [activePaymentRequests, setActivePaymentRequests] = useState([])
@@ -31,7 +29,7 @@ export const MenuPage = () => {
     };
 
     const fetchActiveFineRequests = async () => {
-        const requests = await fineRequestService.fetchAll(teamId);
+        const requests = await fineRequestService.fetchAll();
         if (!requests) return
 
         setActiveFineRequests(requests)
@@ -80,7 +78,7 @@ export const MenuPage = () => {
             onClose={() => toggleDrawer()}>
             <List>
                 {activeFineRequests.map((request, index) => (
-                    <Link to={`/fine-requests/${request.id}`}>
+                    <Link key={index} to={`/fine-requests/${request.id}`}>
                         <ListItemButton sx={{
                             justifyContent: 'space-between',
                             alignItems: 'center'
@@ -99,7 +97,7 @@ export const MenuPage = () => {
                     </Link>
                 ))}
                 {activePaymentRequests.map((request, index) => (
-                    <Link to={`/payment-requests/${request.id}`}>
+                    <Link key={index} to={`/payment-requests/${request.id}`}>
                         <ListItemButton sx={{
                             justifyContent: 'space-between',
                             alignItems: 'center'

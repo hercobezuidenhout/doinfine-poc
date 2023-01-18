@@ -7,27 +7,27 @@ export const useLeaderboardService = () => {
     const fetchUsersLeaderboard = async () => {
         const response = await axios.get(`/leaderboard/users`, {
             headers: {
-                'Authorization': `Bearer ${await authContext.getAccessToken()}`
+                'Authorization': `Bearer ${await authContext.getAccessToken()}`,
+                'spaceid': 'WaQ6MMJ5CMFaZgTZ5CHu'
             }
         })
 
         if (!response.data) return []
-        if (!response.data.items) return []
 
-        return response.data.items
+        return response.data
     }
 
     const fetchTeamsLeaderboard = async () => {
         const response = await axios.get('/leaderboard/teams', {
             headers: {
-                'Authorization': `Bearer ${await authContext.getAccessToken()}`
+                'Authorization': `Bearer ${await authContext.getAccessToken()}`,
+                'spaceid': 'WaQ6MMJ5CMFaZgTZ5CHu'
             }
         })
 
         if (!response.data) return []
-        if (!response.data.items) return []
 
-        return response.data.items
+        return response.data
     }
 
     return {

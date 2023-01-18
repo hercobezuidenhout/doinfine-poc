@@ -7,6 +7,17 @@ export const useUserService = () => {
     const fetchById = async (id) => {
         const response = await axios.get(`/users/${id}`, {
             headers: {
+                'Authorization': `Bearer ${await authContext.getAccessToken()}`,
+                'spaceId': 'WaQ6MMJ5CMFaZgTZ5CHu'
+            }
+        })
+
+        return response.data;
+    }
+
+    const addUserToken = async (token) => {
+        const response = await axios.post(`/users/tokens`, { token: token }, {
+            headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`
             }
         })
@@ -15,6 +26,7 @@ export const useUserService = () => {
     }
 
     return {
-        fetchById
+        fetchById,
+        addUserToken
     }
 }

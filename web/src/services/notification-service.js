@@ -29,6 +29,11 @@ export const useNotificationService = () => {
             }
         })
 
+        if (response.status == 404) {
+            console.log('User has not tokens')
+            return
+        }
+
         return response.data
     }
 

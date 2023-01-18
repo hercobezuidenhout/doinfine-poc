@@ -8,7 +8,7 @@ console.log(firebaseConfig)
 
 const messaging = firebase.messaging();
 
-console.log('ServiceWorker added')
+console.log('ServiceWorker added', firebaseConfig.projectId)
 
 messaging.onBackgroundMessage(function (payload) {
     console.log('Received background message ', payload);

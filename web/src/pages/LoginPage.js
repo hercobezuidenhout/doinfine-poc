@@ -27,7 +27,6 @@ export const LoginPage = () => {
         if (!authContext) return
         const response = await authContext.signIn(email, password)
         if (!response) alert('Wrong username or password.')
-        console.log(response)
     }
 
     const resetPassword = async () => {

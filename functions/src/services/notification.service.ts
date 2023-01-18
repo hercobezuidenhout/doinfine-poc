@@ -25,10 +25,11 @@ export const subscribeUserToTopic = async (topic, userId) => {
     const db = getFirestore()
 
     const userSnapshot = await db.collection('users').doc(userId).get()
+    const userTokens = userSnapshot.data().tokens
+
+    if (!userTokens) return
 
     const tokens = userSnapshot.data().tokens.map(token => token.token)
-
-    if (!tokens) return
 
     return await admin.messaging().subscribeToTopic(tokens, topic)
 }

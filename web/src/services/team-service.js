@@ -8,7 +8,7 @@ export const useTeamService = () => {
         var response = await axios.get(`/teams/${id}`, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': 'WaQ6MMJ5CMFaZgTZ5CHu'
+                'spaceId': '19yCpOvJvJasshIvazcM'
             }
         })
 

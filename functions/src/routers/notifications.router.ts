@@ -27,7 +27,7 @@ NotificationsRouter.post('/subscribe', async (req, res) => {
 
         const result = await subscribeUserToTopic(topic, uid)
 
-        if (!result) res.status(404).send()
+        if (!result) res.status(200).send('User does not have any tokens')
 
         res.status(200).send(result)
     } else {

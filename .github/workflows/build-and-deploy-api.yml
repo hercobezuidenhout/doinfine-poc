@@ -42,10 +42,12 @@ jobs:
     - name: Install NPM Dependencies
       run: |
         npm install
-        npm i -g firebase-tools
+
+    - name: Create SA Key
+      run: echo '${{ secrets.FIREBASE_FUNCTIONS_SERVICE_ACCOUNT_TEST }}' > $HOME/gcloud.json
 
     - name: Deploy
-      run: firebase deploy --token ${{ secrets.FIREBASE_FUNCTIONS_TOKEN }} --only functions --project test
+      run: export GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcloud.json && npx firebase-tools deploy --only functions --json
 
 
     

@@ -10,8 +10,6 @@ const firebase = isDevelopment()
             : firebaseConfig.prod
     );
 
-console.log(firebase)
-
 const app = initializeApp(firebase);
 const messaging = getMessaging(app);
 
@@ -36,6 +34,3 @@ export const onMessageListener = () =>
             resolve(payload);
         });
     });
-
-
-console.log('🔥 Firebase initialized')

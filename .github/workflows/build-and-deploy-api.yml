@@ -26,21 +26,19 @@ jobs:
     - name: Build API
       run: npm run build
 
-    # - name: Deploy
-    #   run: |
-    #     npm i -g firebase-tools
-    #     firebase deploy --token ${{ secrets.FIREBASE_FUNCTIONS_TOKEN }} --only functions
+  deploy_to_test:
+    name: Deploy to Test Environment
+    needs: build_and_test
+    # if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
 
-  # deploy_to_test:
-  #   name: Deploy to Test Environment
-  #   needs: build_and_test
-  #   # if: github.ref == 'refs/heads/develop'
-  #   runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
 
-  #   steps:
-  #   - uses: actions/checkout@v3
+    - name: Deploy
+      run: |
+        npm i -g firebase-tools
+        firebase deploy --token ${{ secrets.FIREBASE_FUNCTIONS_TOKEN }} --only functions --project doinfine-test
 
-  #   - name: Install NPM dependencies
-  #     run: npm install
 
     

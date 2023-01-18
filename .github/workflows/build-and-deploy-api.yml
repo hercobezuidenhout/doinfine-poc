@@ -45,7 +45,7 @@ jobs:
         npm i -g firebase-tools
 
     - name: Deploy
-      run: firebase deploy --token ${{ secrets.FIREBASE_FUNCTIONS_TOKEN }} --only functions --project doinfine-test
+      run: firebase deploy --token ${{ secrets.FIREBASE_FUNCTIONS_TOKEN }} --only functions --project test
 
 
     

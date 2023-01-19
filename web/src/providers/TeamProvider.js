@@ -4,6 +4,7 @@ import axios from "axios"
 import { useTeamService } from "@services/team-service"
 import { useUserContext } from "./UserProvider"
 import { useNotificationService } from "@services/notification-service"
+import { useOuterAuthContext } from "./OuterAuthProvider"
 
 export const TeamContext = createContext({
     id: 1,
@@ -12,6 +13,7 @@ export const TeamContext = createContext({
 })
 
 export const TeamProvider = ({ children }) => {
+    const authContext = useOuterAuthContext()
     const [team, setTeam] = useState()
     const teamService = useTeamService()
     const notificationService = useNotificationService()
@@ -21,6 +23,15 @@ export const TeamProvider = ({ children }) => {
         var user = await getCurrentUser()
 
         if (!user) return
+
+        console.log()
+
+        if (user.teams.length < 1) {
+            alert('You are not assigned to any teams. This feature will come in the next release.')
+            authContext.signOut()
+            return
+        }
+
         var userTeam = user.teams[0]
 
         const team = await teamService.fetchById(userTeam.id)

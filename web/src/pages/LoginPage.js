@@ -2,10 +2,11 @@ import { SuccessDialog } from '@components/molecules'
 import { Box, Button, OutlinedInput, TextField, Typography } from '@mui/material'
 import { useOuterAuthContext } from '@providers/OuterAuthProvider'
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export const LoginPage = () => {
     const authContext = useOuterAuthContext()
-
+    const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [isForgotPassword, setIsForgotPassword] = useState(false)
@@ -27,6 +28,7 @@ export const LoginPage = () => {
         if (!authContext) return
         const response = await authContext.signIn(email, password)
         if (!response) alert('Wrong username or password.')
+        navigate('/')
     }
 
     const resetPassword = async () => {

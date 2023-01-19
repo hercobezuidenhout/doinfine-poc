@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { useOuterAuthContext } from '@providers/OuterAuthProvider'
 import { useUserService } from '@services/user-service';
+import { useInnerAuthContext } from './InnerAuthProvider';
 
 export const UserContext = createContext({
     getCurrentUser: () => { }
 })
 
 export const UserProvider = ({ children }) => {
-    const authContext = useOuterAuthContext()
+    const authContext = useInnerAuthContext()
     const userService = useUserService()
 
     const [currentUser, setCurrentUser] = useState()

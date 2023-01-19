@@ -1,8 +1,8 @@
 import axios from "axios"
-import { useOuterAuthContext } from "@providers/OuterAuthProvider"
+import { useInnerAuthContext } from "@providers/InnerAuthProvider"
 
 export const usePaymentRequestService = () => {
-    const authContext = useOuterAuthContext()
+    const authContext = useInnerAuthContext()
 
     const fetchAll = async () => {
         const response = await axios.get(`/payment-requests?filter=active`, {

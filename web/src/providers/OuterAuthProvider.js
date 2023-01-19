@@ -8,8 +8,7 @@ export const OuterAuthContext = createContext({
     resetPassword: (email) => { },
     signOut: () => { },
     signIn: (email, password) => { },
-    getCurrentUser: () => { },
-    getAccessToken: () => { }
+    currentUser: undefined
 })
 
 export const OuterAuthProvider = ({ children }) => {
@@ -36,17 +35,12 @@ export const OuterAuthProvider = ({ children }) => {
     useEffect(() => {
         auth.onAuthStateChanged(user => {
             setCurrentUser(user)
-
-            if (user) {
-                navigate('/')
-            } else {
-                navigate('/login')
-            }
         })
     }, [])
 
     return (
         <OuterAuthContext.Provider value={{
+            currentUser: currentUser,
             getCurrentUser: getCurrentUser,
             getAccessToken: () => getCurrentUser().accessToken,
             resetPassword: resetPassword,

@@ -1,8 +1,8 @@
-import { useOuterAuthContext } from "@providers/OuterAuthProvider"
+import { useInnerAuthContext } from "@providers/InnerAuthProvider"
 import axios from "axios"
 
 export const useNotificationService = () => {
-    const authContext = useOuterAuthContext()
+    const authContext = useInnerAuthContext()
 
     const fetchAll = async (id) => {
         const response = await axios.get(`/notifications`, {

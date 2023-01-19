@@ -31,8 +31,8 @@ jobs:
       - name: Build
         run: npm run build:test
 
-      # - name: Test
-      #   run: npm run test
+      - name: Test
+        run: npm run test
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0

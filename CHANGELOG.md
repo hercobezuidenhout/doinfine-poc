@@ -1,6 +1,12 @@
 # CHANGELOG
 
 ## v0.9.0 <font size=1>`UNRELEASED`</font>
+### Added
+- `<CreateAccountPage />` for user sign up.  
+- Created `POST /users` endpoint for user sign up. 
+
+### Changed
+- Move specific logic for auth flow into the `InnerAuthProvider`. 
 
 ## v0.8.0 <font size=1>`08/12/2022`</font>
 ### Changed

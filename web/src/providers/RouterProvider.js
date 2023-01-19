@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Dashboard } from '../Dashboard'
 import { App } from '../App'
 import { LoginPage } from '@pages/LoginPage'
+import { CreateAccountPage } from '@pages/CreateAccountPage'
 
 export const RouterProvider = () => {
     return (
@@ -20,6 +21,7 @@ export const RouterProvider = () => {
                 <Route path='/menu' element={<MenuPage />} />
             </Route>
             <Route path='/login' element={<LoginPage />} />
+            <Route path='/signup' element={<CreateAccountPage />} />
         </Routes>
     )
 }

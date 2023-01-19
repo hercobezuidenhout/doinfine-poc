@@ -6,6 +6,6 @@ export const InputBox = ({ label, value, handleValueChange, type = 'text' }) => 
         <TextField sx={{
             marginBottom: '1rem',
             width: '100%'
-        }} label={label} variant='outlined' type={type} value={value} onChange={handleValueChange} />
+        }} label={label} variant='outlined' type={type} value={value} onChange={(event) => handleValueChange(event.target.value)} />
     </div>
 )

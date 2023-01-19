@@ -22,13 +22,13 @@ UsersRouter.post('/', async (req, res) => {
     const { uid } = await validateToken(idToken)
 
     const user = {
-        userId: uid,
+        id: uid,
         fullName: req.body.fullName
     }
 
     const result = await createUser(user)
 
-    if (!result) res.status(400).send('Something went wrong. User might already exist.')
+    // if (!result) res.status(400).send('Something went wrong. User might already exist.')
 
     res.send(result)
 })

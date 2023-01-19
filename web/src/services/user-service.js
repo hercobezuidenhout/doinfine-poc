@@ -25,8 +25,19 @@ export const useUserService = () => {
         return response.data;
     }
 
+    const createUser = async (fullName, accessToken) => {
+        const response = await axios.post(`/users`, { fullName: fullName }, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        })
+
+        return response.data
+    }
+
     return {
         fetchById,
-        addUserToken
+        addUserToken,
+        createUser
     }
 }

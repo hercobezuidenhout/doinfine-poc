@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { LoginPage } from '@pages/LoginPage'
-import { browserLocalPersistence, getAuth, sendPasswordResetEmail, setPersistence, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { browserLocalPersistence, createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, setPersistence, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { LandingPage } from '@pages/LandingPage'
 import { useNavigate } from 'react-router-dom'
 
@@ -8,6 +8,7 @@ export const OuterAuthContext = createContext({
     resetPassword: (email) => { },
     signOut: () => { },
     signIn: (email, password) => { },
+    signUp: (email, password) => { },
     currentUser: undefined
 })
 
@@ -32,6 +33,11 @@ export const OuterAuthProvider = ({ children }) => {
         return response
     }
 
+    const signUp = async (email, password, fullName) => {
+        const newUser = await createUserWithEmailAndPassword(auth, email, password)
+        return { uid: newUser.user.uid, accessToken: newUser.user.accessToken }
+    }
+
     useEffect(() => {
         auth.onAuthStateChanged(user => {
             setCurrentUser(user)
@@ -46,6 +52,7 @@ export const OuterAuthProvider = ({ children }) => {
             resetPassword: resetPassword,
             signOut: logout,
             signIn: signIn,
+            signUp: signUp
         }}>
             {children}
         </OuterAuthContext.Provider>

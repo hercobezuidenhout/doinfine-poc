@@ -4,8 +4,6 @@ export const getUserById = async (spaceId, id) => {
     const db = getFirestore()
 
     const doc = await db
-        .collection('spaces')
-        .doc(spaceId)
         .collection('users')
         .doc(id)
         .get()

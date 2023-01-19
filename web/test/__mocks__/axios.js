@@ -20,25 +20,22 @@ module.exports = {
         })
 
         if (url == '/leaderboard/users') return Promise.resolve({
-            data: {
-                items: [
-                    { title: 'Billy Anderson', fines: 10 },
-                    { title: 'Billy Anderson', fines: 9 },
-                    { title: 'Billy Anderson', fines: 8 },
-                    { title: 'Billy Anderson', fines: 7 },
-                    { title: 'Billy Anderson', fines: 6 },
-                    { title: 'Billy Anderson', fines: 5 },
-                ]
-            }
+            data: [
+                { title: 'Billy Anderson', fines: 10 },
+                { title: 'Billy Anderson', fines: 9 },
+                { title: 'Billy Anderson', fines: 8 },
+                { title: 'Billy Anderson', fines: 7 },
+                { title: 'Billy Anderson', fines: 6 },
+                { title: 'Billy Anderson', fines: 5 },
+            ]
+
         })
 
         if (url == '/leaderboard/teams') return Promise.resolve({
-            data: {
-                items: [
-                    { title: 'Core', fines: 10 },
-                    { title: 'Marketing', fines: 9 }
-                ]
-            }
+            data: [
+                { title: 'Core', fines: 10 },
+                { title: 'Marketing', fines: 9 }
+            ]
         })
 
         if (url == `/users/${EXAMPLE_USER_ID}`) return Promise.resolve({

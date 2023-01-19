@@ -1,11 +1,11 @@
 import { TextField } from '@mui/material'
 import React from 'react'
 
-export const InputBox = ({ value, handleValueChange }) => (
+export const InputBox = ({ label, value, handleValueChange, type = 'text' }) => (
     <div>
         <TextField sx={{
             marginBottom: '1rem',
             width: '100%'
-        }} label='Email' variant='outlined' type='email' value={value} onChange={handleValueChange} />
+        }} label={label} variant='outlined' type={type} value={value} onChange={handleValueChange} />
     </div>
 )

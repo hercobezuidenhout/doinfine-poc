@@ -37,7 +37,7 @@ export const TeamProvider = ({ children }) => {
 
     return (
         <TeamContext.Provider value={team}>
-            {team && children}
+            {team ? children : 'loading...'}
         </TeamContext.Provider>
     )
 }

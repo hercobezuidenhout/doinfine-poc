@@ -8,7 +8,7 @@ export const useLeaderboardService = () => {
         const response = await axios.get(`/leaderboard/users`, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': '19yCpOvJvJasshIvazcM'
+                'spaceId': 'WaQ6MMJ5CMFaZgTZ5CHu'
             }
         })
 
@@ -21,7 +21,7 @@ export const useLeaderboardService = () => {
         const response = await axios.get('/leaderboard/teams', {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': '19yCpOvJvJasshIvazcM'
+                'spaceId': 'WaQ6MMJ5CMFaZgTZ5CHu'
             }
         })
 

@@ -8,7 +8,7 @@ export const useUserService = () => {
         const response = await axios.get(`/users/${id}`, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': '19yCpOvJvJasshIvazcM'
+                'spaceId': 'WaQ6MMJ5CMFaZgTZ5CHu'
             }
         })
 

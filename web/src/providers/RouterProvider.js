@@ -5,6 +5,7 @@ import { Dashboard } from '../Dashboard'
 import { App } from '../App'
 import { LoginPage } from '@pages/LoginPage'
 import { CreateAccountPage } from '@pages/CreateAccountPage'
+import { CreateSpacePage } from '@pages/CreateSpacePage'
 
 export const RouterProvider = () => {
     return (
@@ -19,6 +20,7 @@ export const RouterProvider = () => {
                 <Route path='/payment' element={<PaymentPage />} />
                 <Route path='/payment-requests/:id' element={<PaymentRequestPage />} />
                 <Route path='/menu' element={<MenuPage />} />
+                <Route path='/spaces/create' element={<CreateSpacePage />} />
             </Route>
             <Route path='/login' element={<LoginPage />} />
             <Route path='/signup' element={<CreateAccountPage />} />

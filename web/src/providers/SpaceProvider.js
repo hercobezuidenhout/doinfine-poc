@@ -2,13 +2,18 @@ import React, { createContext, useContext } from 'react'
 import { useUserService } from '@services/user-service'
 import { useEffect, useState } from 'react'
 import { useUserContext } from './UserProvider'
+import { useSpaceService } from '@services/space-service'
+import { useNavigate } from 'react-router-dom'
 
 export const SpaceContext = createContext({
-    activeSpace: {}
+    activeSpace: {},
+    createSpace: (name) => { }
 })
 
 export const SpaceProvider = ({ children }) => {
     const userContext = useUserContext()
+    const spaceService = useSpaceService()
+    const navigate = useNavigate()
     const [spaces, setSpaces] = useState([])
     const [activeSpace, setActiveSpace] = useState()
 
@@ -22,13 +27,23 @@ export const SpaceProvider = ({ children }) => {
         }
     }
 
+    const createSpace = async (name) => {
+        const space = await spaceService.create(name)
+        const currentSpaces = spaces
+        currentSpaces.push(space)
+        setSpaces(currentSpaces)
+        setActiveSpace(space)
+        navigate('/')
+    }
+
     useEffect(() => {
         getUserSpaces()
     }, [])
 
     return (
         <SpaceContext.Provider value={{
-            activeSpace: activeSpace
+            activeSpace: activeSpace,
+            createSpace: createSpace
         }}>
             {activeSpace ? children : 'loading spaces...'}
         </SpaceContext.Provider>

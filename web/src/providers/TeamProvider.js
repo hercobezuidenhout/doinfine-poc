@@ -14,7 +14,6 @@ export const TeamContext = createContext({
 })
 
 export const TeamProvider = ({ children }) => {
-    const authContext = useOuterAuthContext()
     const [team, setTeam] = useState()
     const teamService = useTeamService()
     const notificationService = useNotificationService()
@@ -23,10 +22,7 @@ export const TeamProvider = ({ children }) => {
     const fetchTeam = async () => {
         if (!activeSpace) return
 
-        console.log(activeSpace)
-
-
-        if (activeSpace.teams.length < 1) {
+        if (activeSpace.teams && activeSpace.teams.length < 1) {
             alert('You are not assigned to any teams. This feature will come in the next release.')
             return
         }

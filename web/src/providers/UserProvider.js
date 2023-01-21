@@ -29,7 +29,7 @@ export const UserProvider = ({ children }) => {
         <UserContext.Provider value={{
             getCurrentUser: () => currentUser
         }}>
-            {children}
+            {currentUser ? children : 'loading user ...'}
         </UserContext.Provider>
     )
 }

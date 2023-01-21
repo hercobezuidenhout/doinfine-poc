@@ -1,19 +1,12 @@
 import { getFirestore } from 'firebase-admin/firestore'
 
-export const getUserById = async (spaceId, userId) => {
+export const getUserById = async (userId) => {
     const db = getFirestore()
 
     const doc = await db
         .collection('users')
         .doc(userId)
         .get()
-
-    // const teamsDoc = await db
-    //     .collection('spaces')
-    //     .doc(spaceId)
-    //     .collection('teams')
-    //     .where('members', 'array-contains', id)
-    //     .get()
 
     const spacesDoc = await db
         .collection('spaces')

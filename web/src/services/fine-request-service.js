@@ -3,12 +3,12 @@ import axios from "axios"
 
 export const useFineRequestService = () => {
     const authContext = useInnerAuthContext()
-
+    const { activeSpace } = useSpaceContext()
     const fetchAll = async () => {
         const response = await axios.get(`/fine-requests?filter=active`, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': 'WaQ6MMJ5CMFaZgTZ5CHu'
+                'spaceId': activeSpace.id
             }
         })
         if (response.status == 404) throw Error(response.data)
@@ -19,7 +19,7 @@ export const useFineRequestService = () => {
         const response = await axios.get(`/fine-requests/${id}`, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': 'WaQ6MMJ5CMFaZgTZ5CHu'
+                'spaceId': activeSpace.id
             }
         })
         if (response.status == 404) throw Error(response.data)
@@ -30,7 +30,7 @@ export const useFineRequestService = () => {
         const response = await axios.post(`/fine-requests`, fine, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': 'WaQ6MMJ5CMFaZgTZ5CHu'
+                'spaceId': activeSpace.id
             }
         })
 
@@ -41,7 +41,7 @@ export const useFineRequestService = () => {
         const response = await axios.put('/fine-requests', requestResponse, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': 'WaQ6MMJ5CMFaZgTZ5CHu'
+                'spaceId': activeSpace.id
             }
         })
 

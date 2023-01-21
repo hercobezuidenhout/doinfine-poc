@@ -1,5 +1,6 @@
 import { InnerAuthProvider } from '@providers/InnerAuthProvider'
 import { NotificationsProvider } from '@providers/NotificationsProvider'
+import { SpaceProvider } from '@providers/SpaceProvider'
 import { TeamProvider } from '@providers/TeamProvider'
 import { UserProvider } from '@providers/UserProvider'
 import { WebNotificationsProvider } from '@providers/WebNotificationsProvider'
@@ -10,15 +11,17 @@ import { Outlet } from 'react-router-dom'
 export const App = () => (
     <InnerAuthProvider>
         <UserProvider>
-            <TeamProvider>
-                <SnackbarProvider>
-                    <WebNotificationsProvider>
-                        <NotificationsProvider>
-                            <Outlet />
-                        </NotificationsProvider>
-                    </WebNotificationsProvider>
-                </SnackbarProvider>
-            </TeamProvider>
+            <SpaceProvider>
+                <TeamProvider>
+                    <SnackbarProvider>
+                        <WebNotificationsProvider>
+                            <NotificationsProvider>
+                                <Outlet />
+                            </NotificationsProvider>
+                        </WebNotificationsProvider>
+                    </SnackbarProvider>
+                </TeamProvider>
+            </SpaceProvider>
         </UserProvider>
     </InnerAuthProvider>
 )

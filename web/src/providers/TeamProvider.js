@@ -5,6 +5,7 @@ import { useTeamService } from "@services/team-service"
 import { useUserContext } from "./UserProvider"
 import { useNotificationService } from "@services/notification-service"
 import { useOuterAuthContext } from "./OuterAuthProvider"
+import { useSpaceContext } from "./SpaceProvider"
 
 export const TeamContext = createContext({
     id: 1,
@@ -17,22 +18,20 @@ export const TeamProvider = ({ children }) => {
     const [team, setTeam] = useState()
     const teamService = useTeamService()
     const notificationService = useNotificationService()
-    const { getCurrentUser } = useUserContext()
+    const { activeSpace } = useSpaceContext()
 
     const fetchTeam = async () => {
-        var user = await getCurrentUser()
+        if (!activeSpace) return
 
-        if (!user) return
+        console.log(activeSpace)
 
-        console.log()
 
-        if (user.teams.length < 1) {
+        if (activeSpace.teams.length < 1) {
             alert('You are not assigned to any teams. This feature will come in the next release.')
-            authContext.signOut()
             return
         }
 
-        var userTeam = user.teams[0]
+        var userTeam = activeSpace.teams[0]
 
         const team = await teamService.fetchById(userTeam.id)
         if (!team) return
@@ -44,11 +43,11 @@ export const TeamProvider = ({ children }) => {
 
     useEffect(() => {
         fetchTeam()
-    }, [getCurrentUser])
+    }, [activeSpace])
 
     return (
         <TeamContext.Provider value={team}>
-            {team ? children : 'loading...'}
+            {team ? children : 'loading team ...'}
         </TeamContext.Provider>
     )
 }

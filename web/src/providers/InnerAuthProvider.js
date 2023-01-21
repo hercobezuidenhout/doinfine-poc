@@ -19,7 +19,7 @@ export const InnerAuthProvider = ({ children }) => {
         setUserLoggedIn(currentUser)
     }, [currentUser])
 
-    return userLoggedIn === undefined ? 'loading ...' : (
+    return userLoggedIn === undefined ? 'loading auth state...' : (
         <InnerAuthContext.Provider value={{
             getCurrentUser: () => userLoggedIn,
             getAccessToken: () => userLoggedIn.accessToken

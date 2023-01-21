@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
-import { useLocation, useParams } from "react-router-dom"
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom"
 import axios from "axios"
 import { useTeamService } from "@services/team-service"
 import { useUserContext } from "./UserProvider"
@@ -14,8 +14,9 @@ export const TeamContext = createContext({
 })
 
 export const TeamProvider = ({ children }) => {
-    const [team, setTeam] = useState()
+    const [activeTeam, setActiveTeam] = useState()
     const teamService = useTeamService()
+    const navigate = useNavigate()
     const notificationService = useNotificationService()
     const { activeSpace } = useSpaceContext()
 
@@ -23,7 +24,7 @@ export const TeamProvider = ({ children }) => {
         if (!activeSpace) return
 
         if (activeSpace.teams && activeSpace.teams.length < 1) {
-            alert('You are not assigned to any teams. This feature will come in the next release.')
+            navigate('create/team')
             return
         }
 
@@ -34,7 +35,7 @@ export const TeamProvider = ({ children }) => {
 
         await notificationService.subscribe(team.id)
 
-        setTeam(team)
+        setActiveTeam(team)
     }
 
     useEffect(() => {
@@ -42,8 +43,8 @@ export const TeamProvider = ({ children }) => {
     }, [activeSpace])
 
     return (
-        <TeamContext.Provider value={team}>
-            {team ? children : 'loading team ...'}
+        <TeamContext.Provider value={activeTeam}>
+            {activeTeam ? <Outlet /> : 'loading team ...'}
         </TeamContext.Provider>
     )
 }

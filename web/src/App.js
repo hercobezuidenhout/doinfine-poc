@@ -11,9 +11,7 @@ import { Outlet } from 'react-router-dom'
 export const App = () => (
     <InnerAuthProvider>
         <UserProvider>
-            <SpaceProvider>
-                <Outlet />
-            </SpaceProvider>
+            <Outlet />
         </UserProvider>
     </InnerAuthProvider>
 )

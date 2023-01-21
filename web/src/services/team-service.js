@@ -17,7 +17,21 @@ export const useTeamService = () => {
         return response.data
     }
 
+    const create = async (space, name) => {
+        var response = await axios.post(`/teams`, {
+            name: name
+        }, {
+            headers: {
+                'Authorization': `Bearer ${await authContext.getAccessToken()}`,
+                'space': space
+            }
+        })
+
+        return response.data
+    }
+
     return {
-        fetchById
+        fetchById,
+        create
     }
 }

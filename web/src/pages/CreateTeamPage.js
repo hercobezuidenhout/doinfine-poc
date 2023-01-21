@@ -2,22 +2,28 @@ import { InputBox } from '@components/atoms'
 import { ConfirmationDialog } from '@components/molecules'
 import { Box, Button, LinearProgress } from '@mui/material'
 import { useSpaceContext } from '@providers/SpaceProvider'
-import { useSpaceService } from '@services/space-service'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-export const CreateSpacePage = () => {
-    const spaceService = useSpaceService()
+export const CreateTeamPage = () => {
+    const spaceContext = useSpaceContext()
     const navigate = useNavigate()
-    const [spaceName, setSpaceName] = useState('')
+    const [teamName, setTeamName] = useState('')
     const [confirmCreate, setConfirmCreate] = useState(false)
     const [loading, setLoading] = useState(false)
 
-    const createSpace = async () => {
+    const createTeam = async () => {
         setConfirmCreate(false)
         setLoading(true)
-        const space = await spaceService.create(name)
+        const team = await spaceContext.createTeam(teamName)
+
         setLoading(false)
+
+        if (!team) {
+            alert('Failed creating team. Please try again.')
+            return
+        }
+
         navigate('/')
     }
 
@@ -27,18 +33,18 @@ export const CreateSpacePage = () => {
         }}>
             {!loading && (
                 <>
-                    <h1>Create Space</h1>
-                    <InputBox label='Space Name' value={spaceName} handleValueChange={newValue => setSpaceName(newValue)} />
+                    <h1>Create Team</h1>
+                    <InputBox label='Team Name' value={teamName} handleValueChange={newValue => setTeamName(newValue)} />
                     <Button onClick={() => setConfirmCreate(true)} sx={{
                         marginTop: '1rem'
-                    }} variant='contained'>Create Space</Button>
+                    }} variant='contained'>Create Team</Button>
                 </>
             )}
             {loading && (
                 <LinearProgress />
             )}
 
-            <ConfirmationDialog open={confirmCreate} title='Confirm Create' text='Are you sure you want to create this space?' handleConfirm={createSpace} handleClose={() => setConfirmCreate(false)} />
+            <ConfirmationDialog open={confirmCreate} title='Confirm Create' text='Are you sure you want to create this team?' handleConfirm={createTeam} handleClose={() => setConfirmCreate(false)} />
         </Box>
     )
 }

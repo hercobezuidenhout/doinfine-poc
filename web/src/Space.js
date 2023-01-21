@@ -8,12 +8,14 @@ import { SnackbarProvider } from 'notistack'
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 
-export const App = () => (
-    <InnerAuthProvider>
-        <UserProvider>
-            <SpaceProvider>
-                <Outlet />
-            </SpaceProvider>
-        </UserProvider>
-    </InnerAuthProvider>
+export const Space = () => (
+    <TeamProvider>
+        <SnackbarProvider>
+            <WebNotificationsProvider>
+                <NotificationsProvider>
+                    <Outlet />
+                </NotificationsProvider>
+            </WebNotificationsProvider>
+        </SnackbarProvider>
+    </TeamProvider>
 )

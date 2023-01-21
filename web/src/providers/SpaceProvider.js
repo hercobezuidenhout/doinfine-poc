@@ -3,7 +3,7 @@ import { useUserService } from '@services/user-service'
 import { useEffect, useState } from 'react'
 import { useUserContext } from './UserProvider'
 import { useSpaceService } from '@services/space-service'
-import { useNavigate } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 
 export const SpaceContext = createContext({
     activeSpace: {},
@@ -22,6 +22,7 @@ export const SpaceProvider = ({ children }) => {
         if (currentUser.spaces.length > 0) {
             setSpaces(currentUser.spaces)
             setActiveSpace(currentUser.spaces[0])
+            navigate(`/${currentUser.spaces[0].id}`)
         } else {
             console.log('user does not have any spaces')
             navigate('/spaces/create')
@@ -46,7 +47,8 @@ export const SpaceProvider = ({ children }) => {
             activeSpace: activeSpace,
             createSpace: createSpace
         }}>
-            {activeSpace ? children : 'loading spaces...'}
+            {activeSpace ? <Outlet /> : 'loading spaces...'}
+
         </SpaceContext.Provider>
     )
 }

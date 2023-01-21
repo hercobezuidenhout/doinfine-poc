@@ -1,4 +1,5 @@
 import { useInnerAuthContext } from "@providers/InnerAuthProvider"
+import { useSpaceContext } from "@providers/SpaceProvider"
 import axios from "axios"
 
 export const useFineRequestService = () => {

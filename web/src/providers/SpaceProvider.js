@@ -24,6 +24,7 @@ export const SpaceProvider = ({ children }) => {
             setActiveSpace(currentUser.spaces[0])
         } else {
             console.log('user does not have any spaces')
+            navigate('/spaces/create')
         }
     }
 

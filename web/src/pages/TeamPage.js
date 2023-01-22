@@ -5,7 +5,7 @@ import React, { useEffect, useState, Fragment } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 
 export const TeamPage = () => {
-    const { id, members, name } = useTeamContext()
+    const { members } = useTeamContext()
     const { getCurrentUser } = useUserContext()
 
     const [searchParams] = useSearchParams()
@@ -26,14 +26,13 @@ export const TeamPage = () => {
     }, [member])
 
     useEffect(() => {
+        console.log(members)
         if (searchParams.get('member')) {
             const teamMember = members.filter(x => x.id == searchParams.get('member'))[0]
             setMember(teamMember)
         } else {
             let teamMember = undefined
-
-            const filteredMembers = members.filter(x => x.id == getCurrentUser().id)
-            teamMember = filteredMembers[0]
+            teamMember = members[0]
 
             setMember(teamMember)
             searchParams.set('member', teamMember.id)

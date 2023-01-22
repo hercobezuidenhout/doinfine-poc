@@ -2,12 +2,15 @@ import { InputBox } from '@components/atoms'
 import { ConfirmationDialog } from '@components/molecules'
 import { Box, Button, LinearProgress } from '@mui/material'
 import { useSpaceContext } from '@providers/SpaceProvider'
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useUserContext } from '@providers/UserProvider'
+import React, { useContext, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 
 export const CreateTeamPage = () => {
     const spaceContext = useSpaceContext()
+    const userContext = useUserContext()
     const navigate = useNavigate()
+    const { spaceId } = useParams()
     const [teamName, setTeamName] = useState('')
     const [confirmCreate, setConfirmCreate] = useState(false)
     const [loading, setLoading] = useState(false)

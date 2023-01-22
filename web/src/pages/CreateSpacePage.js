@@ -2,12 +2,14 @@ import { InputBox } from '@components/atoms'
 import { ConfirmationDialog } from '@components/molecules'
 import { Box, Button, LinearProgress } from '@mui/material'
 import { useSpaceContext } from '@providers/SpaceProvider'
+import { useUserContext } from '@providers/UserProvider'
 import { useSpaceService } from '@services/space-service'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 export const CreateSpacePage = () => {
     const spaceService = useSpaceService()
+    const userContext = useUserContext()
     const navigate = useNavigate()
     const [spaceName, setSpaceName] = useState('')
     const [confirmCreate, setConfirmCreate] = useState(false)
@@ -16,9 +18,10 @@ export const CreateSpacePage = () => {
     const createSpace = async () => {
         setConfirmCreate(false)
         setLoading(true)
-        const space = await spaceService.create(name)
+        const space = await spaceService.create(spaceName)
+
         setLoading(false)
-        navigate('/')
+        navigate(`/`)
     }
 
     return (

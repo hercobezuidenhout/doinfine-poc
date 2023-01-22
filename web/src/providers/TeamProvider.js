@@ -22,19 +22,19 @@ export const TeamProvider = ({ children }) => {
 
     const fetchTeam = async () => {
         if (!activeSpace) return
-
         if (activeSpace.teams && activeSpace.teams.length < 1) {
             navigate('create/team')
             return
         }
 
-        var userTeam = activeSpace.teams[0]
+        const activeTeam = activeSpace.teams[0]
 
-        const team = await teamService.fetchById(userTeam.id)
+        const team = await teamService.fetchById(activeTeam.id)
         if (!team) return
 
         await notificationService.subscribe(team.id)
 
+        console.log(team)
         setActiveTeam(team)
     }
 

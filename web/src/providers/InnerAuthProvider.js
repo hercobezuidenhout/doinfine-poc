@@ -14,7 +14,6 @@ export const InnerAuthProvider = ({ children }) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        console.log('currentUser:', currentUser)
         if (currentUser === null) navigate('/login')
         setUserLoggedIn(currentUser)
     }, [currentUser])

@@ -8,9 +8,8 @@ import { validateToken } from "../services/auth.service"
 const UsersRouter = Router()
 
 UsersRouter.get('/:id', async (req, res) => {
-    const { spaceid } = req.headers
     const id = req.params.id
-    const user = await getUserById(spaceid, id)
+    const user = await getUserById(id)
 
     if (!user) res.status(404).send()
 

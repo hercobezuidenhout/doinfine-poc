@@ -13,4 +13,7 @@ The Fine System is a simple system where teams fine each other for a specific ac
 ## Tech Stack
 The app currently exists out of a `React Web App` and a `.NET Web API` which is set up as a `PWA` so that it can run on a mobile device.
 
+## Authenticating to Firebase Messaging
+`export GOOGLE_APPLICATION_CREDENTIALS="/Users/hercobezuidenhout/Downloads/doinfine-test-service-account.json"`
+
 It is deployed to a Google Cloud infrastructure and Firebase.

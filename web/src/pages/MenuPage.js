@@ -5,23 +5,25 @@ import { ChevronRight } from '@mui/icons-material'
 import { Box, Container, Drawer, IconButton, List, ListItem, ListItemButton, SwipeableDrawer, Typography } from '@mui/material'
 import { useOuterAuthContext } from '@providers/OuterAuthProvider'
 import { useNotificationsContext } from '@providers/NotificationsProvider'
-import { useTeamContext } from '@providers/TeamProvider'
 import { useUserContext } from '@providers/UserProvider'
 import { useFineRequestService } from '@services/fine-request-service'
 import { usePaymentRequestService } from '@services/payment-request-service'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useSpaceContext } from '@providers/SpaceProvider'
 
 export const MenuPage = () => {
     const nofiticiationsContext = useNotificationsContext()
     const { resetPassword, signOut } = useOuterAuthContext()
-    const { getCurrentUser } = useUserContext()
+    const { email } = useUserContext()
     const fineRequestService = useFineRequestService()
     const paymentRequestService = usePaymentRequestService()
+    const { activeSpace, spaces, switchSpace } = useSpaceContext()
 
     const [activeFineRequests, setActiveFineRequests] = useState([])
     const [activePaymentRequests, setActivePaymentRequests] = useState([])
-    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(false)
+    const [showSpacesDrawer, setShowSpacesDrawer] = useState(false)
     const [isPasswordResetSuccess, setIsPasswordResetSuccess] = useState(false)
 
     const toggleDrawer = () => {
@@ -43,8 +45,17 @@ export const MenuPage = () => {
     }
 
     const handleResetPasswordClick = async () => {
-        await resetPassword(getCurrentUser().email)
+        await resetPassword(email)
         setIsPasswordResetSuccess(true)
+    }
+
+    const handleSpacesDrawerClose = () => {
+        setShowSpacesDrawer(false)
+    }
+
+    const handleSpaceClick = async (newSpace) => {
+        await switchSpace(newSpace)
+        setShowSpacesDrawer(false)
     }
 
     useEffect(() => {
@@ -55,7 +66,7 @@ export const MenuPage = () => {
     return <div>
         <ActionBar title="Menu" link="/team" />
         <Container>
-            {getCurrentUser() && <OptionsBox label={getCurrentUser().email}>
+            {email && <OptionsBox label={email}>
                 <LinkListItem label="Reset Password" handleLinkClick={handleResetPasswordClick} />
                 <LinkListItem label="Sign Out" handleLinkClick={() => signOut()} />
             </OptionsBox>
@@ -63,6 +74,9 @@ export const MenuPage = () => {
             <OptionsBox label="Manage Fines">
                 <LinkListItem label="View active requests" handleLinkClick={() => toggleDrawer()} />
                 <LinkListItem label="Log payment" link="/payment" />
+            </OptionsBox>
+            <OptionsBox label={activeSpace.name ? activeSpace.name : 'Space'}>
+                <LinkListItem label="Switch Space" handleLinkClick={() => setShowSpacesDrawer(true)} />
             </OptionsBox>
             <Box sx={{
                 display: 'flex',
@@ -126,5 +140,22 @@ export const MenuPage = () => {
                 }
             </List>
         </Drawer>
-    </div >
+        <Drawer
+            anchor='bottom'
+            open={showSpacesDrawer}
+            onClose={handleSpacesDrawerClose}>
+            <Box sx={{
+                padding: '1rem'
+            }}>
+                <Typography variant='h6'>Switch Space</Typography>
+                <List>
+                    {spaces.filter(space => space.id !== activeSpace.id).map((space, index) => (
+                        <ListItemButton key={index} onClick={() => handleSpaceClick(space)}>
+                            <Typography variant='p'>{space.name}</Typography>
+                        </ListItemButton>
+                    ))}
+                </List>
+            </Box>
+        </Drawer>
+    </div>
 }

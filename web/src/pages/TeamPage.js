@@ -5,8 +5,8 @@ import React, { useEffect, useState, Fragment } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 
 export const TeamPage = () => {
-    const { id, members, name } = useTeamContext()
-    const { getCurrentUser } = useUserContext()
+    const { members } = useTeamContext().activeTeam
+    const { userId } = useUserContext()
 
     const [searchParams] = useSearchParams()
     const [member, setMember] = useState()
@@ -26,14 +26,13 @@ export const TeamPage = () => {
     }, [member])
 
     useEffect(() => {
+        console.log(members)
         if (searchParams.get('member')) {
             const teamMember = members.filter(x => x.id == searchParams.get('member'))[0]
             setMember(teamMember)
         } else {
             let teamMember = undefined
-
-            const filteredMembers = members.filter(x => x.id == getCurrentUser().id)
-            teamMember = filteredMembers[0]
+            teamMember = members[0]
 
             setMember(teamMember)
             searchParams.set('member', teamMember.id)
@@ -73,7 +72,7 @@ export const TeamPage = () => {
                 alignItems: 'center'
             }}>
                 <h1 data-testid="team-page-title">{member ? member.fullName : <Skeleton variant='text' width={300} sx={{ fontSize: '3rem ' }} />}</h1>
-                {member && (member.id == getCurrentUser().id) && <Link to='/payment'><Button variant='outlined'>Log Payment</Button></Link>}
+                {member && (member.id == userId) && <Link to='/payment'><Button variant='outlined'>Log Payment</Button></Link>}
             </Box>
             <List>
                 {fines

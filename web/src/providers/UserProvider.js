@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useUserService } from '@services/user-service';
 import { useInnerAuthContext } from './InnerAuthProvider';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const UserContext = createContext({
-    getCurrentUser: () => { }
+    userId: undefined,
+    email: undefined
 })
 
 export const UserProvider = ({ children }) => {
@@ -13,23 +15,28 @@ export const UserProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState()
 
     const fetchUser = async () => {
+
         if (!authContext) return
         const authUser = authContext.getCurrentUser()
         const user = await userService.fetchById(authUser.uid)
+
         if (!user) return
 
         setCurrentUser({ ...user, email: authUser.email })
+
+        return user
     }
 
     useEffect(() => {
         fetchUser()
-    }, [authContext])
+    }, [])
 
     return (
         <UserContext.Provider value={{
-            getCurrentUser: () => currentUser
+            userId: currentUser ? currentUser.id : '',
+            email: currentUser ? currentUser.email : '',
         }}>
-            {children}
+            {currentUser ? children : 'loading user ...'}
         </UserContext.Provider>
     )
 }

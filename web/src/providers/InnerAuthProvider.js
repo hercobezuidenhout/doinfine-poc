@@ -14,12 +14,11 @@ export const InnerAuthProvider = ({ children }) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        console.log('currentUser:', currentUser)
         if (currentUser === null) navigate('/login')
         setUserLoggedIn(currentUser)
     }, [currentUser])
 
-    return userLoggedIn === undefined ? 'loading ...' : (
+    return userLoggedIn === undefined ? 'loading auth state...' : (
         <InnerAuthContext.Provider value={{
             getCurrentUser: () => userLoggedIn,
             getAccessToken: () => userLoggedIn.accessToken

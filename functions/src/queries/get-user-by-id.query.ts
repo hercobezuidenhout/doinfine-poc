@@ -1,26 +1,42 @@
 import { getFirestore } from 'firebase-admin/firestore'
 
-export const getUserById = async (spaceId, id) => {
+export const getUserById = async (userId) => {
     const db = getFirestore()
 
     const doc = await db
         .collection('users')
-        .doc(id)
+        .doc(userId)
         .get()
 
-    const teamsDoc = await db
+    const spacesDoc = await db
         .collection('spaces')
-        .doc(spaceId)
-        .collection('teams')
-        .where('members', 'array-contains', id)
+        .where('members', 'array-contains', userId)
         .get()
+
+    const spaces = spacesDoc.docs.map(doc => doc.id)
+    const userSpaces = []
+
+    for (let spaceIndex = 0; spaceIndex < spaces.length; spaceIndex++) {
+        const spaceId = spaces[spaceIndex];
+        const teamsDoc = await db
+            .collection('spaces')
+            .doc(spaceId)
+            .collection('teams')
+            .where('members', 'array-contains', userId)
+            .get()
+
+        userSpaces.push({
+            id: spaceId,
+            teams: teamsDoc.docs.map(doc => ({
+                id: doc.id,
+                name: doc.data().name
+            }))
+        })
+    }
 
     return {
         id: doc.id,
         fullName: doc.data()?.fullName,
-        teams: teamsDoc.docs.map(doc => ({
-            id: doc.id,
-            name: doc.data().name
-        })),
+        spaces: userSpaces
     }
 }

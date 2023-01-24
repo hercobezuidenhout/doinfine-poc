@@ -10,6 +10,7 @@ import { useFineRequestService } from '@services/fine-request-service'
 import { usePaymentRequestService } from '@services/payment-request-service'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useSpaceContext } from '@providers/SpaceProvider'
 
 export const MenuPage = () => {
     const nofiticiationsContext = useNotificationsContext()
@@ -17,10 +18,12 @@ export const MenuPage = () => {
     const { email } = useUserContext()
     const fineRequestService = useFineRequestService()
     const paymentRequestService = usePaymentRequestService()
+    const { activeSpace, spaces, switchSpace } = useSpaceContext()
 
     const [activeFineRequests, setActiveFineRequests] = useState([])
     const [activePaymentRequests, setActivePaymentRequests] = useState([])
-    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(false)
+    const [showSpacesDrawer, setShowSpacesDrawer] = useState(false)
     const [isPasswordResetSuccess, setIsPasswordResetSuccess] = useState(false)
 
     const toggleDrawer = () => {
@@ -46,6 +49,15 @@ export const MenuPage = () => {
         setIsPasswordResetSuccess(true)
     }
 
+    const handleSpacesDrawerClose = () => {
+        setShowSpacesDrawer(false)
+    }
+
+    const handleSpaceClick = async (newSpace) => {
+        await switchSpace(newSpace)
+        setShowSpacesDrawer(false)
+    }
+
     useEffect(() => {
         fetchActiveFineRequests();
         fetchActivePaymentRequests();
@@ -62,6 +74,9 @@ export const MenuPage = () => {
             <OptionsBox label="Manage Fines">
                 <LinkListItem label="View active requests" handleLinkClick={() => toggleDrawer()} />
                 <LinkListItem label="Log payment" link="/payment" />
+            </OptionsBox>
+            <OptionsBox label={activeSpace.name ? activeSpace.name : 'Space'}>
+                <LinkListItem label="Switch Space" handleLinkClick={() => setShowSpacesDrawer(true)} />
             </OptionsBox>
             <Box sx={{
                 display: 'flex',
@@ -125,5 +140,22 @@ export const MenuPage = () => {
                 }
             </List>
         </Drawer>
-    </div >
+        <Drawer
+            anchor='bottom'
+            open={showSpacesDrawer}
+            onClose={handleSpacesDrawerClose}>
+            <Box sx={{
+                padding: '1rem'
+            }}>
+                <Typography variant='h6'>Switch Space</Typography>
+                <List>
+                    {spaces.filter(space => space.id !== activeSpace.id).map((space, index) => (
+                        <ListItemButton key={index} onClick={() => handleSpaceClick(space)}>
+                            <Typography variant='p'>{space.name}</Typography>
+                        </ListItemButton>
+                    ))}
+                </List>
+            </Box>
+        </Drawer>
+    </div>
 }

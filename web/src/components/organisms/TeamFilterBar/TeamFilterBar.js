@@ -52,7 +52,7 @@ export const TeamFilterBar = () => {
                         </ActiveAvatar>
                     )
                     : (
-                        <Avatar key={member.id} sx={{
+                        <Avatar sx={{
                             marginRight: '0.5rem'
                         }} onClick={() => handleAvatarClick(member.id)} key={member.id} alt={member.name} src={member.avatar}>
                             <Typography variant='body1'>{initials(member.fullName)}</Typography>

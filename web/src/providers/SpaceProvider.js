@@ -7,6 +7,8 @@ import { useSpaceService } from '@services/space-service'
 
 export const SpaceContext = createContext({
     activeSpace: {},
+    spaces: [],
+    switchSpace: (newSpace) => { },
     createTeam: (name) => { },
 })
 
@@ -17,6 +19,7 @@ export const SpaceProvider = ({ children }) => {
     const navigate = useNavigate()
 
     const [activeSpace, setActiveSpace] = useState()
+    const [spaces, setSpaces] = useState()
 
     const saveActiveSpace = async (space) => {
         const userStorage = localStorage.getItem(userId)
@@ -24,6 +27,7 @@ export const SpaceProvider = ({ children }) => {
         if (userStorage) {
             const storage = JSON.parse(userStorage)
             storage.activeSpace = space
+            storage.activeTeam = undefined
             localStorage.setItem(userId, JSON.stringify(storage))
         } else {
             localStorage.setItem(userId, JSON.stringify({
@@ -38,6 +42,8 @@ export const SpaceProvider = ({ children }) => {
             navigate('/create/space')
             return
         }
+
+        setSpaces(userSpaces)
 
         const userStorage = localStorage.getItem(userId)
         let savedSpace = undefined
@@ -58,12 +64,19 @@ export const SpaceProvider = ({ children }) => {
         return response
     }
 
+    const switchSpace = async (newSpace) => {
+        saveActiveSpace(newSpace)
+        setActiveSpace(newSpace)
+    }
+
     useEffect(() => {
         getUserSpaces()
     }, [])
 
     return (
         <SpaceContext.Provider value={{
+            spaces: spaces,
+            switchSpace: switchSpace,
             activeSpace: activeSpace,
             createTeam: createTeam
         }}>

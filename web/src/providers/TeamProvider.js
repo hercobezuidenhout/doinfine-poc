@@ -18,6 +18,7 @@ export const TeamProvider = ({ children }) => {
     const [activeTeam, setActiveTeam] = useState()
     const { userId } = useUserContext()
     const { fetchAll, fetchById } = useTeamService()
+    const { activeSpace } = useSpaceContext()
     const navigate = useNavigate()
     const notificationService = useNotificationService()
 
@@ -59,7 +60,7 @@ export const TeamProvider = ({ children }) => {
 
     useEffect(() => {
         fetchTeam()
-    }, [])
+    }, [activeSpace])
 
     return (
         <TeamContext.Provider value={{

@@ -46,13 +46,18 @@ export const Dashboard = () => {
                 anchor='bottom'
                 open={showDrawer}
                 onClose={handleDrawerClose}>
-                <List>
-                    {teams.map((team, index) => (
-                        <ListItemButton key={index} onClick={() => handleTeamClick(team)}>
-                            <Typography variant='p'>{team.name}</Typography>
-                        </ListItemButton>
-                    ))}
-                </List>
+                <Box sx={{
+                    padding: '1rem'
+                }}>
+                    <Typography variant='h6'>Switch Team</Typography>
+                    <List>
+                        {teams.filter(team => team.id !== activeTeam.id).map((team, index) => (
+                            <ListItemButton key={index} onClick={() => handleTeamClick(team)}>
+                                <Typography variant='p'>{team.name}</Typography>
+                            </ListItemButton>
+                        ))}
+                    </List>
+                </Box>
             </Drawer>
         </div>
     )

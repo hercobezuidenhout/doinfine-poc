@@ -8,9 +8,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 export const CreateTeamPage = () => {
     const spaceContext = useSpaceContext()
-    const userContext = useUserContext()
+    const { userId } = useUserContext()
     const navigate = useNavigate()
-    const { spaceId } = useParams()
     const [teamName, setTeamName] = useState('')
     const [confirmCreate, setConfirmCreate] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -19,6 +18,12 @@ export const CreateTeamPage = () => {
         setConfirmCreate(false)
         setLoading(true)
         const team = await spaceContext.createTeam(teamName)
+
+        const userStorage = JSON.parse(localStorage.getItem(userId))
+
+        userStorage.activeTeam = team.id
+
+        localStorage.setItem(userId, JSON.stringify(userStorage))
 
         setLoading(false)
 

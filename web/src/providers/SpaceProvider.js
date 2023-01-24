@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useUserContext } from './UserProvider'
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTeamService } from '@services/team-service'
+import { useSpaceService } from '@services/space-service'
 
 export const SpaceContext = createContext({
     activeSpace: {},
@@ -10,27 +11,45 @@ export const SpaceContext = createContext({
 })
 
 export const SpaceProvider = ({ children }) => {
-    const userContext = useUserContext()
+    const { userId } = useUserContext()
     const teamService = useTeamService()
+    const { fetchAll } = useSpaceService()
     const navigate = useNavigate()
-    const { pathname } = useLocation()
+
     const [activeSpace, setActiveSpace] = useState()
 
-    const getUserSpaces = async () => {
-        const currentUser = await userContext.getCurrentUser()
+    const saveActiveSpace = async (space) => {
+        const userStorage = localStorage.getItem(userId)
 
-        if (!currentUser.spaces || currentUser.spaces.length == 0) {
+        if (userStorage) {
+            const storage = JSON.parse(userStorage)
+            storage.activeSpace = space
+            localStorage.setItem(userId, JSON.stringify(storage))
+        } else {
+            localStorage.setItem(userId, JSON.stringify({
+                activeSpace: space
+            }))
+        }
+    }
+
+    const getUserSpaces = async () => {
+        const userSpaces = await fetchAll()
+        if (!userSpaces || userSpaces.length == 0) {
             navigate('/create/space')
             return
         }
 
-        const space = currentUser.spaces[0]
+        const userStorage = localStorage.getItem(userId)
+        let savedSpace = undefined
+
+        if (userStorage) {
+            savedSpace = JSON.parse(userStorage).activeSpace
+        }
+        const space = savedSpace ? savedSpace : userSpaces[0]
+
+        await saveActiveSpace(space)
+
         setActiveSpace(space)
-
-        console.log(space.teams)
-
-        if (!space.teams || space.teams.length == 0) navigate('create/team')
-        // if (pathname == '/create/team') navigate('create/team')
     }
 
     const createTeam = async (name) => {

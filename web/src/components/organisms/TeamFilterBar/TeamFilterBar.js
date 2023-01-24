@@ -5,7 +5,8 @@ import { Avatar, Toolbar, Typography } from "@mui/material"
 import { useTeamContext } from "@providers/TeamProvider"
 
 export const TeamFilterBar = () => {
-    const { id: teamId, members } = useTeamContext()
+    const { activeTeam } = useTeamContext()
+    const { id: teamId, members } = activeTeam
 
     const [searchParams, setSearchParams] = useSearchParams()
     const [active, setActive] = useState()
@@ -51,7 +52,7 @@ export const TeamFilterBar = () => {
                         </ActiveAvatar>
                     )
                     : (
-                        <Avatar sx={{
+                        <Avatar key={member.id} sx={{
                             marginRight: '0.5rem'
                         }} onClick={() => handleAvatarClick(member.id)} key={member.id} alt={member.name} src={member.avatar}>
                             <Typography variant='body1'>{initials(member.fullName)}</Typography>

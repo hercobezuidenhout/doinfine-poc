@@ -2,22 +2,30 @@ import React, { useEffect, useState } from 'react';
 import { BottomNavigationBar } from '@components/templates';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { MenuBar } from '@components/molecules';
-import { Container } from '@mui/material';
+import { Box, Container, Drawer, List, ListItemButton, Typography } from '@mui/material';
 import { useTeamContext } from '@providers/TeamProvider';
 
 export const Dashboard = () => {
     const [title, setTitle] = useState()
+    const [showDrawer, setShowDrawer] = useState()
 
     const location = useLocation()
     const navigate = useNavigate()
-    const { name: teamName } = useTeamContext()
+    const { activeTeam, teams, switchActiveTeam } = useTeamContext()
+
+    const handleTeamClick = async (team) => {
+        await switchActiveTeam(team)
+        setShowDrawer(false)
+    }
+
+    const handleDrawerClose = () => setShowDrawer(false)
 
     useEffect(() => {
         const pathname = location.pathname
 
         switch (pathname) {
             case '/team':
-                teamName ? setTitle(teamName) : setTitle('Team')
+                setTitle({ onClick: () => setShowDrawer(true), title: activeTeam.name })
                 break;
             case '/leaderboard':
                 setTitle('Leaderboard')
@@ -34,6 +42,18 @@ export const Dashboard = () => {
                 <Outlet />
             </Container>
             <BottomNavigationBar />
+            <Drawer
+                anchor='bottom'
+                open={showDrawer}
+                onClose={handleDrawerClose}>
+                <List>
+                    {teams.map((team, index) => (
+                        <ListItemButton key={index} onClick={() => handleTeamClick(team)}>
+                            <Typography variant='p'>{team.name}</Typography>
+                        </ListItemButton>
+                    ))}
+                </List>
+            </Drawer>
         </div>
     )
 }

@@ -8,42 +8,65 @@ import { useOuterAuthContext } from "./OuterAuthProvider"
 import { useSpaceContext } from "./SpaceProvider"
 
 export const TeamContext = createContext({
-    id: 1,
-    name: 'Example',
-    members: []
+    teams: [],
+    activeTeam: {},
+    switchActiveTeam: (newTeam) => { }
 })
 
 export const TeamProvider = ({ children }) => {
+    const [teams, setTeams] = useState()
     const [activeTeam, setActiveTeam] = useState()
-    const teamService = useTeamService()
+    const { userId } = useUserContext()
+    const { fetchAll, fetchById } = useTeamService()
     const navigate = useNavigate()
     const notificationService = useNotificationService()
-    const { activeSpace } = useSpaceContext()
+
+    const saveActiveTeam = async (team) => {
+        const userStorage = JSON.parse(localStorage.getItem(userId))
+        userStorage.activeTeam = team.id
+        localStorage.setItem(userId, JSON.stringify(userStorage))
+    }
 
     const fetchTeam = async () => {
-        if (!activeSpace) return
-        if (activeSpace.teams && activeSpace.teams.length < 1) {
+        const teams = await fetchAll()
+        if (teams && teams.length < 1) {
             navigate('create/team')
             return
         }
 
-        const activeTeam = activeSpace.teams[0]
+        console.log(teams)
 
-        const team = await teamService.fetchById(activeTeam.id)
+        setTeams(teams)
+
+        const savedTeam = JSON.parse(localStorage.getItem(userId)).activeTeam
+        const activeTeam = savedTeam ? { id: savedTeam } : teams[0]
+
+        saveActiveTeam(activeTeam)
+
+        const team = await fetchById(activeTeam.id)
         if (!team) return
 
         await notificationService.subscribe(team.id)
 
-        console.log(team)
+        setActiveTeam(team)
+    }
+
+    const handleSwitchActiveTeam = async (newTeam) => {
+        saveActiveTeam(newTeam)
+        const team = await fetchById(newTeam.id)
         setActiveTeam(team)
     }
 
     useEffect(() => {
         fetchTeam()
-    }, [activeSpace])
+    }, [])
 
     return (
-        <TeamContext.Provider value={activeTeam}>
+        <TeamContext.Provider value={{
+            teams: teams,
+            activeTeam: activeTeam,
+            switchActiveTeam: handleSwitchActiveTeam
+        }}>
             {activeTeam ? <Outlet /> : 'loading team ...'}
         </TeamContext.Provider>
     )

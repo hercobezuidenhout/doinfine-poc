@@ -5,8 +5,8 @@ import React, { useEffect, useState, Fragment } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 
 export const TeamPage = () => {
-    const { members } = useTeamContext()
-    const { getCurrentUser } = useUserContext()
+    const { members } = useTeamContext().activeTeam
+    const { userId } = useUserContext()
 
     const [searchParams] = useSearchParams()
     const [member, setMember] = useState()
@@ -72,7 +72,7 @@ export const TeamPage = () => {
                 alignItems: 'center'
             }}>
                 <h1 data-testid="team-page-title">{member ? member.fullName : <Skeleton variant='text' width={300} sx={{ fontSize: '3rem ' }} />}</h1>
-                {member && (member.id == getCurrentUser().id) && <Link to='/payment'><Button variant='outlined'>Log Payment</Button></Link>}
+                {member && (member.id == userId) && <Link to='/payment'><Button variant='outlined'>Log Payment</Button></Link>}
             </Box>
             <List>
                 {fines

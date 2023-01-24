@@ -6,11 +6,22 @@ export const useTeamService = () => {
     const authContext = useInnerAuthContext()
     const { activeSpace } = useSpaceContext()
 
+    const fetchAll = async () => {
+        var response = await axios.get(`/teams`, {
+            headers: {
+                'Authorization': `Bearer ${await authContext.getAccessToken()}`,
+                'space': activeSpace.id
+            }
+        })
+
+        return response.data
+    }
+
     const fetchById = async (id) => {
         var response = await axios.get(`/teams/${id}`, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': activeSpace.id
+                'space': activeSpace.id
             }
         })
 
@@ -31,6 +42,7 @@ export const useTeamService = () => {
     }
 
     return {
+        fetchAll,
         fetchById,
         create
     }

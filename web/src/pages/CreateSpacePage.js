@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 
 export const CreateSpacePage = () => {
     const spaceService = useSpaceService()
-    const userContext = useUserContext()
+    const { userId } = useUserContext()
     const navigate = useNavigate()
     const [spaceName, setSpaceName] = useState('')
     const [confirmCreate, setConfirmCreate] = useState(false)
@@ -19,6 +19,11 @@ export const CreateSpacePage = () => {
         setConfirmCreate(false)
         setLoading(true)
         const space = await spaceService.create(spaceName)
+        const localStorageObject = {
+            activeSpace: space
+        }
+
+        localStorage.setItem(userId, JSON.stringify(localStorageObject))
 
         setLoading(false)
         navigate(`/`)

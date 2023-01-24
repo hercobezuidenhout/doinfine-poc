@@ -5,7 +5,6 @@ import { ChevronRight } from '@mui/icons-material'
 import { Box, Container, Drawer, IconButton, List, ListItem, ListItemButton, SwipeableDrawer, Typography } from '@mui/material'
 import { useOuterAuthContext } from '@providers/OuterAuthProvider'
 import { useNotificationsContext } from '@providers/NotificationsProvider'
-import { useTeamContext } from '@providers/TeamProvider'
 import { useUserContext } from '@providers/UserProvider'
 import { useFineRequestService } from '@services/fine-request-service'
 import { usePaymentRequestService } from '@services/payment-request-service'
@@ -15,7 +14,7 @@ import { Link } from 'react-router-dom'
 export const MenuPage = () => {
     const nofiticiationsContext = useNotificationsContext()
     const { resetPassword, signOut } = useOuterAuthContext()
-    const { getCurrentUser } = useUserContext()
+    const { email } = useUserContext()
     const fineRequestService = useFineRequestService()
     const paymentRequestService = usePaymentRequestService()
 
@@ -43,7 +42,7 @@ export const MenuPage = () => {
     }
 
     const handleResetPasswordClick = async () => {
-        await resetPassword(getCurrentUser().email)
+        await resetPassword(email)
         setIsPasswordResetSuccess(true)
     }
 
@@ -55,7 +54,7 @@ export const MenuPage = () => {
     return <div>
         <ActionBar title="Menu" link="/team" />
         <Container>
-            {getCurrentUser() && <OptionsBox label={getCurrentUser().email}>
+            {email && <OptionsBox label={email}>
                 <LinkListItem label="Reset Password" handleLinkClick={handleResetPasswordClick} />
                 <LinkListItem label="Sign Out" handleLinkClick={() => signOut()} />
             </OptionsBox>

@@ -4,6 +4,16 @@ import axios from 'axios'
 export const useSpaceService = () => {
     const authContext = useInnerAuthContext()
 
+    const fetchAll = async () => {
+        var response = await axios.get(`/spaces`, {
+            headers: {
+                'Authorization': `Bearer ${await authContext.getAccessToken()}`
+            }
+        })
+
+        return response.data
+    }
+
     const create = async (name) => {
         var response = await axios.post(`/spaces`, {
             name: name
@@ -17,6 +27,7 @@ export const useSpaceService = () => {
     }
 
     return {
+        fetchAll,
         create
     }
 }

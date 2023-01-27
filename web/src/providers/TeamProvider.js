@@ -35,8 +35,6 @@ export const TeamProvider = ({ children }) => {
             return
         }
 
-        console.log(teams)
-
         setTeams(teams)
 
         const savedTeam = JSON.parse(localStorage.getItem(userId)).activeTeam

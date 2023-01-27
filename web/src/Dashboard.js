@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { BottomNavigationBar } from '@components/templates';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { MenuBar } from '@components/molecules';
-import { Box, Container, Drawer, List, ListItemButton, Typography } from '@mui/material';
+import { Box, Container, Drawer, List, ListItemButton, ListItemIcon, ListItemText, Typography } from '@mui/material';
 import { useTeamContext } from '@providers/TeamProvider';
+import { Add } from '@mui/icons-material';
 
 export const Dashboard = () => {
     const [title, setTitle] = useState()
@@ -53,9 +54,17 @@ export const Dashboard = () => {
                     <List>
                         {teams.filter(team => team.id !== activeTeam.id).map((team, index) => (
                             <ListItemButton key={index} onClick={() => handleTeamClick(team)}>
-                                <Typography variant='p'>{team.name}</Typography>
+                                <ListItemText primary={team.name} />
                             </ListItemButton>
                         ))}
+                        <Link to='/create/team'>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <Add />
+                                </ListItemIcon>
+                                <ListItemText primary='Create New Team' />
+                            </ListItemButton>
+                        </Link>
                     </List>
                 </Box>
             </Drawer>

@@ -1,8 +1,8 @@
 import { ActionBar } from '@components/atoms'
 import { LinkListItem, SuccessDialog } from '@components/molecules'
 import { OptionsBox } from '@components/organisms'
-import { ChevronRight } from '@mui/icons-material'
-import { Box, Container, Drawer, IconButton, List, ListItem, ListItemButton, SwipeableDrawer, Typography } from '@mui/material'
+import { Add, ChevronRight } from '@mui/icons-material'
+import { Box, Container, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer, Typography } from '@mui/material'
 import { useOuterAuthContext } from '@providers/OuterAuthProvider'
 import { useNotificationsContext } from '@providers/NotificationsProvider'
 import { useUserContext } from '@providers/UserProvider'
@@ -151,9 +151,17 @@ export const MenuPage = () => {
                 <List>
                     {spaces.filter(space => space.id !== activeSpace.id).map((space, index) => (
                         <ListItemButton key={index} onClick={() => handleSpaceClick(space)}>
-                            <Typography variant='p'>{space.name}</Typography>
+                            <ListItemText primary={space.name} />
                         </ListItemButton>
                     ))}
+                    <Link to='/create/space'>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <Add />
+                            </ListItemIcon>
+                            <ListItemText primary='Create New Space' />
+                        </ListItemButton>
+                    </Link>
                 </List>
             </Box>
         </Drawer>

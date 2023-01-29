@@ -14,7 +14,6 @@ export const OuterAuthContext = createContext({
 
 export const OuterAuthProvider = ({ children }) => {
     let auth = getAuth()
-    const navigate = useNavigate()
     const [currentUser, setCurrentUser] = useState()
 
     const getCurrentUser = () => currentUser

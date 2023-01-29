@@ -10,7 +10,7 @@ export const usePaymentRequestService = () => {
         const response = await axios.get(`/payment-requests?filter=active`, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': activeSpace.id
+                'space': activeSpace.id
             }
         })
         if (response.status == 404) throw Error(response.data)
@@ -21,7 +21,7 @@ export const usePaymentRequestService = () => {
         const response = await axios.get(`/payment-requests/${id}`, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': activeSpace.id
+                'space': activeSpace.id
             }
         })
         if (response.status == 404) throw Error(response.data)
@@ -32,7 +32,7 @@ export const usePaymentRequestService = () => {
         const response = await axios.post(`/payment-requests`, paymentRequest, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': activeSpace.id
+                'space': activeSpace.id
             }
         })
 
@@ -43,7 +43,7 @@ export const usePaymentRequestService = () => {
         const response = await axios.put('/payment-requests', requestResponse, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': 'WaQ6MMJ5CMFaZgTZ5CHu'
+                'space': 'WaQ6MMJ5CMFaZgTZ5CHu'
             }
         })
 

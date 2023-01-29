@@ -9,6 +9,7 @@ import { CreateSpacePage } from '@pages/CreateSpacePage'
 import { Space } from '../Space'
 import { CreateTeamPage } from '@pages/CreateTeamPage'
 import { Team } from '../Team'
+import { InvitePage } from '@pages/InvitePage'
 
 export const RouterProvider = () => {
     return (
@@ -30,6 +31,8 @@ export const RouterProvider = () => {
                 </Route>
                 <Route path='create/space' element={<CreateSpacePage />} />
             </Route>
+            <Route path='/invite/:space' element={<InvitePage />} />
+            <Route path='/invite/:space/:team' element={<InvitePage />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/signup' element={<CreateAccountPage />} />
         </Routes>

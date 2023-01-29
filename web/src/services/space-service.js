@@ -14,6 +14,10 @@ export const useSpaceService = () => {
         return response.data
     }
 
+    const fetchById = () => {
+
+    }
+
     const create = async (name) => {
         var response = await axios.post(`/spaces`, {
             name: name

@@ -1,5 +1,7 @@
 import { getFirestore } from "firebase-admin/firestore"
+import { paymentRequestApprovedTemplate, paymentRequestRejectedTemplate } from "../mail-templates"
 import { sendNotificationToTopic } from "../services/notification.service"
+import { sendEmailToUser } from "./send-email-to-team.command"
 
 const userHasAlreadyResponded = (responses, userId) => responses.map(response => response.userId).includes(userId)
 
@@ -74,19 +76,39 @@ export const addPaymentRequestResponse = async ({ spaceId, requestId, userId, ap
                 .doc(fineSnapshot.docs[0].id)
                 .update(fine)
 
-            sendNotificationToTopic({
+            await sendNotificationToTopic({
                 topic: paymentRequest.teamId,
                 title: `Payment request has been approved!`,
                 description: `${userPaying} has paid off a fine by ${payment.action}.`
             })
+
+            const { subject, message } = paymentRequestApprovedTemplate({
+                userMakingPayment: userPaying,
+                action: payment.action
+            })
+
+            for (let memberIndex = 0; memberIndex < team.members.length; memberIndex++) {
+                const member = team.members[memberIndex];
+                await sendEmailToUser(member, { subject: subject, message: message })
+            }
         } else {
             paymentRequest.status = 'rejected'
 
-            sendNotificationToTopic({
+            await sendNotificationToTopic({
                 topic: paymentRequest.teamId,
                 title: `Payment request has been reject!`,
                 description: `${userPaying} has not paid off any fines by ${paymentRequest.action}.`
             })
+
+            const { subject, message } = paymentRequestRejectedTemplate({
+                userMakingPayment: userPaying,
+                action: paymentRequest.action
+            })
+
+            for (let memberIndex = 0; memberIndex < team.members.length; memberIndex++) {
+                const member = team.members[memberIndex];
+                await sendEmailToUser(member, { subject: subject, message: message })
+            }
         }
     }
 
@@ -96,6 +118,4 @@ export const addPaymentRequestResponse = async ({ spaceId, requestId, userId, ap
         .collection('paymentRequests')
         .doc(requestId)
         .update(paymentRequest)
-
-    return { nice: 'hi' }
 }

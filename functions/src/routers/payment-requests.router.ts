@@ -66,7 +66,7 @@ PaymentRequestsRouter.put('/', async (req, res) => {
 
     const { requestId, approved } = req.body
 
-    const paymentRequest = await addPaymentRequestResponse({
+    await addPaymentRequestResponse({
         spaceId: space,
         requestId: requestId,
         userId: uid,
@@ -76,7 +76,7 @@ PaymentRequestsRouter.put('/', async (req, res) => {
         res.status(400).send()
     })
 
-    res.status(200).send(paymentRequest)
+    res.status(200).send()
 })
 
 export default PaymentRequestsRouter

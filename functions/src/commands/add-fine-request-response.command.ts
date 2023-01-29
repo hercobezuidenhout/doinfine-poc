@@ -1,5 +1,7 @@
 import { getFirestore } from "firebase-admin/firestore"
+import { fineRequestApprovedTemplate, fineRequestRejectedTemplate } from "../mail-templates"
 import { sendNotificationToTopic } from "../services/notification.service"
+import { sendEmailToUser } from "./send-email-to-team.command"
 
 const userHasAlreadyResponded = (responses, userId) => responses.map(response => response.userId).includes(userId)
 
@@ -63,19 +65,42 @@ export const addFineRequestResponse = async ({ spaceId, requestId, approved, use
             fineRequest.status = 'approved'
             fineRequest.fineId = fineSnapshot.id
 
-            sendNotificationToTopic({
+            await sendNotificationToTopic({
                 topic: fineRequest.teamId,
                 title: `${fineeSnapshot.data().fullName} has been fined!`,
                 description: `${fineeSnapshot.data().fullName} has been fined by ${finerSnapshot.data().fullName} for ${fineRequest.reason}`
             })
+
+            const { subject, message } = fineRequestApprovedTemplate({
+                finer: finerSnapshot.data().fullName,
+                finee: fineeSnapshot.data().fullName,
+                reason: fineRequest.reason,
+            })
+
+            for (let memberIndex = 0; memberIndex < team.members.length; memberIndex++) {
+                const member = team.members[memberIndex];
+                await sendEmailToUser(member, { subject: subject, message: message })
+            }
+
         } else {
             fineRequest.status = 'rejected'
 
-            sendNotificationToTopic({
+            await sendNotificationToTopic({
                 topic: fineRequest.teamId,
                 title: `Fine for ${fineeSnapshot.data().fullName} has been rejected!`,
                 description: `${fineeSnapshot.data().fullName} has not been fined for ${fineRequest.reason}`
             })
+
+            const { subject, message } = fineRequestRejectedTemplate({
+                finer: finerSnapshot.data().fullName,
+                finee: fineeSnapshot.data().fullName,
+                reason: fineRequest.reason,
+            })
+
+            for (let memberIndex = 0; memberIndex < team.members.length; memberIndex++) {
+                const member = team.members[memberIndex];
+                await sendEmailToUser(member, { subject: subject, message: message })
+            }
         }
     }
 
@@ -85,6 +110,7 @@ export const addFineRequestResponse = async ({ spaceId, requestId, approved, use
         .collection('fineRequests')
         .doc(requestId)
         .update(fineRequest)
+
 
     return fineRequest
 }

@@ -13,7 +13,7 @@ export const FinePage = () => {
     const [loading, setLoading] = useState()
     const [successfulSubmit, setSuccessfulSubmit] = useState()
 
-    const { id: teamId, members: teamMembers, name: teamName } = useTeamContext()
+    const { activeTeam } = useTeamContext()
     const fineRequestService = useFineRequestService()
 
     const handleClick = () => {
@@ -41,7 +41,7 @@ export const FinePage = () => {
         const user = members.filter(member => member.id == finee)[0]
 
         const fineRequest = {
-            teamId: teamId,
+            teamId: activeTeam.id,
             finee: user.id,
             reason: reason
         }
@@ -65,8 +65,8 @@ export const FinePage = () => {
     useEffect(() => {
         if (members) return
 
-        setMembers(teamMembers)
-    }, [teamId])
+        setMembers(activeTeam.members)
+    }, [activeTeam.id])
 
     return (
         <div>

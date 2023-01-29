@@ -17,7 +17,6 @@ export const NotificationsContext = createContext({
 export const NotificationsProvider = ({ children }) => {
     const [notifications, setNotifications] = useState([])
     const notificationService = useNotificationService()
-    const { id: teamId } = useTeamContext()
 
     const fetchNotifications = async () => {
         const result = await notificationService.fetchAll()

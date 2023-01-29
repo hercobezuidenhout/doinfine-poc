@@ -1,3 +1,5 @@
-import React from 'react'
-
-export const InnerAuthProvider = ({ children }) => children
+module.exports = {
+    useInnerAuthContext: () => ({
+        getAccessToken: () => 'token'
+    })
+}

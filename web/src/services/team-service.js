@@ -41,9 +41,23 @@ export const useTeamService = () => {
         return response.data
     }
 
+    const leave = async (teamId) => {
+        var response = await axios.put(`/teams/leave`, {
+            teamId: teamId
+        }, {
+            headers: {
+                'Authorization': `Bearer ${await authContext.getAccessToken()}`,
+                'space': activeSpace.id
+            }
+        })
+
+        return response.data
+    }
+
     return {
         fetchAll,
         fetchById,
-        create
+        create,
+        leave
     }
 }

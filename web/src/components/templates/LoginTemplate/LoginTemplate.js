@@ -3,7 +3,7 @@ import { Box, Button, TextField, Typography } from '@mui/material'
 import { useOuterAuthContext } from '@providers/OuterAuthProvider'
 
 
-export const LoginTemplate = ({ title = 'DoinFine 👌', handleSignIn }) => {
+export const LoginTemplate = ({ title = 'DoinFine 👌', handleSignIn, handleSignUpClick }) => {
     const authContext = useOuterAuthContext()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -78,6 +78,9 @@ export const LoginTemplate = ({ title = 'DoinFine 👌', handleSignIn }) => {
                 )}
             </div>
             <div>
+                <Button onClick={handleSignUpClick} sx={{
+                    width: '100%'
+                }}>Sign up instead?</Button>
                 <Button onClick={() => setIsForgotPassword(!isForgotPassword)} sx={{
                     width: '100%'
                 }}>{isForgotPassword ? 'Back to Sign In' : 'Forgot Password?'}</Button>

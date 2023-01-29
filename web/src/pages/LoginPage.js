@@ -11,7 +11,7 @@ export const LoginPage = () => {
         navigate('/')
     }
 
-    const registerResponse = () => {
+    const handleSignUpClick = () => {
         navigate('/signup')
     }
 
@@ -22,7 +22,7 @@ export const LoginPage = () => {
             justifyContent: 'space-around',
             alignItems: 'center'
         }}>
-            <LoginTemplate handleSignIn={handleSignIn} />
+            <LoginTemplate handleSignIn={handleSignIn} handleSignUpClick={handleSignUpClick} />
         </Box>
     )
 }

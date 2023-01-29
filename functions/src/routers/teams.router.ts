@@ -1,5 +1,6 @@
 import { Router } from "express"
 import { createTeam } from "../commands/create-team.command"
+import { removeUserFromTeam } from "../commands/remove-user-from-team.command"
 import { extractTokenFromHeader } from "../middleware/auth.middleware"
 import { getTeamById } from "../queries/get-team-by-id.query"
 import { getTeams } from "../queries/get-teams.query"
@@ -39,6 +40,19 @@ TeamsRouter.post('/', async (req, res) => {
     } catch (error) {
         res.status(403).send({ error: error.message })
     }
+})
+
+TeamsRouter.put('/leave', async (req, res) => {
+    const { space, authorization } = req.headers
+    const idToken = extractTokenFromHeader(authorization)
+    const { uid } = await validateToken(idToken)
+
+    await removeUserFromTeam(space, req.body.teamId, uid)
+
+    res.send('Done')
+})
+
+TeamsRouter.put('/remove', async (req, res) => {
 
 })
 

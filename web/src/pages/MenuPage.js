@@ -107,9 +107,6 @@ export const MenuPage = () => {
             {email && <OptionsBox label={email}>
                 <LinkListItem label="Reset Password" handleLinkClick={handleResetPasswordClick} />
                 <LinkListItem label="Sign Out" handleLinkClick={() => signOut()} />
-                {Notification.permission !== 'granted' &&
-                    <LinkListItem label="Set up notifications" handleLinkClick={() => { Notification.requestPermission() }} />
-                }
             </OptionsBox>
             }
             <OptionsBox label="Manage Fines">

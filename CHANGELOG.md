@@ -1,6 +1,10 @@
 # CHANGELOG
 
-## v0.9.0 <font size=1>`UNRELEASED`</font>
+## v0.9.1 <font size=1>`30/01/2023`</font>
+## Fixed
+- Removed `Notification` variable in `MenuPage` which is breaking iOS devices.
+
+## v0.9.0 <font size=1>`30/01/2023`</font>
 
 ### Updated
 - Updated `commands` to send emails using Firebase Firestore Email Trigger.

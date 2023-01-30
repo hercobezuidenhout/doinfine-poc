@@ -43,7 +43,7 @@ export const usePaymentRequestService = () => {
         const response = await axios.put('/payment-requests', requestResponse, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'space': 'WaQ6MMJ5CMFaZgTZ5CHu'
+                'space': activeSpace.id
             }
         })
 

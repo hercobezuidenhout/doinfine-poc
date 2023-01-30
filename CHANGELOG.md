@@ -1,9 +1,17 @@
 # CHANGELOG
 
 ## v0.9.0 <font size=1>`UNRELEASED`</font>
+
+### Updated
+- Updated `commands` to send emails using Firebase Firestore Email Trigger.
+
 ### Added
 - `<CreateAccountPage />` for user sign up.  
 - Created `POST /users` endpoint for user sign up. 
+- Functionality to accept an invite to a space.
+- Functionality to accept an invite to a team. 
+- Added functionality to create spaces and teams.
+- Added functionality to create a new account.
 
 ### Changed
 - Move specific logic for auth flow into the `InnerAuthProvider`. 

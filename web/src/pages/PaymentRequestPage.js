@@ -27,6 +27,7 @@ export const PaymentRequestPage = () => {
         })
 
         if (!request) return
+
         setPaymentRequest(request)
     }
 
@@ -68,7 +69,7 @@ export const PaymentRequestPage = () => {
                     <Box sx={{
                         width: '60%',
                     }}>
-                        <Typography variant='h2'>{paymentRequest.fullName} claims that he has made a payment by {paymentRequest.action} on {dayjs(paymentRequest.dateOfPayment).format('D MMMM YYYY')}.</Typography>
+                        <Typography variant='h2'>{paymentRequest.fullName} claims that he has made a payment by {paymentRequest.action} on {dayjs(paymentRequest.dateOfPayment, 'DD/MM/YYYY').format('D MMMM YYYY')}.</Typography>
                         <Box sx={{
                             marginTop: '2rem'
                         }}>

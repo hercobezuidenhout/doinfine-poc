@@ -23,6 +23,7 @@ export const FineRequestPage = () => {
         })
 
         if (!request) return
+
         setFineRequest(request)
     }
 

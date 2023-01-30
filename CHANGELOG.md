@@ -1,7 +1,11 @@
 # CHANGELOG
 
+## v0.9.2 <font size=1>`30/01/2023`</font>
+### Fixed
+- Payment requests and fine requests not pulling through correct data.
+
 ## v0.9.1 <font size=1>`30/01/2023`</font>
-## Fixed
+## #Fixed
 - Removed `Notification` variable in `MenuPage` which is breaking iOS devices.
 
 ## v0.9.0 <font size=1>`30/01/2023`</font>

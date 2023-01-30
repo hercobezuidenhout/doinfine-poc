@@ -26,9 +26,12 @@ export const getPaymentRequest = async (spaceId, id, userId) => {
     if (responses && responses.map(response => response.userId).includes(userId)) return
     if (!userTeams.includes(teamId)) return
 
+    const userPayingSnapshot = await db.collection('users').doc(paymentRequestSnapshot.data().userId).get()
+    const userPaying = userPayingSnapshot.data().fullName
+
     return {
         id: paymentRequestSnapshot.id,
-        fullName: paymentRequestSnapshot.data().userId,
+        fullName: userPaying,
         action: paymentRequestSnapshot.data().action,
         dateOfPayment: paymentRequestSnapshot.data().dateOfPayment
     }

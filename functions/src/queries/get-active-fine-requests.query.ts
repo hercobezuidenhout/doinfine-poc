@@ -18,7 +18,7 @@ export const getActiveFineRequests = async (spaceId, userId) => {
         .collection('fineRequests')
         .get()
 
-    return fineRequestsSnapshot.docs
+    const fineRequests = fineRequestsSnapshot.docs
         .filter(doc => userTeams.includes(doc.data().teamId))
         .filter(doc => !doc.data().responses?.map(response => response.userId).includes(userId))
         .filter(doc => doc.data().status == 'pending')
@@ -28,4 +28,22 @@ export const getActiveFineRequests = async (spaceId, userId) => {
             finee: doc.data().finee,
             reason: doc.data().reason
         }))
+
+    let activeFineRequests = []
+
+    for (let fineRequestIndex = 0; fineRequestIndex < fineRequests.length; fineRequestIndex++) {
+        const fineRequest = fineRequests[fineRequestIndex];
+
+        const fineeSnapshot = await db.collection('users').doc(fineRequest.finee).get()
+        const finerSnapshot = await db.collection('users').doc(fineRequest.finer).get()
+
+        activeFineRequests.push({
+            id: fineRequest.id,
+            finer: finerSnapshot.data().fullName,
+            finee: fineeSnapshot.data().fullName,
+            reason: fineRequest.reason
+        })
+    }
+
+    return activeFineRequests
 } 

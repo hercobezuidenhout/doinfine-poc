@@ -1,8 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import { LoginPage } from '@pages/LoginPage'
-import { browserLocalPersistence, createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, setPersistence, signInWithEmailAndPassword, signOut } from 'firebase/auth'
-import { LandingPage } from '@pages/LandingPage'
-import { useNavigate } from 'react-router-dom'
+import { createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, setPersistence, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 
 export const OuterAuthContext = createContext({
     resetPassword: (email) => { },

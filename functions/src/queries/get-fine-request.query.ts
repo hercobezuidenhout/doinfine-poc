@@ -25,10 +25,13 @@ export const getFineRequest = async (spaceId, id, userId) => {
     if (responses && responses.map(response => response.userId).includes(userId)) return
     if (!userTeams.includes(teamId)) return
 
+    const fineeSnapshot = await db.collection('users').doc(fineRequestSnapshot.data().finee).get()
+    const finerSnapshot = await db.collection('users').doc(fineRequestSnapshot.data().finer).get()
+
     return {
         id: fineRequestSnapshot.id,
-        finer: fineRequestSnapshot.data().finer,
-        finee: fineRequestSnapshot.data().finee,
+        finer: finerSnapshot.data().fullName,
+        finee: fineeSnapshot.data().fullName,
         reason: fineRequestSnapshot.data().reason
     }
 }

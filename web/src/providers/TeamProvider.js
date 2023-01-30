@@ -1,43 +1,72 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
-import { useLocation, useParams } from "react-router-dom"
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom"
 import axios from "axios"
 import { useTeamService } from "@services/team-service"
 import { useUserContext } from "./UserProvider"
 import { useNotificationService } from "@services/notification-service"
+import { useOuterAuthContext } from "./OuterAuthProvider"
+import { useSpaceContext } from "./SpaceProvider"
 
 export const TeamContext = createContext({
-    id: 1,
-    name: 'Example',
-    members: []
+    teams: [],
+    activeTeam: {},
+    switchActiveTeam: (newTeam) => { }
 })
 
 export const TeamProvider = ({ children }) => {
-    const [team, setTeam] = useState()
-    const teamService = useTeamService()
+    const [teams, setTeams] = useState()
+    const [activeTeam, setActiveTeam] = useState()
+    const { userId } = useUserContext()
+    const { fetchAll, fetchById } = useTeamService()
+    const { activeSpace } = useSpaceContext()
+    const navigate = useNavigate()
     const notificationService = useNotificationService()
-    const { getCurrentUser } = useUserContext()
+
+    const saveActiveTeam = async (team) => {
+        const userStorage = JSON.parse(localStorage.getItem(userId))
+        userStorage.activeTeam = team.id
+        localStorage.setItem(userId, JSON.stringify(userStorage))
+    }
 
     const fetchTeam = async () => {
-        var user = await getCurrentUser()
+        const teams = await fetchAll()
+        if (teams && teams.length < 1) {
+            navigate('create/team')
+            return
+        }
 
-        if (!user) return
-        var userTeam = user.teams[0]
+        setTeams(teams)
 
-        const team = await teamService.fetchById(userTeam.id)
+        const savedTeam = JSON.parse(localStorage.getItem(userId)).activeTeam
+        const activeTeam = savedTeam ? { id: savedTeam } : teams[0]
+
+        saveActiveTeam(activeTeam)
+
+        const team = await fetchById(activeTeam.id)
         if (!team) return
 
         await notificationService.subscribe(team.id)
 
-        setTeam(team)
+        setActiveTeam(team)
+    }
+
+    const handleSwitchActiveTeam = async (newTeam) => {
+        saveActiveTeam(newTeam)
+        const team = await fetchById(newTeam.id)
+        setActiveTeam(team)
     }
 
     useEffect(() => {
         fetchTeam()
-    }, [getCurrentUser])
+    }, [activeSpace])
 
     return (
-        <TeamContext.Provider value={team}>
-            {team && children}
+        <TeamContext.Provider value={{
+            teams: teams,
+            activeTeam: activeTeam,
+            switchActiveTeam: handleSwitchActiveTeam
+        }}>
+            {activeTeam ? <Outlet /> : 'loading team ...'}
         </TeamContext.Provider>
     )
 }

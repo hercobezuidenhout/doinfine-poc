@@ -10,6 +10,8 @@ import PaymentRequestsRouter from "./routers/payment-requests.router"
 import FineRequestsRouter from "./routers/fine-requests.router"
 import LeaderboardRouter from "./routers/leaderboard.router"
 import NotificationsRouter from "./routers/notifications.router"
+import SpacesRouter from "./routers/spaces.router"
+import InvitesRouter from "./routers/invites.router"
 
 const app = express()
 app.use(cors({ origin: '*' }))
@@ -30,5 +32,7 @@ app.use('/payment-requests', PaymentRequestsRouter)
 app.use('/fine-requests', FineRequestsRouter)
 app.use('/leaderboard', LeaderboardRouter)
 app.use('/notifications', NotificationsRouter)
+app.use('/spaces', SpacesRouter)
+app.use('/invites', InvitesRouter)
 
 export const api = functions.https.onRequest(app);

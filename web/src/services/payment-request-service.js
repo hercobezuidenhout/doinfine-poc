@@ -1,14 +1,16 @@
 import axios from "axios"
-import { useOuterAuthContext } from "@providers/OuterAuthProvider"
+import { useInnerAuthContext } from "@providers/InnerAuthProvider"
+import { useSpaceContext } from "@providers/SpaceProvider"
 
 export const usePaymentRequestService = () => {
-    const authContext = useOuterAuthContext()
+    const authContext = useInnerAuthContext()
+    const { activeSpace } = useSpaceContext()
 
     const fetchAll = async () => {
         const response = await axios.get(`/payment-requests?filter=active`, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': '19yCpOvJvJasshIvazcM'
+                'space': activeSpace.id
             }
         })
         if (response.status == 404) throw Error(response.data)
@@ -19,7 +21,7 @@ export const usePaymentRequestService = () => {
         const response = await axios.get(`/payment-requests/${id}`, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': '19yCpOvJvJasshIvazcM'
+                'space': activeSpace.id
             }
         })
         if (response.status == 404) throw Error(response.data)
@@ -30,7 +32,7 @@ export const usePaymentRequestService = () => {
         const response = await axios.post(`/payment-requests`, paymentRequest, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': '19yCpOvJvJasshIvazcM'
+                'space': activeSpace.id
             }
         })
 
@@ -41,7 +43,7 @@ export const usePaymentRequestService = () => {
         const response = await axios.put('/payment-requests', requestResponse, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': '19yCpOvJvJasshIvazcM'
+                'space': 'WaQ6MMJ5CMFaZgTZ5CHu'
             }
         })
 

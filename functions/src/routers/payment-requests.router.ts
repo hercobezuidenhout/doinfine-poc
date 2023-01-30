@@ -9,7 +9,7 @@ import { addPaymentRequestResponse } from "../commands/add-payment-request-respo
 const PaymentRequestsRouter = Router()
 
 PaymentRequestsRouter.get('/', async (req, res) => {
-    const { spaceid } = req.headers
+    const { space } = req.headers
     const filter = req.query.filter
     const idToken = extractTokenFromHeader(req.headers.authorization)
     const { uid } = await validateToken(idToken)
@@ -19,19 +19,19 @@ PaymentRequestsRouter.get('/', async (req, res) => {
     let paymentRequests = []
 
     if (filter == 'active') {
-        paymentRequests = await getActivePaymentRequests(spaceid, uid)
+        paymentRequests = await getActivePaymentRequests(space, uid)
     }
 
     res.send(paymentRequests)
 })
 
 PaymentRequestsRouter.get('/:id', async (req, res) => {
-    const { spaceid } = req.headers
+    const { space } = req.headers
     const idToken = extractTokenFromHeader(req.headers.authorization)
     const { uid } = await validateToken(idToken)
     if (!uid) res.status(401).send()
 
-    const paymentRequest = await getPaymentRequest(spaceid, req.params.id, uid)
+    const paymentRequest = await getPaymentRequest(space, req.params.id, uid)
 
     res.send(paymentRequest)
 })
@@ -39,7 +39,7 @@ PaymentRequestsRouter.get('/:id', async (req, res) => {
 
 
 PaymentRequestsRouter.post('/', async (req, res) => {
-    const { spaceid } = req.headers
+    const { space } = req.headers
     const idToken = extractTokenFromHeader(req.headers.authorization)
     const { uid } = await validateToken(idToken)
     if (!uid) res.status(401).send()
@@ -48,7 +48,7 @@ PaymentRequestsRouter.post('/', async (req, res) => {
 
 
     const paymentRequestId = await createPaymentRequest({
-        spaceId: spaceid,
+        spaceId: space,
         userId: uid,
         teamId: teamId,
         action: action,
@@ -59,15 +59,15 @@ PaymentRequestsRouter.post('/', async (req, res) => {
 })
 
 PaymentRequestsRouter.put('/', async (req, res) => {
-    const { spaceid } = req.headers
+    const { space } = req.headers
     const idToken = extractTokenFromHeader(req.headers.authorization)
     const { uid } = await validateToken(idToken)
     if (!uid) res.status(401).send()
 
     const { requestId, approved } = req.body
 
-    const paymentRequest = await addPaymentRequestResponse({
-        spaceId: spaceid,
+    await addPaymentRequestResponse({
+        spaceId: space,
         requestId: requestId,
         userId: uid,
         approved: approved
@@ -76,7 +76,7 @@ PaymentRequestsRouter.put('/', async (req, res) => {
         res.status(400).send()
     })
 
-    res.status(200).send(paymentRequest)
+    res.status(200).send()
 })
 
 export default PaymentRequestsRouter

@@ -1,14 +1,13 @@
-import { useOuterAuthContext } from '@providers/OuterAuthProvider'
+import { useInnerAuthContext } from '@providers/InnerAuthProvider'
 import axios from 'axios'
 
 export const useUserService = () => {
-    const authContext = useOuterAuthContext()
+    const authContext = useInnerAuthContext()
 
     const fetchById = async (id) => {
         const response = await axios.get(`/users/${id}`, {
             headers: {
-                'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': '19yCpOvJvJasshIvazcM'
+                'Authorization': `Bearer ${await authContext.getAccessToken()}`
             }
         })
 
@@ -25,8 +24,19 @@ export const useUserService = () => {
         return response.data;
     }
 
+    const createUser = async (fullName, accessToken) => {
+        const response = await axios.post(`/users`, { fullName: fullName }, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        })
+
+        return response.data
+    }
+
     return {
         fetchById,
-        addUserToken
+        addUserToken,
+        createUser
     }
 }

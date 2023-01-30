@@ -4,7 +4,6 @@ importScripts('config.js')
 
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
-console.log('ServiceWorker added', firebaseConfig.projectId)
 
 messaging.onBackgroundMessage(function (payload) {
     const notificationTitle = payload.notification.title;

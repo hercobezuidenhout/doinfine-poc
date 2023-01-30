@@ -1,4 +1,4 @@
-import { DarkMode, LightMode, Menu as MenuIcon, Notifications } from "@mui/icons-material";
+import { DarkMode, ExpandMore, LightMode, Menu as MenuIcon, Notifications } from "@mui/icons-material";
 import { AppBar, Badge, Box, Button, IconButton, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import { useNotificationsContext } from "@providers/NotificationsProvider";
 import React, { useContext, useState } from "react";
@@ -41,7 +41,10 @@ export const MenuBar = ({ title = 'TeamLunch' }) => {
             <Toolbar sx={{
                 justifyContent: 'space-between'
             }}>
-                <Typography data-testid="menubar-title">{title}</Typography>
+                {title.onClick
+                    ? <Button color='secondary' onClick={title.onClick} endIcon={<ExpandMore />}>{title.title}</Button>
+                    : <Typography data-testid="menubar-title">{title}</Typography>
+                }
                 <Box>
                     <IconButton sx={{
                         marginRight: '1rem'

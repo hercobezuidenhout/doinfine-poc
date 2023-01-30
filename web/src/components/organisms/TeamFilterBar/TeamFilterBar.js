@@ -5,7 +5,8 @@ import { Avatar, Toolbar, Typography } from "@mui/material"
 import { useTeamContext } from "@providers/TeamProvider"
 
 export const TeamFilterBar = () => {
-    const { id: teamId, members } = useTeamContext()
+    const { activeTeam } = useTeamContext()
+    const { id: teamId, members } = activeTeam
 
     const [searchParams, setSearchParams] = useSearchParams()
     const [active, setActive] = useState()

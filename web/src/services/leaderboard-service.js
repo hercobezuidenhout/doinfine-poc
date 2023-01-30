@@ -1,14 +1,17 @@
-import { useOuterAuthContext } from "@providers/OuterAuthProvider"
+import { useInnerAuthContext } from "@providers/InnerAuthProvider"
+import { useSpaceContext } from "@providers/SpaceProvider"
+
 import axios from "axios"
 
 export const useLeaderboardService = () => {
-    const authContext = useOuterAuthContext()
+    const authContext = useInnerAuthContext()
+    const { activeSpace } = useSpaceContext()
 
     const fetchUsersLeaderboard = async () => {
         const response = await axios.get(`/leaderboard/users`, {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': '19yCpOvJvJasshIvazcM'
+                'space': activeSpace.id
             }
         })
 
@@ -21,7 +24,7 @@ export const useLeaderboardService = () => {
         const response = await axios.get('/leaderboard/teams', {
             headers: {
                 'Authorization': `Bearer ${await authContext.getAccessToken()}`,
-                'spaceId': '19yCpOvJvJasshIvazcM'
+                'space': activeSpace.id
             }
         })
 

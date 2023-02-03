@@ -37,7 +37,8 @@ export const PaymentPage = () => {
         const paymentRequest = {
             teamId: activeTeam.id,
             dateOfPayment: dayjs(dateOfPayment).format(DATE_FORMAT),
-            action: paymentMethod
+            action: paymentMethod,
+            status: 'pending'
         }
 
         const response = await paymentRequestService.submitPaymentRequest(paymentRequest)

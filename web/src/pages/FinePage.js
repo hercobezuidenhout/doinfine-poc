@@ -43,7 +43,8 @@ export const FinePage = () => {
         const fineRequest = {
             teamId: activeTeam.id,
             finee: user.id,
-            reason: reason
+            reason: reason,
+            status: 'pending'
         }
 
         const response = await fineRequestService.create(fineRequest)

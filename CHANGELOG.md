@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v0.9.3 <font size=1>`03/02/2023`</font>
+
+### Fixed
+- Requests being made with incorrect data causing them not to render when being approved/rejected.
+
 ## v0.9.2 <font size=1>`30/01/2023`</font>
 ### Fixed
 - Payment requests and fine requests not pulling through correct data.

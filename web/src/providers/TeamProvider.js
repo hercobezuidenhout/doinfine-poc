@@ -8,7 +8,8 @@ import { useSpaceContext } from "./SpaceProvider"
 export const TeamContext = createContext({
     teams: [],
     activeTeam: {},
-    switchActiveTeam: (newTeam) => { }
+    switchActiveTeam: (newTeam) => { },
+    userIsOwner: () => { }
 })
 
 export const TeamProvider = ({ children }) => {
@@ -47,16 +48,19 @@ export const TeamProvider = ({ children }) => {
 
         await notificationService.subscribe(team.id)
 
-        console.log(team)
-
         setActiveTeam(team)
     }
 
     const handleSwitchActiveTeam = async (newTeam) => {
-        console.log(newTeam)
         saveActiveTeam(newTeam)
         const team = await fetchById(newTeam.id)
         setActiveTeam(team)
+    }
+
+    const checkIfUserIsOwner = () => {
+        const value = activeTeam.roles.find(role => role.userId === userId && role.role === 'owner')
+
+        return value !== undefined
     }
 
     useEffect(() => {
@@ -67,7 +71,8 @@ export const TeamProvider = ({ children }) => {
         <TeamContext.Provider value={{
             teams: teams,
             activeTeam: activeTeam,
-            switchActiveTeam: handleSwitchActiveTeam
+            switchActiveTeam: handleSwitchActiveTeam,
+            userIsOwner: checkIfUserIsOwner
         }}>
             {activeTeam ? <Outlet /> : 'loading team ...'}
         </TeamContext.Provider>

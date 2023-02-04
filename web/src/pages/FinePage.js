@@ -73,7 +73,7 @@ export const FinePage = () => {
         <div>
             {!loading && !successfulSubmit &&
                 <>
-                    <ActionBar title='Fine Someone' link='/team' />
+                    <ActionBar title='Fine Someone' link='/fines' />
                     <Box sx={{
                         padding: '1rem'
                     }}>
@@ -147,7 +147,7 @@ export const FinePage = () => {
                         }}>
                             <Typography variant="h1">📝✅</Typography>
                             <Typography>Fine request has been submitted!</Typography>
-                            <Link to='/team'><Button>Back Home</Button></Link>
+                            <Link to='/fines'><Button>Back Home</Button></Link>
                         </Box>
                     </Box>
                 </>

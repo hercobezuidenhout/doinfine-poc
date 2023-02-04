@@ -1,6 +1,7 @@
 import { Router } from "express"
 import { createTeam } from "../commands/create-team.command"
 import { removeUserFromTeam } from "../commands/remove-user-from-team.command"
+import { updateTeam } from "../commands/update-team.command"
 import { extractTokenFromHeader } from "../middleware/auth.middleware"
 import { getTeamById } from "../queries/get-team-by-id.query"
 import { getTeams } from "../queries/get-teams.query"
@@ -37,6 +38,26 @@ TeamsRouter.post('/', async (req, res) => {
         res.send({
             id: teamId
         })
+    } catch (error) {
+        res.status(403).send({ error: error.message })
+    }
+})
+
+TeamsRouter.put('/', async (req, res) => {
+    const idToken = extractTokenFromHeader(req.headers.authorization)
+    const { uid } = await validateToken(idToken)
+
+    const { space } = req.headers
+
+    const { id, data } = req.body
+    try {
+        await updateTeam({
+            space: space,
+            id: id,
+            userId: uid,
+            data: data
+        })
+        res.status(200).send()
     } catch (error) {
         res.status(403).send({ error: error.message })
     }

@@ -60,7 +60,7 @@ export const FineRequestPage = () => {
 
     return (
         <Box>
-            <ActionBar title='Fine Request' link='/team' />
+            <ActionBar title='Fine Request' link='/fines' />
             <Box sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -99,7 +99,7 @@ export const FineRequestPage = () => {
                         }}>
                             You have either already responded to the fine request or you are the finer or finee.
                         </Typography>
-                        <Link to='/team'>
+                        <Link to='/fines'>
                             <Button>Back Home</Button>
                         </Link>
                     </Box>

@@ -1,19 +1,22 @@
 //import { getFirestore } from "firebase-admin/firestore"
 
 import { getFirestore } from "firebase-admin/firestore"
+import { useSpaceCollection } from "../repositories/space.repository"
 
 export const getTeamById = async (spaceId, teamId) => {
     const db = getFirestore()
+    const space = useSpaceCollection(db, spaceId)
+    const teamsDoc = space
+        .collection('teams')
+        .doc(teamId)
 
-    const snapshot = await db.
-        collection('spaces')
-        .doc(spaceId)
-        .collection('teams').doc(teamId).get()
+    const teamSnapshot = await teamsDoc.get()
 
-    const teamMembers = snapshot.data().members
-    const finesSnapshot = await db
-        .collection('spaces')
-        .doc(spaceId)
+    const team = teamSnapshot.data()
+
+    const teamMembers = team.members
+
+    const finesSnapshot = await space
         .collection('fines')
         .where('teamId', '==', teamId)
         .where('paid', '==', false)
@@ -38,8 +41,9 @@ export const getTeamById = async (spaceId, teamId) => {
     }
 
     return {
-        id: snapshot.id,
-        name: snapshot.data().name,
-        members: members
+        id: teamSnapshot.id,
+        name: team.name,
+        members: members,
+        roles: team.roles
     }
 }

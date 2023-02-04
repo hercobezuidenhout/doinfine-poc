@@ -90,7 +90,7 @@ export const PaymentRequestPage = () => {
                         <Typography sx={{
                             marginBottom: '2rem'
                         }}>It seems like the request does not exist or you have already responded to it.</Typography>
-                        <Link to='/team'>
+                        <Link to='/fines'>
                             <Button>Back Home</Button>
                         </Link>
                     </Box>

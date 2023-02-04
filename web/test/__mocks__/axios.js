@@ -3,7 +3,7 @@ const { fines } = require('../../src/__mocks__/backend')
 
 module.exports = {
     get: jest.fn(url => {
-        if (url == '/fines/1') return Promise.resolve({
+        if (url == '/teams/1') return Promise.resolve({
             data: {
                 id: 1,
                 name: EXAMPLE_TEAM_NAME,

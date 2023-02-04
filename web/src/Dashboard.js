@@ -25,14 +25,14 @@ export const Dashboard = () => {
         const pathname = location.pathname
 
         switch (pathname) {
-            case '/team':
+            case '/fines':
                 setTitle({ onClick: () => setShowDrawer(true), title: activeTeam.name })
                 break;
             case '/leaderboard':
                 setTitle('Leaderboard')
                 break;
             default:
-                navigate('/team')
+                navigate('/fines')
         }
     }, [location])
 

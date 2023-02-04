@@ -27,7 +27,6 @@ export const SpaceProvider = ({ children }) => {
         if (userStorage) {
             const storage = JSON.parse(userStorage)
             storage.activeSpace = space
-            storage.activeTeam = undefined
             localStorage.setItem(userId, JSON.stringify(storage))
         } else {
             localStorage.setItem(userId, JSON.stringify({

@@ -1,10 +1,8 @@
 import React, { createContext, useContext, useEffect, useState } from "react"
-import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom"
-import axios from "axios"
+import { Outlet, useNavigate } from "react-router-dom"
 import { useTeamService } from "@services/team-service"
 import { useUserContext } from "./UserProvider"
 import { useNotificationService } from "@services/notification-service"
-import { useOuterAuthContext } from "./OuterAuthProvider"
 import { useSpaceContext } from "./SpaceProvider"
 
 export const TeamContext = createContext({
@@ -37,7 +35,9 @@ export const TeamProvider = ({ children }) => {
 
         setTeams(teams)
 
-        const savedTeam = JSON.parse(localStorage.getItem(userId)).activeTeam
+        const userStorage = JSON.parse(localStorage.getItem(userId))
+        const savedTeam = userStorage.activeTeam
+
         const activeTeam = savedTeam ? { id: savedTeam } : teams[0]
 
         saveActiveTeam(activeTeam)
@@ -47,10 +47,13 @@ export const TeamProvider = ({ children }) => {
 
         await notificationService.subscribe(team.id)
 
+        console.log(team)
+
         setActiveTeam(team)
     }
 
     const handleSwitchActiveTeam = async (newTeam) => {
+        console.log(newTeam)
         saveActiveTeam(newTeam)
         const team = await fetchById(newTeam.id)
         setActiveTeam(team)

@@ -22,8 +22,8 @@ export const MenuPage = () => {
     const fineRequestService = useFineRequestService()
     const paymentRequestService = usePaymentRequestService()
     const teamService = useTeamService()
-    const { activeSpace, spaces, switchSpace } = useSpaceContext()
-    const { activeTeam, userIsOwner } = useTeamContext()
+    const { activeSpace, spaces, switchSpace, userIsOwner: isSpaceOwner } = useSpaceContext()
+    const { activeTeam, userIsOwner: isTeamOwner } = useTeamContext()
     const navigate = useNavigate()
 
     const [activeFineRequests, setActiveFineRequests] = useState([])
@@ -117,7 +117,7 @@ export const MenuPage = () => {
                 <LinkListItem label="Switch Space" handleLinkClick={() => setShowSpacesDrawer(true)} />
             </OptionsBox>
             <OptionsBox label={activeTeam.name ? activeTeam.name : 'Team'}>
-                {userIsOwner() && <LinkListItem label="Manage Team" handleLinkClick={() => navigate(`/teams/${activeTeam.id}/manage`)} />}
+                {(isTeamOwner() || isSpaceOwner()) && <LinkListItem label="Manage Team" handleLinkClick={() => navigate(`/teams/${activeTeam.id}/manage`)} />}
                 <LinkListItem label="Invite members" handleLinkClick={handleInviteTeamClick} />
                 <LinkListItem label="Leave team" handleLinkClick={() => setConfirmLeaveTeam(true)} />
             </OptionsBox>

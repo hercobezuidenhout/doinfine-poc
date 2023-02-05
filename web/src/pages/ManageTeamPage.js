@@ -1,9 +1,12 @@
 import { ActionBar } from '@components/atoms'
 import { ConfirmationDialog, EditDialog, MemberListItem, SuccessDialog } from '@components/molecules'
-import { Box, Button, Container, Dialog, FormControl, InputLabel, MenuItem, Select, Slide, Snackbar } from '@mui/material'
+import { Box, Button, Container, Dialog, Slide, Snackbar } from '@mui/material'
+import { useSpaceContext } from '@providers/SpaceProvider'
+import { useUserContext } from '@providers/UserProvider'
 import { useTeamService } from '@services/team-service'
+
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 export const ManageTeamPage = () => {
     const [originalTeam, setOriginalTeam] = useState()
@@ -15,15 +18,42 @@ export const ManageTeamPage = () => {
     const { fetchById, update } = useTeamService()
     const { id } = useParams()
 
+    const { userId } = useUserContext()
+    const { userIsOwner: userIsSpaceOwner } = useSpaceContext()
+    const navigate = useNavigate()
+
+    const checkIfUserIsOwner = (roles) => {
+        const value = roles.find(role => role.userId === userId && role.role === 'owner')
+
+        return value !== undefined
+    }
+
     const fetchTeam = async () => {
         const fetchTeamResponse = await fetchById(id)
-        setTeam({ ...fetchTeamResponse })
-        setOriginalTeam({ ...fetchTeamResponse })
+
+        if (checkIfUserIsOwner(fetchTeamResponse.roles) || userIsSpaceOwner()) {
+            console.log('owner', checkIfUserIsOwner(fetchTeamResponse.roles), userIsSpaceOwner())
+            setTeam({ ...fetchTeamResponse })
+            setOriginalTeam({ ...fetchTeamResponse })
+        } else {
+            console.log('not owner', checkIfUserIsOwner(fetchTeamResponse.roles), userIsSpaceOwner())
+        }
     }
 
     const handleRoleChange = ({ userId, newRole }) => {
         let updatedTeam = team
         updatedTeam.roles = updatedTeam.roles.map(role => role.userId === userId ? ({ ...role, role: newRole }) : role)
+        setTeam(updatedTeam)
+        setHasChanges(JSON.stringify(originalTeam) !== JSON.stringify(updatedTeam))
+    }
+
+    const handleRemove = (userId) => {
+        console.log('Remove user ' + userId)
+        let updatedTeam = team
+        updatedTeam.members = updatedTeam.members.filter(member => member.id !== userId)
+        updatedTeam.roles = updatedTeam.roles.filter(role => role.userId !== userId)
+
+        console.log(updatedTeam)
         setTeam(updatedTeam)
         setHasChanges(JSON.stringify(originalTeam) !== JSON.stringify(updatedTeam))
     }
@@ -45,8 +75,8 @@ export const ManageTeamPage = () => {
 
         teamToUpdate.members = team.members.map(member => member.id)
 
-        await update(teamToUpdate)
-
+        const response = await update(teamToUpdate)
+        console.log(response)
         setHasChanges(false)
         setConfirmSave(false)
         setIsSuccess(true)
@@ -68,8 +98,14 @@ export const ManageTeamPage = () => {
                     <h1>{team.name}</h1>
                     <Button onClick={() => setIsEdit(true)} variant='outlined'>Edit Name</Button>
                 </Box>
-                {team.members.map((member, index) => (
-                    <MemberListItem key={index} member={member} memberRole={team.roles.find(role => role.userId === member.id)} handleRoleChange={handleRoleChange} />
+                {team.members.map((member, index) => member && (
+                    <MemberListItem
+                        key={index}
+                        member={member}
+                        memberRole={team.roles.find(role => role.userId === member.id)}
+                        handleRoleChange={handleRoleChange}
+                        handleRemoveClick={() => handleRemove(member.id)}
+                    />
                 ))}
             </Container>
             }

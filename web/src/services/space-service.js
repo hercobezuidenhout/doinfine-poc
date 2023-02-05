@@ -14,8 +14,14 @@ export const useSpaceService = () => {
         return response.data
     }
 
-    const fetchById = () => {
+    const fetchById = async (id) => {
+        var response = await axios.get(`/spaces/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${await authContext.getAccessToken()}`
+            }
+        })
 
+        return response.data
     }
 
     const create = async (name) => {
@@ -32,6 +38,7 @@ export const useSpaceService = () => {
 
     return {
         fetchAll,
+        fetchById,
         create
     }
 }

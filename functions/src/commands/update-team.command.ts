@@ -12,7 +12,7 @@ export const updateTeam = async ({ space, id, userId, data }) => {
     const isOwnerOfSpace = spaceSnapshot.data().roles.find(role => role.userId === userId && role.role === 'owner')
     const isOwnerOfTeam = teamSnapshot.data().roles.find(role => role.userId === userId && role.role === 'owner')
 
-    if (!isOwnerOfTeam || !isOwnerOfSpace) return
+    if (!(isOwnerOfTeam || isOwnerOfSpace)) return
 
     await teamsDoc.update(data)
 }

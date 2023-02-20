@@ -10,6 +10,7 @@ import './index.css';
 import { CorporateContext, corporateTheme } from './theme';
 import { isDevelopment, isTest } from './config';
 import './firebase'
+import { AnalyticsProvider } from '@providers/AnalyticsProvider';
 
 
 axios.defaults.baseURL = isDevelopment()
@@ -49,7 +50,9 @@ const Corporate = () => {
                     <ErrorBoundary>
                         <CssBaseline />
                         <OuterAuthProvider>
-                            <RouterProvider />
+                            <AnalyticsProvider>
+                                <RouterProvider />
+                            </AnalyticsProvider>
                         </OuterAuthProvider>
                     </ErrorBoundary>
                 </ThemeProvider>

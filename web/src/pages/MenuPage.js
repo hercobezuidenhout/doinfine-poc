@@ -22,8 +22,8 @@ export const MenuPage = () => {
     const fineRequestService = useFineRequestService()
     const paymentRequestService = usePaymentRequestService()
     const teamService = useTeamService()
-    const { activeSpace, spaces, switchSpace } = useSpaceContext()
-    const { activeTeam } = useTeamContext()
+    const { activeSpace, spaces, switchSpace, userIsOwner: isSpaceOwner } = useSpaceContext()
+    const { activeTeam, userIsOwner: isTeamOwner } = useTeamContext()
     const navigate = useNavigate()
 
     const [activeFineRequests, setActiveFineRequests] = useState([])
@@ -102,7 +102,7 @@ export const MenuPage = () => {
     }, [nofiticiationsContext])
 
     return <div>
-        <ActionBar title="Menu" link="/team" />
+        <ActionBar title="Menu" link="/fines" />
         <Container>
             {email && <OptionsBox label={email}>
                 <LinkListItem label="Reset Password" handleLinkClick={handleResetPasswordClick} />
@@ -117,6 +117,7 @@ export const MenuPage = () => {
                 <LinkListItem label="Switch Space" handleLinkClick={() => setShowSpacesDrawer(true)} />
             </OptionsBox>
             <OptionsBox label={activeTeam.name ? activeTeam.name : 'Team'}>
+                {(isTeamOwner() || isSpaceOwner()) && <LinkListItem label="Manage Team" handleLinkClick={() => navigate(`/teams/${activeTeam.id}/manage`)} />}
                 <LinkListItem label="Invite members" handleLinkClick={handleInviteTeamClick} />
                 <LinkListItem label="Leave team" handleLinkClick={() => setConfirmLeaveTeam(true)} />
             </OptionsBox>

@@ -48,7 +48,8 @@ FineRequestsRouter.post('/', async (req, res) => {
         finer: uid,
         finee: req.body.finee,
         teamId: req.body.teamId,
-        reason: req.body.reason
+        reason: req.body.reason,
+        status: req.body.status
     }
 
     const id = await createFineRequest(space, fineRequest).catch(error => {

@@ -1,5 +1,16 @@
 # CHANGELOG
 
+## v0.10.0 <font size=1>Unreleased</font>
+### Added
+- Created `ManageTeamPage` for managing a team [[User Story](https://www.notion.so/doinfine/Navigate-to-manage-team-page-b8f463e4e4b34517953fe7534d31171e)].
+
+### Changed
+- Updated `useTeamService` to update a team object.
+- Updated `TeamRouter` to have new `PUT` endpoint. 
+
+### Fixed
+- Fixed missing `status` field in fine requests.
+
 ## v0.9.3 <font size=1>`03/02/2023`</font>
 
 ### Fixed

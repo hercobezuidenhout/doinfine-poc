@@ -16,7 +16,7 @@ export const BottomNavigationBar = () => {
     }, [location])
 
     const renderToolbar = () => {
-        if (pathname === '/team') return <TeamFilterBar />
+        if (pathname === '/fines') return <TeamFilterBar />
         if (pathname === '/leaderboard') return <CompanyFilterBar setActiveTab={(tab) => setSearchParams({ tab: tab })} />
     }
 

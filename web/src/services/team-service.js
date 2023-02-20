@@ -41,6 +41,28 @@ export const useTeamService = () => {
         return response.data
     }
 
+    const update = async (updatedTeam) => {
+        const data = {
+            id: updatedTeam.id,
+            data: {
+                name: updatedTeam.name,
+                members: updatedTeam.members,
+                roles: updatedTeam.roles
+            }
+        }
+
+        const headers = {
+            headers: {
+                'Authorization': `Bearer ${await authContext.getAccessToken()}`,
+                'space': activeSpace.id
+            }
+        }
+
+        var response = await axios.put(`/teams`, data, headers)
+
+        return response.data
+    }
+
     const leave = async (teamId) => {
         var response = await axios.put(`/teams/leave`, {
             teamId: teamId
@@ -58,6 +80,7 @@ export const useTeamService = () => {
         fetchAll,
         fetchById,
         create,
+        update,
         leave
     }
 }

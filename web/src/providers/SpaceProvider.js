@@ -10,12 +10,13 @@ export const SpaceContext = createContext({
     spaces: [],
     switchSpace: (newSpace) => { },
     createTeam: (name) => { },
+    userIsOwner: () => false
 })
 
 export const SpaceProvider = ({ children }) => {
     const { userId } = useUserContext()
     const teamService = useTeamService()
-    const { fetchAll } = useSpaceService()
+    const { fetchAll, fetchById } = useSpaceService()
     const navigate = useNavigate()
 
     const [activeSpace, setActiveSpace] = useState()
@@ -27,7 +28,6 @@ export const SpaceProvider = ({ children }) => {
         if (userStorage) {
             const storage = JSON.parse(userStorage)
             storage.activeSpace = space
-            storage.activeTeam = undefined
             localStorage.setItem(userId, JSON.stringify(storage))
         } else {
             localStorage.setItem(userId, JSON.stringify({
@@ -51,9 +51,10 @@ export const SpaceProvider = ({ children }) => {
         if (userStorage) {
             savedSpace = JSON.parse(userStorage).activeSpace
         }
-        const space = savedSpace ? savedSpace : userSpaces[0]
+        const spaceId = savedSpace ? savedSpace : userSpaces[0].id
+        const space = await fetchById(spaceId)
 
-        await saveActiveSpace(space)
+        await saveActiveSpace(space.id)
 
         setActiveSpace(space)
     }
@@ -65,8 +66,13 @@ export const SpaceProvider = ({ children }) => {
     }
 
     const switchSpace = async (newSpace) => {
-        saveActiveSpace(newSpace)
+        saveActiveSpace(newSpace.id)
         setActiveSpace(newSpace)
+    }
+
+    const checkIfUserIsOwner = () => {
+        const value = activeSpace.roles.find(role => role.userId === userId && role.role === 'owner')
+        return value !== undefined
     }
 
     useEffect(() => {
@@ -78,7 +84,8 @@ export const SpaceProvider = ({ children }) => {
             spaces: spaces,
             switchSpace: switchSpace,
             activeSpace: activeSpace,
-            createTeam: createTeam
+            createTeam: createTeam,
+            userIsOwner: checkIfUserIsOwner
         }}>
             {activeSpace ? <Outlet /> : 'loading spaces...'}
         </SpaceContext.Provider>

@@ -8,6 +8,9 @@
 - Updated `useTeamService` to update a team object.
 - Updated `TeamRouter` to have new `PUT` endpoint. 
 
+### Fixed
+- Fixed missing `status` field in fine requests.
+
 ## v0.9.3 <font size=1>`03/02/2023`</font>
 
 ### Fixed

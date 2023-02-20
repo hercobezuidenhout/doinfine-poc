@@ -44,7 +44,7 @@ PaymentRequestsRouter.post('/', async (req, res) => {
     const { uid } = await validateToken(idToken)
     if (!uid) res.status(401).send()
 
-    const { dateOfPayment, action, teamId } = req.body
+    const { dateOfPayment, action, teamId, status } = req.body
 
 
     const paymentRequestId = await createPaymentRequest({

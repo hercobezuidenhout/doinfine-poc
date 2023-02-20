@@ -1,6 +1,7 @@
 import { ActionBar } from '@components/atoms'
 import { ConfirmationDialog, EditDialog, MemberListItem, SuccessDialog } from '@components/molecules'
 import { Box, Button, Container, Dialog, Slide, Snackbar } from '@mui/material'
+import { useAnalyticsContext } from '@providers/AnalyticsProvider'
 import { useSpaceContext } from '@providers/SpaceProvider'
 import { useUserContext } from '@providers/UserProvider'
 import { useTeamService } from '@services/team-service'
@@ -20,6 +21,7 @@ export const ManageTeamPage = () => {
 
     const { userId } = useUserContext()
     const { userIsOwner: userIsSpaceOwner } = useSpaceContext()
+    const { logEvent } = useAnalyticsContext()
     const navigate = useNavigate()
 
     const checkIfUserIsOwner = (roles) => {
@@ -32,11 +34,10 @@ export const ManageTeamPage = () => {
         const fetchTeamResponse = await fetchById(id)
 
         if (checkIfUserIsOwner(fetchTeamResponse.roles) || userIsSpaceOwner()) {
-            console.log('owner', checkIfUserIsOwner(fetchTeamResponse.roles), userIsSpaceOwner())
             setTeam({ ...fetchTeamResponse })
             setOriginalTeam({ ...fetchTeamResponse })
         } else {
-            console.log('not owner', checkIfUserIsOwner(fetchTeamResponse.roles), userIsSpaceOwner())
+            navigate('/')
         }
     }
 
@@ -66,6 +67,9 @@ export const ManageTeamPage = () => {
 
         setTeam(updatedTeam)
         setHasChanges(JSON.stringify(originalTeam) !== JSON.stringify(updatedTeam))
+        logEvent('update_team_name', {
+            team_id: team.id
+        })
     }
 
     const saveChanges = async () => {

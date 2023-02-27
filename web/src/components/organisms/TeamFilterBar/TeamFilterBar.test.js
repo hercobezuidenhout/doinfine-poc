@@ -8,4 +8,10 @@ describe('TeamFilterBar', () => {
         const teamFilterBar = await screen.findByTestId('team-filter-bar')
         expect(teamFilterBar.children.length).toBe(3)
     })
+
+    it('renders initials of team', async () => {
+        renderWithRouter(<TeamFilterBar />)
+        const initials = await screen.findByText('BA')
+        expect(initials).toBeInTheDocument()
+    })
 })

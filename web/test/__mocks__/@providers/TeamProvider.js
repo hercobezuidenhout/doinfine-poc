@@ -3,13 +3,16 @@ module.exports = {
         activeTeam: {
             id: 'team',
             members: [{
-                id: 'member1'
+                id: 'member1',
+                fullName: 'Billy Anderson'
             },
             {
-                id: 'member2'
+                id: 'member2',
+                fullName: 'Steve Burnley'
             },
             {
-                id: 'member3'
+                id: 'member3',
+                fullName: 'Peter'
             }]
         }
     })

@@ -1,3 +1,8 @@
 {
-  "directory": ["./src/prisma", "./src/components"]
+  "directory": [
+    "./src/prisma",
+    "./src/components/atoms",
+    "./src/components/molecules",
+    "./src/components/organisms",
+    "./src/components/templates"]
 }

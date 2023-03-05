@@ -1,0 +1,109 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum RoleType {
+  ADMIN
+  MEMBER
+}
+
+model SpaceRole {
+  role    RoleType @default(MEMBER)
+  userId  String
+  spaceId Int
+  space   Space    @relation(fields: [spaceId], references: [id])
+  User    User     @relation(fields: [userId], references: [id])
+
+  @@id([spaceId, userId])
+}
+
+model TeamRole {
+  role   RoleType @default(MEMBER)
+  userId String
+  teamId Int
+  team   Team     @relation(fields: [teamId], references: [id])
+  User   User     @relation(fields: [userId], references: [id])
+
+  @@id([teamId, userId])
+}
+
+model User {
+  id            String      @id @default(cuid())
+  name          String?
+  email         String?     @unique
+  avatarUrl     String?
+  createdAt     DateTime    @default(now()) @map(name: "created_at")
+  updatedAt     DateTime    @updatedAt @map(name: "updated_at")
+  receivedFines Fine[]      @relation("Fine_issuedByUser")
+  issuedFines   Fine[]      @relation("Fine_issuedToUser")
+  spaceRoles    SpaceRole[]
+  teamRoles     TeamRole[]
+
+  @@map(name: "users")
+}
+
+model Space {
+  id        Int         @id @default(autoincrement())
+  name      String
+  avatarUrl String?
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  teams     Team[]
+  fines     Fine[]
+  roles     SpaceRole[]
+}
+
+model Team {
+  id        Int        @id @default(autoincrement())
+  name      String
+  avatarUrl String?
+  space     Space      @relation(fields: [spaceId], references: [id])
+  spaceId   Int
+  fines     Fine[]
+  roles     TeamRole[]
+
+  @@unique([spaceId(sort: Desc), name])
+}
+
+model Fine {
+  id          Int          @id @default(autoincrement())
+  description String
+  issuedBy    User         @relation(name: "Fine_issuedByUser", fields: [issuedById], references: [id])
+  issuedById  String
+  issuedTo    User         @relation(name: "Fine_issuedToUser", fields: [issuedToId], references: [id])
+  issuedToId  String
+  status      ReviewStatus @default(PENDING)
+  payments    Payment[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  space       Space?       @relation(fields: [spaceId], references: [id])
+  spaceId     Int?
+  team        Team?        @relation(fields: [teamId], references: [id])
+  teamId      Int?
+}
+
+model Payment {
+  id          Int          @id @default(autoincrement())
+  description String
+  fine        Fine         @relation(fields: [fineId], references: [id])
+  fineId      Int
+  status      ReviewStatus @default(PENDING)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@unique([fineId(sort: Desc), description])
+}

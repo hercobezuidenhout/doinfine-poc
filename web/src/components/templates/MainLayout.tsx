@@ -1,8 +1,9 @@
 import * as React from 'react'
 import Head from 'next/head'
-import { Flex } from '@chakra-ui/react'
+import { Flex, Link } from '@chakra-ui/react'
 import { Footer, Header, HEADER_HEIGHT } from '@/components/organisms'
 import { ResponsiveContainer } from '@/components/atoms'
+import NextLink from 'next/link'
 
 interface LayoutProps {
   children?: React.ReactNode

@@ -13,7 +13,7 @@ export const ResponsiveContainer = ({
   ...props
 }: ResponsiveContainerProps) => {
   return (
-    <Center {...props} px={5} flexGrow={1}>
+    <Center {...props} px={5}>
       <Box maxWidth={containerWidth} w="100%">
         {children}
       </Box>

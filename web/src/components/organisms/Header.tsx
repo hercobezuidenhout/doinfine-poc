@@ -1,211 +1,48 @@
-import React from 'react'
-import Link from 'next/link'
+import { Flex, Link, Spacer, useBoolean } from '@chakra-ui/react'
+import NextLink from 'next/link'
 import { useRouter } from 'next/router'
-import { signOut, useSession } from 'next-auth/react'
+import { useEffect } from 'react'
+import { MenuToggle, ResponsiveContainer } from '@/components/atoms'
+import { MenuLinks } from '@/components/molecules'
+import { InfoIcon } from '@chakra-ui/icons'
 
-const Header: React.FC = () => {
+export const HEADER_HEIGHT = 24
+
+export const Header = () => {
   const router = useRouter()
-  const isActive: (pathname: string) => boolean = (pathname) =>
-    router.pathname === pathname
+  const [isOpen, { toggle, off }] = useBoolean(false)
 
-  const { data: session, status } = useSession()
-
-  let left = (
-    <div className="left">
-      <Link href="/">
-        <a className="bold" data-active={isActive('/')}>
-          Feed
-        </a>
-      </Link>
-      <style jsx>{`
-        .bold {
-          font-weight: bold;
-        }
-
-        a {
-          text-decoration: none;
-          color: var(--geist-foreground);
-          display: inline-block;
-        }
-
-        .left a[data-active='true'] {
-          color: gray;
-        }
-
-        a + a {
-          margin-left: 1rem;
-        }
-      `}</style>
-    </div>
-  )
-
-  let right = null
-
-  if (status === 'loading') {
-    left = (
-      <div className="left">
-        <Link href="/">
-          <a className="bold" data-active={isActive('/')}>
-            Feed
-          </a>
-        </Link>
-        <style jsx>{`
-          .bold {
-            font-weight: bold;
-          }
-
-          a {
-            text-decoration: none;
-            color: var(--geist-foreground);
-            display: inline-block;
-          }
-
-          .left a[data-active='true'] {
-            color: gray;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-        `}</style>
-      </div>
-    )
-    right = (
-      <div className="right">
-        <p>Validating session ...</p>
-        <style jsx>{`
-          .right {
-            margin-left: auto;
-          }
-        `}</style>
-      </div>
-    )
-  }
-
-  if (!session) {
-    right = (
-      <div className="right">
-        <Link href="/api/auth/signin">
-          <a data-active={isActive('/signup')}>Log in</a>
-        </Link>
-        <style jsx>{`
-          a {
-            text-decoration: none;
-            color: var(--geist-foreground);
-            display: inline-block;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-
-          .right {
-            margin-left: auto;
-          }
-
-          .right a {
-            border: 1px solid var(--geist-foreground);
-            padding: 0.5rem 1rem;
-            border-radius: 3px;
-          }
-        `}</style>
-      </div>
-    )
-  }
-
-  if (session?.user) {
-    left = (
-      <div className="left">
-        <Link href="/">
-          <a className="bold" data-active={isActive('/')}>
-            Feed
-          </a>
-        </Link>
-        <Link href="/drafts">
-          <a data-active={isActive('/drafts')}>My drafts</a>
-        </Link>
-        <style jsx>{`
-          .bold {
-            font-weight: bold;
-          }
-
-          a {
-            text-decoration: none;
-            color: var(--geist-foreground);
-            display: inline-block;
-          }
-
-          .left a[data-active='true'] {
-            color: gray;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-        `}</style>
-      </div>
-    )
-    right = (
-      <div className="right">
-        <p>
-          {session.user.name} ({session.user.email})
-        </p>
-        <Link href="/create">
-          <button>
-            <a>New post</a>
-          </button>
-        </Link>
-        <button onClick={() => signOut()}>
-          <a>Log out</a>
-        </button>
-        <style jsx>{`
-          a {
-            text-decoration: none;
-            color: var(--geist-foreground);
-            display: inline-block;
-          }
-
-          p {
-            display: inline-block;
-            font-size: 13px;
-            padding-right: 1rem;
-          }
-
-          a + a {
-            margin-left: 1rem;
-          }
-
-          .right {
-            margin-left: auto;
-          }
-
-          .right a {
-            border: 1px solid var(--geist-foreground);
-            padding: 0.5rem 1rem;
-            border-radius: 3px;
-          }
-
-          button {
-            border: none;
-          }
-        `}</style>
-      </div>
-    )
-  }
+  useEffect(() => off(), [off, router.pathname])
 
   return (
-    <nav>
-      {left}
-      {right}
-      <style jsx>{`
-        nav {
-          display: flex;
-          padding: 2rem;
-          align-items: center;
-        }
-      `}</style>
-    </nav>
+    <ResponsiveContainer
+      position="fixed"
+      width="100%"
+      bg="rgba(255,255,255,0.5)"
+      backdropFilter="auto"
+      backdropBlur="5px"
+      height={{
+        base: isOpen ? undefined : HEADER_HEIGHT,
+        md: HEADER_HEIGHT,
+      }}
+      zIndex={1000}
+    >
+      <Flex
+        as="nav"
+        align="center"
+        justify="space-between"
+        w="100%"
+        wrap={{ base: 'wrap', md: 'nowrap' }}
+      >
+        <NextLink href="/" passHref>
+          <Link>
+            <InfoIcon w={20} h={20} m={2} color="brand.primary" />
+          </Link>
+        </NextLink>
+        <Spacer />
+        <MenuToggle toggle={toggle} isOpen={isOpen} />
+        <MenuLinks isOpen={isOpen} />
+      </Flex>
+    </ResponsiveContainer>
   )
 }
-
-export default Header

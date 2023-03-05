@@ -2,6 +2,7 @@ import * as React from 'react'
 import Head from 'next/head'
 import { Flex } from '@chakra-ui/react'
 import { Footer, Header, HEADER_HEIGHT } from '@/components/organisms'
+import { ResponsiveContainer } from '@/components/atoms'
 
 interface LayoutProps {
   children?: React.ReactNode
@@ -14,13 +15,15 @@ export const MainLayout = ({ children }: LayoutProps) => {
         <title>Doinfine</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <Flex minHeight="100vh" direction="column">
-        <Header />
-        <Flex pt={HEADER_HEIGHT} flexGrow={1} flexDirection="column">
-          {children}
+      <main>
+        <Flex minHeight="100vh" direction="column">
+          <Header />
+          <ResponsiveContainer pt={HEADER_HEIGHT} flexGrow={1}>
+            {children}
+          </ResponsiveContainer>
+          <Footer />
         </Flex>
-        <Footer />
-      </Flex>
+      </main>
     </>
   )
 }

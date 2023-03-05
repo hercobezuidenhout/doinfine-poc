@@ -1,6 +1,0 @@
-export * from './team-service'
-export * from './leaderboard-service'
-export * from './user-service'
-export * from './fine-request-service'
-export * from './payment-request-service'
-export * from './invites-service'

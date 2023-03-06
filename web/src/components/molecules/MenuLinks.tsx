@@ -1,30 +1,29 @@
-import { MenuItem } from '@/components/atoms'
-import { Box, Flex } from '@chakra-ui/react'
-import { useMenuLinks } from '@/hooks'
-import { useState } from 'react'
-import produce from 'immer'
-import * as R from 'ramda'
+import { MenuItem } from '@/components/atoms';
+import { Box, Flex } from '@chakra-ui/react';
+import { useMenuLinks } from '@/hooks';
+import { useState } from 'react';
+import produce from 'immer';
+import * as R from 'ramda';
+import { SignInMenuItem } from '@/components/atoms/SignInMenuItem';
 
 interface MenuLinksProps {
-  isOpen?: boolean
+  isOpen?: boolean;
 }
 
 export const MenuLinks = ({ isOpen }: MenuLinksProps) => {
-  const links = useMenuLinks()
-  const [outOfViewLinks, setOutOfViewLinks] = useState<string[]>([])
+  const links = useMenuLinks();
+  const [outOfViewLinks, setOutOfViewLinks] = useState<string[]>([]);
 
   const handleInViewChange = (label: string, inView: boolean) => {
     if (
       (inView && outOfViewLinks.includes(label)) ||
       (!inView && !outOfViewLinks.includes(label))
     ) {
-      setOutOfViewLinks(produce(inView ? R.without([label]) : R.union([label])))
+      setOutOfViewLinks(
+        produce(inView ? R.without([label]) : R.union([label]))
+      );
     }
-  }
-
-  const inViewLinks = links.filter(
-    (link) => !outOfViewLinks.includes(link.label)
-  )
+  };
 
   return (
     <Box
@@ -42,14 +41,18 @@ export const MenuLinks = ({ isOpen }: MenuLinksProps) => {
         {links.map(({ to, label }) => (
           <MenuItem
             key={label}
-            to={to}
+            target={to}
             onInViewChange={(inView) => handleInViewChange(label, inView)}
             isHidden={outOfViewLinks.includes(label)}
           >
             {label}
           </MenuItem>
         ))}
+        <SignInMenuItem
+          onInViewChange={(inView) => handleInViewChange('Sign In', inView)}
+          isHidden={outOfViewLinks.includes('Sign In')}
+        />
       </Flex>
     </Box>
-  )
-}
+  );
+};

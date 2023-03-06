@@ -1,18 +1,19 @@
-import { Flex, Link, Spacer, useBoolean } from '@chakra-ui/react'
-import NextLink from 'next/link'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
-import { MenuToggle, ResponsiveContainer } from '@/components/atoms'
-import { MenuLinks } from '@/components/molecules'
-import { InfoIcon } from '@chakra-ui/icons'
+import { Flex, Link, Spacer, useBoolean } from '@chakra-ui/react';
+import NextLink from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import { MenuToggle, ResponsiveContainer } from '@/components/atoms';
+import { MenuLinks } from '@/components/molecules';
+import { InfoIcon } from '@chakra-ui/icons';
+import { useSession } from 'next-auth/react';
 
-export const HEADER_HEIGHT = 24
+export const HEADER_HEIGHT = 24;
 
 export const Header = () => {
-  const router = useRouter()
-  const [isOpen, { toggle, off }] = useBoolean(false)
+  const router = useRouter();
+  const [isOpen, { toggle, off }] = useBoolean(false);
 
-  useEffect(() => off(), [off, router.pathname])
+  useEffect(() => off(), [off, router.pathname]);
 
   return (
     <ResponsiveContainer
@@ -44,5 +45,5 @@ export const Header = () => {
         <MenuLinks isOpen={isOpen} />
       </Flex>
     </ResponsiveContainer>
-  )
-}
+  );
+};

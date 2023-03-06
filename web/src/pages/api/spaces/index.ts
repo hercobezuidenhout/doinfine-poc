@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession, Session } from 'next-auth';
+import { getServerSession, Session, User } from 'next-auth';
 import { PrismaClient } from '@prisma/client';
 import { AUTH_OPTIONS } from '@/pages/api/auth/[...nextauth]';
 
@@ -14,11 +14,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(401).end();
   }
 
+  const user = session.user as User;
+
   switch (req.method) {
     case 'GET': {
       const client = new PrismaClient();
       const spaces = await client.space.findMany({
-        where: { roles: { some: { user: { email: session.user.email } } } },
+        where: { roles: { some: { userId: user.id } } },
       });
 
       console.log(spaces);

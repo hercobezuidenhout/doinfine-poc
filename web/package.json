@@ -37,5 +37,8 @@
     "eslint-config-prettier": "^8.6.0",
     "prettier": "^2.8.4",
     "prisma": "^4.11.0"
+  },
+  "prisma": {
+    "schema": "src/prisma/schema.prisma"
   }
 }

@@ -52,6 +52,13 @@ export const MenuLinks = ({ isOpen }: MenuLinksProps) => {
           onInViewChange={(inView) => handleInViewChange('Sign In', inView)}
           isHidden={outOfViewLinks.includes('Sign In')}
         />
+        <MenuItem
+          target={() => fetch('/api/spaces')}
+          onInViewChange={(inView) => handleInViewChange('Test', inView)}
+          isHidden={outOfViewLinks.includes('Test')}
+        >
+          Test
+        </MenuItem>
       </Flex>
     </Box>
   );

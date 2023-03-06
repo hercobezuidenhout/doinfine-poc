@@ -10,7 +10,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum ReviewStatus {
+// Enums
+
+enum FineStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  PAID
+}
+
+enum PaymentStatus {
   PENDING
   APPROVED
   REJECTED
@@ -21,43 +30,31 @@ enum RoleType {
   MEMBER
 }
 
-model SpaceRole {
-  role    RoleType @default(MEMBER)
-  userId  String
-  spaceId Int
-  space   Space    @relation(fields: [spaceId], references: [id])
-  User    User     @relation(fields: [userId], references: [id])
-
-  @@id([spaceId, userId])
+enum ReviewStatus {
+  APPROVED
+  REJECTED
 }
 
-model TeamRole {
-  role   RoleType @default(MEMBER)
-  userId String
-  teamId Int
-  team   Team     @relation(fields: [teamId], references: [id])
-  User   User     @relation(fields: [userId], references: [id])
-
-  @@id([teamId, userId])
-}
+// Models
 
 model User {
-  id            String      @id @default(cuid())
-  name          String?
-  email         String?     @unique
-  avatarUrl     String?     @map(name: "image")
-  createdAt     DateTime    @default(now()) @map(name: "created_at")
-  updatedAt     DateTime    @updatedAt @map(name: "updated_at")
-  receivedFines Fine[]      @relation("Fine_issuedByUser")
-  issuedFines   Fine[]      @relation("Fine_issuedToUser")
+  id            String          @id @default(cuid())
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt @default(now())
+  receivedFines Fine[]          @relation("Fine_issuedByUser")
+  issuedFines   Fine[]          @relation("Fine_issuedToUser")
   spaceRoles    SpaceRole[]
   teamRoles     TeamRole[]
+  fineReview    FineReview[]
+  paymentReview PaymentReview[]
 
+  // Next.auth fields
+  name          String?
+  email         String?   @unique
   emailVerified DateTime?
+  image         String?
   accounts      Account[]
   sessions      Session[]
-
-  @@map(name: "users")
 }
 
 model Space {
@@ -90,10 +87,11 @@ model Fine {
   issuedById  String
   issuedTo    User         @relation(name: "Fine_issuedToUser", fields: [issuedToId], references: [id])
   issuedToId  String
-  status      ReviewStatus @default(PENDING)
+  status      FineStatus   @default(PENDING)
   payments    Payment[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  reviews     FineReview[]
   space       Space?       @relation(fields: [spaceId], references: [id])
   spaceId     Int?
   team        Team?        @relation(fields: [teamId], references: [id])
@@ -101,48 +99,88 @@ model Fine {
 }
 
 model Payment {
-  id          Int          @id @default(autoincrement())
+  id          Int             @id @default(autoincrement())
   description String
-  fine        Fine         @relation(fields: [fineId], references: [id])
+  fine        Fine            @relation(fields: [fineId], references: [id])
   fineId      Int
-  status      ReviewStatus @default(PENDING)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  status      PaymentStatus   @default(PENDING)
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  reviews     PaymentReview[]
 
   @@unique([fineId(sort: Desc), description])
 }
 
-model Account {
-  id                 String  @id @default(cuid())
-  userId             String  @map("user_id")
-  type               String
-  provider           String
-  providerAccountId  String  @map("provider_account_id")
-  refresh_token      String?
-  access_token       String?
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?
-  session_state      String?
-  oauth_token_secret String?
-  oauth_token        String?
+model FineReview {
+  fineId Int
+  userId String
+  fine   Fine         @relation(fields: [fineId], references: [id])
+  user   User         @relation(fields: [userId], references: [id])
+  status ReviewStatus
 
-  user User @relation(fields:[userId], references:[id], onDelete: Cascade)
+  @@id([fineId, userId])
+}
+
+model PaymentReview {
+  paymentId Int
+  userId    String
+  payment   Payment      @relation(fields: [paymentId], references: [id])
+  user      User         @relation(fields: [userId], references: [id])
+  status    ReviewStatus
+
+  @@id([paymentId, userId])
+}
+
+model SpaceRole {
+  role    RoleType @default(MEMBER)
+  userId  String
+  spaceId Int
+  space   Space    @relation(fields: [spaceId], references: [id])
+  user    User     @relation(fields: [userId], references: [id])
+
+  @@id([spaceId, userId])
+}
+
+model TeamRole {
+  role   RoleType @default(MEMBER)
+  userId String
+  teamId Int
+  team   Team     @relation(fields: [teamId], references: [id])
+  user   User     @relation(fields: [userId], references: [id])
+
+  @@id([teamId, userId])
+}
+
+// Next.auth specific models
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
 
 model Session {
   id           String   @id @default(cuid())
-  sessionToken String   @unique@map("session_token")
-  userId       String   @map("user_id")
+  sessionToken String   @unique
+  userId       String
   expires      DateTime
-  user         User     @relation(fields:[userId], references:[id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model VerificationToken {
-  id         Int      @id @default(autoincrement())
   identifier String
   token      String   @unique
   expires    DateTime

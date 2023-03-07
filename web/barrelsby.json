@@ -6,6 +6,8 @@
     "./src/components/organisms",
     "./src/components/templates",
     "./src/hooks",
+    "./src/models",
+    "./src/utilities",
     "./src/theme"
   ]
 }

@@ -1,37 +1,17 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { getServerSession, Session, User } from 'next-auth';
 import { PrismaClient } from '@prisma/client';
-import { AUTH_OPTIONS } from '@/pages/api/auth/[...nextauth]';
+import { createHandler, Get, Req } from 'next-api-decorators';
+import { AuthGuard } from '@/utilities';
+import type { UserApiRequest } from '@/models';
 
-async function getSpacesByUserId(userId: string, res: NextApiResponse) {
-  const client = new PrismaClient();
-  const spaces = await client.space.findMany({
-    where: { roles: { some: { userId: userId } } },
-  });
-
-  return res.send(spaces);
+class SpacesHandler {
+  @Get()
+  @AuthGuard()
+  public async spaces(@Req() req: UserApiRequest) {
+    const client = new PrismaClient();
+    return await client.space.findMany({
+      where: { roles: { some: { userId: req.userId } } },
+    });
+  }
 }
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const session: Session | null = await getServerSession(
-    req,
-    res,
-    AUTH_OPTIONS
-  );
-
-  if (!session?.user) {
-    return res.status(401).end();
-  }
-
-  const user = session.user as User;
-
-  switch (req.method) {
-    case 'GET': {
-      return await getSpacesByUserId(user.id, res);
-    }
-    default:
-      return res.status(405).end();
-  }
-};
-
-export default handler;
+export default createHandler(SpacesHandler);

@@ -1,9 +1,6 @@
 import { MenuItem } from '@/components/atoms';
 import { Box, Flex } from '@chakra-ui/react';
 import { useMenuLinks } from '@/hooks';
-import { useState } from 'react';
-import produce from 'immer';
-import * as R from 'ramda';
 import { SignInMenuItem } from '@/components/atoms/SignInMenuItem';
 
 interface MenuLinksProps {
@@ -12,18 +9,6 @@ interface MenuLinksProps {
 
 export const MenuLinks = ({ isOpen }: MenuLinksProps) => {
   const links = useMenuLinks();
-  const [outOfViewLinks, setOutOfViewLinks] = useState<string[]>([]);
-
-  const handleInViewChange = (label: string, inView: boolean) => {
-    if (
-      (inView && outOfViewLinks.includes(label)) ||
-      (!inView && !outOfViewLinks.includes(label))
-    ) {
-      setOutOfViewLinks(
-        produce(inView ? R.without([label]) : R.union([label]))
-      );
-    }
-  };
 
   return (
     <Box
@@ -39,23 +24,19 @@ export const MenuLinks = ({ isOpen }: MenuLinksProps) => {
         pt={{ base: 4, md: 0 }}
       >
         {links.map(({ to, label }) => (
-          <MenuItem
-            key={label}
-            target={to}
-            onInViewChange={(inView) => handleInViewChange(label, inView)}
-            isHidden={outOfViewLinks.includes(label)}
-          >
+          <MenuItem key={label} target={to}>
             {label}
           </MenuItem>
         ))}
-        <SignInMenuItem
-          onInViewChange={(inView) => handleInViewChange('Sign In', inView)}
-          isHidden={outOfViewLinks.includes('Sign In')}
-        />
+        <SignInMenuItem />
         <MenuItem
-          target={() => fetch('/api/spaces')}
-          onInViewChange={(inView) => handleInViewChange('Test', inView)}
-          isHidden={outOfViewLinks.includes('Test')}
+          target={() =>
+            fetch('/api/spaces')
+              .then(async (res) =>
+                console.log({ status: 'success', result: await res.json() })
+              )
+              .catch((error) => console.error(error))
+          }
         >
           Test
         </MenuItem>

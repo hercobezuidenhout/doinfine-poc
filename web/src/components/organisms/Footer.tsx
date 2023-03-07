@@ -1,8 +1,6 @@
-import { MenuToggle, ResponsiveContainer } from '@/components/atoms'
-import { Flex, Link, Spacer } from '@chakra-ui/react'
-import NextLink from 'next/link'
-import { InfoIcon } from '@chakra-ui/icons'
-import { MenuLinks } from '@/components/molecules'
+import { ResponsiveContainer } from '@/components/atoms';
+import { Flex, Link } from '@chakra-ui/react';
+import NextLink from 'next/link';
 
 export const Footer = () => {
   return (
@@ -14,10 +12,10 @@ export const Footer = () => {
         w="100%"
         wrap={{ base: 'wrap', md: 'nowrap' }}
       >
-        <NextLink href="/teams" passHref>
-          <Link>TEAMS</Link>
-        </NextLink>
+        <Link as={NextLink} href={'teams'}>
+          TEAMS
+        </Link>
       </Flex>
     </ResponsiveContainer>
-  )
-}
+  );
+};

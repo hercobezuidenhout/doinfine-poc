@@ -3,6 +3,15 @@ import { getServerSession, Session, User } from 'next-auth';
 import { PrismaClient } from '@prisma/client';
 import { AUTH_OPTIONS } from '@/pages/api/auth/[...nextauth]';
 
+async function getSpacesByUserId(userId: string, res: NextApiResponse) {
+  const client = new PrismaClient();
+  const spaces = await client.space.findMany({
+    where: { roles: { some: { userId: userId } } },
+  });
+
+  return res.send(spaces);
+}
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const session: Session | null = await getServerSession(
     req,
@@ -18,14 +27,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   switch (req.method) {
     case 'GET': {
-      const client = new PrismaClient();
-      const spaces = await client.space.findMany({
-        where: { roles: { some: { userId: user.id } } },
-      });
-
-      console.log(spaces);
-
-      return res.send(spaces);
+      return await getSpacesByUserId(user.id, res);
     }
     default:
       return res.status(405).end();

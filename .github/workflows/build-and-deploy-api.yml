@@ -7,7 +7,9 @@ on:
     paths:
       - functions/**
       - .github/workflows/build-and-deploy-api.yml
-
+      
+  workflow_dispatch:
+  
 jobs:
   build_and_test:
     name: Build & Test API

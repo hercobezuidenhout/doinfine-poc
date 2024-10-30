@@ -18,12 +18,12 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd web  # Navigate to your web folder if necessary
-          npm install
+          cd web
+          npm install --legacy-peer-deps
 
       - name: Build project
         run: |
-          cd web  # Navigate to your web folder if necessary
+          cd web
           npm run build  # Change this command if your build command is different
 
       - name: Install Firebase CLI

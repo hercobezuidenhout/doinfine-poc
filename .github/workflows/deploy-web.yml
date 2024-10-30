@@ -1,4 +1,4 @@
-name: Deploy Web App To Firebase to Production
+name: Deploy Web App to Firebase
 
 on:
   push:

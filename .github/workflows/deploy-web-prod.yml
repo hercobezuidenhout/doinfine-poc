@@ -41,6 +41,6 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DOIN_FINE }}'
-          projectId: doin-fine
+          projectId: doin-lite
           entryPoint: web
           channelId: live

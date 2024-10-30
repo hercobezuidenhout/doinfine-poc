@@ -1,0 +1,38 @@
+name: Build & deploy to Firebase
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Change this to your required Node.js version
+
+      - name: Install dependencies
+        run: |
+          cd web  # Navigate to your web folder if necessary
+          npm install
+
+      - name: Build project
+        run: |
+          cd web  # Navigate to your web folder if necessary
+          npm run build  # Change this command if your build command is different
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Deploy to Firebase
+        run: |
+          echo "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}" > service-account.json
+          firebase login:ci --token $(cat service-account.json)
+          firebase deploy --only hosting,functions --project doinfine-lite
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: service-account.json

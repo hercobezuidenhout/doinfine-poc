@@ -1,5 +1,6 @@
 {
   "projects": {
-    "prod": "doinfine-lite"
+    "prod": "doinfine-lite",
+    "default": "doinfine-lite"
   }
 }

@@ -1,11 +1,11 @@
 "use strict";
 
 var firebaseConfig = {
-  apiKey: "AIzaSyAjYvtHy-d3y8XSJt3xKwdiC9zKuVQ-S9U",
-  authDomain: "doinfine-test.firebaseapp.com",
-  projectId: "doinfine-test",
-  storageBucket: "doinfine-test.appspot.com",
-  messagingSenderId: "385814114961",
-  appId: "1:385814114961:web:1a17e38290792e41314530",
-  measurementId: "G-9F3H2P1KEW"
+  apiKey: "AIzaSyCEaAIQo-Wo39B_SKdEs6qq9ntxEGtuoeM",
+  authDomain: "doinfine-lite.firebaseapp.com",
+  projectId: "doinfine-lite",
+  storageBucket: "doinfine-lite.appspot.com",
+  messagingSenderId: "695272907946",
+  appId: "1:695272907946:web:2eb08d27c20ab0e0819cd3",
+  measurementId: "G-Q18L3HG8M6"
 };

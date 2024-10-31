@@ -5,9 +5,8 @@
   "author": "Herco Bezuidenhout",
   "license": "MIT",
   "scripts": {
-    "build:test": "babel env.dev.js --out-file public/config.js; webpack --config webpack.prod.js",
     "build": "babel env.prod.js --out-file public/config.js; webpack --config webpack.prod.js",
-    "start": "babel env.dev.js --out-file public/config.js; webpack serve --config webpack.dev.js",
+    "start": "babel env.prod.js --out-file public/config.js; webpack serve --config webpack.prod.js",
     "test": "jest --env=jsdom",
     "test:e2e": "npx playwright test"
   },

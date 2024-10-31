@@ -1,0 +1,71 @@
+{
+  "icons": [
+    {
+      "src": "/icon_512x512.c9a28da7fc432b090d43aafd5eb120b4.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_384x384.5e6c44cbf51a50858883f730e1d9833f.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_256x256.85814d7dc933707abcdd2e68b7e55c4e.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_192x192.9adc10e3a5a3a11c4e655d7209b969c8.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_128x128.80f74deba72d47557000fb349155be43.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon_96x96.9382b0970912d3ea32458042e75ef52a.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    }
+  ],
+  "name": "DoinFine",
+  "short_name": "DoinFine",
+  "orientation": "portrait",
+  "display": "standalone",
+  "start_url": ".",
+  "description": "Keep your team accountable!",
+  "background_color": "#f44336",
+  "shortcuts": [
+    {
+      "name": "Fine Someone",
+      "short_name": "Fines",
+      "description": "Submit a new fine request",
+      "url": "/fine",
+      "icons": []
+    },
+    {
+      "name": "Pay Fine",
+      "short_name": "Payments",
+      "description": "Submit a new payment request",
+      "url": "/payment",
+      "icons": []
+    },
+    {
+      "name": "Active Fine Requests",
+      "short_name": "Fine Requests",
+      "description": "View active fine requests",
+      "url": "/fine-requests",
+      "icons": []
+    },
+    {
+      "name": "Active Payment Requests",
+      "short_name": "Payment Requests",
+      "description": "View active payment requests",
+      "url": "/payment-requests",
+      "icons": []
+    }
+  ]
+}

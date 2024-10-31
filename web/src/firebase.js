@@ -1,6 +1,6 @@
 import { getAnalytics, logEvent } from "firebase/analytics"
 import { initializeApp } from "firebase/app"
-import { deleteToken, getMessaging, getToken, onMessage } from "firebase/messaging"
+import { getMessaging, getToken, onMessage } from "firebase/messaging"
 import { firebaseConfig, isDevelopment, isTest, isProd } from './config'
 
 const firebase = isDevelopment()
